@@ -3,7 +3,6 @@ enum enabledEnum {
   one = "one",
   two = "two",
   three = "three",
-  four = "four",
 }
 const enabled = async (id: string, name: string): Promise<enabledEnum> => {
   const user = await prisma.user.findFirst({
@@ -12,12 +11,17 @@ const enabled = async (id: string, name: string): Promise<enabledEnum> => {
     },
   });
 
-  // console.log(user, "user");
   if (user) {
-    const branch = user?.branchId;
-    if (user.role == "ADMIN") return enabledEnum.four;
-    if (branch) return enabledEnum.one;
-    else return enabledEnum.two;
+    if (!user.isActive) {
+      return enabledEnum.three;
+    }
+    if (user.role === "USER") {
+      return enabledEnum.one;
+    } else if (user.role === "ADMIN") {
+      return enabledEnum.two;
+    }
+
+    return enabledEnum.one;
   } else {
     await prisma.user.create({
       data: {
@@ -27,7 +31,7 @@ const enabled = async (id: string, name: string): Promise<enabledEnum> => {
       },
     });
 
-    return enabledEnum.three;
+    return enabledEnum.one;
   }
 };
 

@@ -12,19 +12,61 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+enum RoleEnum {
+  ADMIN
+  USER
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model User {
+  id       String  @id @default(uuid())
+  username  String?
+  name      String?
+  role      RoleEnum @default(USER)      
+  telegram_id String @unique
+  isActive  Boolean @default(true)
+  chat         Chat[]
+  wallet       wallet?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Chat {
+  id       String  @id @default(uuid())
+  name     String?
+  user     User @relation(fields: [user_id], references: [id])
+  pageCount Int @default(5)
+  plans     String?
+  user_id  String
+  description Description[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Description {
+  id       String  @id @default(uuid())
+  name     String?
+  chat     Chat @relation(fields: [chat_id], references: [id])
+
+  chat_id  String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+
+model wallet {
+  id       String  @id @default(uuid())
+  user_id  String @unique
+  user     User @relation(fields: [user_id], references: [id])
+  balance  Int @default(0)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+
+
+model plansSlides {
+  id      String  @id @default(uuid())
+  price   Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
