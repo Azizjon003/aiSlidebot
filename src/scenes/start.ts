@@ -29,6 +29,8 @@ scene.enter(async (ctx: any) => {
       `,
       keyboards(keyboard)
     );
+
+    return ctx.scene.enter("control");
   } else if (enable === "two") {
     const text = "Assalomu alaykum Admin xush kelibsiz";
     ctx.reply(text, keyboards(keyboard2));
