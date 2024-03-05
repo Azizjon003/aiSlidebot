@@ -19,6 +19,7 @@
   "dependencies": {
     "@prisma/client": "^5.10.2",
     "dotenv": "^16.4.5",
+    "natural": "^6.10.5",
     "nodemon": "^3.1.0",
     "openai": "^4.28.4",
     "telegraf": "^4.16.2"
