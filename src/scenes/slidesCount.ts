@@ -59,6 +59,9 @@ scene.on("message", async (ctx: any) => {
     where: {
       telegram_id: String(user_id),
     },
+    include: {
+      wallet: true,
+    },
   });
 
   if (!user) return ctx.reply("Foydalanuvchi mavjud emas");
@@ -83,6 +86,19 @@ scene.on("message", async (ctx: any) => {
     },
   });
 
+  const slidePrice = await prisma.plansSlides.findFirst({
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  if (Number(slidePrice?.price) > Number(user?.wallet?.balance)) {
+    ctx.reply(
+      `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm`
+    );
+    return ctx.scene.enter("start");
+  }
+
   let txt = `🏙 Taqdimot haqida:
 
   ➡️ Muallif: ${user?.name}
@@ -93,9 +109,25 @@ scene.on("message", async (ctx: any) => {
   
   Eslatma: Avval, taqdimot matnini birin ketin yuboraman. So'ngra taqdimot faylini tayyorlayman. Iltimos, shoshilmang.`;
 
-  ctx.reply(txt, {
+  await ctx.reply(txt, {
     reply_markup: keyboards(["Tayyor", "Orqaga"]),
     parse_mode: "HTML",
+  });
+
+  ctx.session.user = {
+    action: "slidesReady",
+    chat_id: chat.id,
+  };
+
+  await prisma.wallet.update({
+    where: {
+      id: user?.wallet?.id,
+    },
+    data: {
+      balance: {
+        decrement: Number(slidePrice?.price),
+      },
+    },
   });
 });
 
