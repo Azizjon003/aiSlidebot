@@ -7,7 +7,10 @@ import {
   keyboards,
 } from "../utils/keyboards";
 import { getBalance } from "../utils/isBalance";
-import { createPlans } from "../services/createPlansUseOpenAi";
+import {
+  createPlans,
+  createPlansDescription,
+} from "../services/createPlansUseOpenAi";
 const scene = new Scenes.BaseScene("slidesCount");
 
 scene.hears("/start", (ctx: any) => {
@@ -133,6 +136,44 @@ scene.on("message", async (ctx: any) => {
 
   const plans = await createPlans(String(chat.name), chat.pageCount);
   console.log(plans);
+  for (let plan of plans) {
+    await prisma.plan.create({
+      data: {
+        chat_id: chat.id,
+        name: plan,
+      },
+    });
+  }
+
+  await sleep(2000);
+
+  let plan = await prisma.plan.findMany({
+    where: {
+      chat_id: chat.id,
+    },
+  });
+
+  for (let [index, p] of plan.entries()) {
+    let txt = `${index + 1}\n📌 ${p.name}`;
+    const description = await createPlansDescription(p.name);
+    await prisma.description.create({
+      data: {
+        plan_id: p.id,
+        name: description,
+        chat_id: chat.id,
+      },
+    });
+
+    txt += `\n\n ${description}`;
+    await ctx.reply(txt);
+    await sleep(1000);
+  }
+
+  await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
 });
 
 export default scene;
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
