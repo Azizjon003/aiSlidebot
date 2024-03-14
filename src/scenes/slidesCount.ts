@@ -7,6 +7,7 @@ import {
   keyboards,
 } from "../utils/keyboards";
 import { getBalance } from "../utils/isBalance";
+import { createPlans } from "../services/createPlansUseOpenAi";
 const scene = new Scenes.BaseScene("slidesCount");
 
 scene.hears("/start", (ctx: any) => {
@@ -129,6 +130,9 @@ scene.on("message", async (ctx: any) => {
       },
     },
   });
+
+  const plans = await createPlans(String(chat.name), chat.pageCount);
+  console.log(plans);
 });
 
 export default scene;

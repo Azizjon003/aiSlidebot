@@ -35,16 +35,28 @@ model Chat {
   name     String?
   user     User @relation(fields: [user_id], references: [id])
   pageCount Int @default(5)
-  plans     String?
+  plans     Plan[]
   user_id  String
   description Description[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
+model Plan {
+  id     String  @id @default(uuid())
+  name   String
+  chat_id String
+  chat    Chat @relation(fields: [chat_id], references: [id])
+  description Description[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Description {
   id       String  @id @default(uuid())
   name     String?
+  plan_id  String
+  plan       Plan @relation(fields: [plan_id], references: [id])
   chat     Chat @relation(fields: [chat_id], references: [id])
   chat_id  String
   created_at DateTime @default(now())

@@ -6,7 +6,7 @@ console.log(key);
 const openai = new OpenAI({
   apiKey: String(key), // This is the default and can be omitted
 });
-async function createPlans(name: string, pages: number) {
+export async function createPlans(name: string, pages: number) {
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       { role: "user", content: name },
@@ -20,15 +20,12 @@ async function createPlans(name: string, pages: number) {
     max_tokens: 4096,
   });
 
-  console.log(chatCompletion.choices);
-
   let text = chatCompletion.choices[0].message.content;
 
   const reja = rejalarniAjratibOlish(String(text));
   return reja;
 }
 
-createPlans("Uy hayvonlari", 15);
 export async function createPlansDescription(description: string) {
   const chatCompletion = await openai.chat.completions.create({
     messages: [
@@ -43,4 +40,6 @@ export async function createPlansDescription(description: string) {
     model: "gpt-3.5-turbo-0125",
     max_tokens: 4096,
   });
+
+  return chatCompletion.choices[0].message.content;
 }
