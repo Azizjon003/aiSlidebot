@@ -12,11 +12,13 @@ export async function createPlans(name: string, pages: number) {
       { role: "user", content: name },
       {
         role: "system",
-        content: `Make a plan for power point as much as the professor can make on the given topic. Make a plan for ${pages} for me. Make sure the plans are clear and consist of one sentence. use is prohibited. Plans should be in Uzbek`,
+        // content: `Make a plan for power point as much as the professor can make on the given topic. Make a plan for ${pages} for me. Make sure the plans are clear and consist of one sentence. use is prohibited. Plans should be in Uzbek`,
         // content: `Sen menga berilgan mavzu bo'yicha professor tuzib bera oladigan darajada power point uchun reja tuzib ber.Menga ${pages} ta rejali qilib tuzib ber.Bunda rejalar aniq va bitta gapdan iborat bo'lsin.Beriladigan matnda faqat rejalar bo'lsin ortiqcha gaplardan foydalanish  taqiqlanadi.`,
+        content:
+          "Generate a list of creative PowerPoint presentation topics that are suitable for a business audience on the theme of 'Technology Innovations'. The topics should be engaging, informative, and encourage audience participation. Aim for a mix of current trends in technology, the impact of innovations on business, and innovative perspectives on future developments. Provide a brief description for each topic to outline the angle of presentation and the key points that will be covered",
       },
     ],
-    model: "gpt-3.5-turbo-0125",
+    model: "gpt-3.5-turbo-1106",
     max_tokens: 4096,
   });
 

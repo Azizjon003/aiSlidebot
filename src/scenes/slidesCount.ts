@@ -59,6 +59,12 @@ scene.on("message", async (ctx: any) => {
   const user_id = ctx.from?.id;
   const action = ctx.session.user?.action;
   if (action !== "slidesName") return ctx.scene.enter("start");
+  const users = await prisma.user.findFirst({
+    where: {
+      telegram_id: String(user_id),
+    },
+  });
+  const getBalans = await getBalance(String(users?.id));
   const user = await prisma.user.findFirst({
     where: {
       telegram_id: String(user_id),
@@ -154,7 +160,7 @@ scene.on("message", async (ctx: any) => {
   });
 
   for (let [index, p] of plan.entries()) {
-    let txt = `${index + 1}\n📌 ${p.name}`;
+    let txt = `📌${index + 1}${p.name}`;
     const description = await createPlansDescription(p.name);
     await prisma.description.create({
       data: {
