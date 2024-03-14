@@ -160,8 +160,22 @@ scene.on("message", async (ctx: any) => {
   });
 
   for (let [index, p] of plan.entries()) {
-    let txt = `📌${index + 1}${p.name}`;
-    const description = await createPlansDescription(p.name);
+    let txt = `📌${index + 1}${p.name.split("&&")[0]}`;
+    const plan = await prisma.plan.findMany({
+      where: {
+        chat_id: chat.id,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    let datas = plan.map((p) => {
+      return {
+        role: "user",
+        content: p.name,
+      };
+    });
+    const description = await createPlansDescription(p.name, datas);
     await prisma.description.create({
       data: {
         plan_id: p.id,
