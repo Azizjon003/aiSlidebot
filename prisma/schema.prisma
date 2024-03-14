@@ -46,7 +46,6 @@ model Description {
   id       String  @id @default(uuid())
   name     String?
   chat     Chat @relation(fields: [chat_id], references: [id])
-
   chat_id  String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

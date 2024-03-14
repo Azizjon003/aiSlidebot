@@ -28,14 +28,15 @@ async function createPlans(name: string, pages: number) {
   return reja;
 }
 
-createPlans("O'zbekiston Iqtisodiyoti", 10);
+createPlans("Uy hayvonlari", 15);
 export async function createPlansDescription(description: string) {
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       { role: "user", content: description },
       {
         role: "system",
-        content: ``,
+        content:
+          "Write down the information provided by a 20-year-old teacher on the given topic and give more information. Do not use unnecessary texts in this information. Do not mix unnecessary texts at all. Be in Uzbek. Texts",
         // content: `Sen menga berilgan mavzu bo'yicha professor tuzib bera oladigan darajada power point uchun reja tuzib ber.Menga ${pages} ta rejali qilib tuzib ber.Bunda rejalar aniq va bitta gapdan iborat bo'lsin.Beriladigan matnda faqat rejalar bo'lsin ortiqcha gaplardan foydalanish  taqiqlanadi.`,
       },
     ],
