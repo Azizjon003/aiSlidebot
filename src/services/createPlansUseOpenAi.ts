@@ -32,10 +32,10 @@ export async function createPlansDescription(description: string) {
       { role: "user", content: description },
       {
         role: "system",
-        // content:
-        // "Write down the necessary information for the power point on the given topic. There should be no unnecessary words in the topics. The information should be in Uzbek. Not plans, give me more information.",
         content:
-          "Write down the information provided by a 20-year-old teacher on the given topic and give more information. Do not use unnecessary texts in this information. Do not mix unnecessary texts at all. Be in Uzbek. Texts",
+          "Give the information provided by the role of the teacher on the given topic. Do not let it be known that this information was given by the teacher. Write down the information you wrote down. The information should be in Uzbek. Who wrote the information not be known at all",
+        // content:
+        // "Write down the information provided by a 20-year-old teacher on the given topic and give more information. Do not use unnecessary texts in this information. Do not mix unnecessary texts at all. Be in Uzbek. Texts",
         // content: `Sen menga berilgan mavzu bo'yicha professor tuzib bera oladigan darajada power point uchun reja tuzib ber.Menga ${pages} ta rejali qilib tuzib ber.Bunda rejalar aniq va bitta gapdan iborat bo'lsin.Beriladigan matnda faqat rejalar bo'lsin ortiqcha gaplardan foydalanish  taqiqlanadi.`,
       },
     ],
