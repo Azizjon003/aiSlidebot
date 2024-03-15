@@ -32,3 +32,7 @@ export function plansInsert(text: string) {
   const outlines = parseOutline(texts.trim());
   return outlines;
 }
+
+export function JsonToPlans(object: any) {
+  let plans = object.map();
+}

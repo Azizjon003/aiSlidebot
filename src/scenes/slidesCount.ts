@@ -175,16 +175,16 @@ scene.on("message", async (ctx: any) => {
         content: p.name,
       };
     });
-    const description = await createPlansDescription(p.name, datas);
+    const description = await createPlansDescription(p.name);
     await prisma.description.create({
       data: {
         plan_id: p.id,
-        name: description,
+        name: description.content,
         chat_id: chat.id,
       },
     });
 
-    txt += `\n\n ${description}`;
+    txt += `\n\n ${description.content}`;
     await ctx.reply(txt);
     await sleep(1000);
   }
