@@ -63,11 +63,9 @@ export async function createPlansDescription(description: string, datas: any) {
       ...datas,
       {
         role: "system",
-        content: `Please provide content for a PowerPoint slide on the topic "${description}", written in a concise and scientific manner in Uzbek language, tailored for educational purposes. Ensure the content adheres to this structure:
+        content: `Please provide content for a PowerPoint slide on the topic "${description}", written in a concise and scientific manner in native Uzbek language, tailored for educational purposes. Ensure the content adheres to this structure:
 
-        - Topic: [A brief description of the topic]
         - Key Facts: [2-3 important, scientifically-backed facts about the topic]
-        - Practical Significance: [Explanation on how the topic is applied in practical scenarios, with examples if possible]
         - Conclusion: [A brief conclusion summarizing the topic's impact or significance]
         
         This content must be prepared to enhance the presentation's clarity and educational value, aiming to provide clear, useful, and scientifically validated information on the subject to the audience in Uzbek.
@@ -78,8 +76,13 @@ export async function createPlansDescription(description: string, datas: any) {
         // "Write down the information provided by a 20-year-old teacher on the given topic and give more information. Do not use unnecessary texts in this information. Do not mix unnecessary texts at all. Be in Uzbek. Texts",
         // content: `Sen menga berilgan mavzu bo'yicha professor tuzib bera oladigan darajada power point uchun reja tuzib ber.Menga ${pages} ta rejali qilib tuzib ber.Bunda rejalar aniq va bitta gapdan iborat bo'lsin.Beriladigan matnda faqat rejalar bo'lsin ortiqcha gaplardan foydalanish  taqiqlanadi.`,
       },
+      {
+        role: "user",
+        content: "",
+      },
     ],
-    model: "gpt-3.5-turbo-0125",
+
+    model: "gpt-4-1106-preview",
     max_tokens: 4096,
   });
 
