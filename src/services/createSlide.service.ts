@@ -14,8 +14,8 @@ function createPresentation(data: any): void {
   // Slaydga sarlavha qo'shish
   slide.addText(title.name, {
     x: 1,
-    y: 1,
-    fontSize: 24,
+    y: 2.7,
+    fontSize: 36,
     color: "363636",
   });
 
@@ -25,7 +25,7 @@ function createPresentation(data: any): void {
   //   options: { bullet: true },
   // }));
 
-  slide.addText(title.author, { x: 1, y: 2 });
+  slide.addText(title.author, { x: 1, y: 4 });
 
   // // Prezentatsiyani saqlash
 
