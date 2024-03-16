@@ -129,20 +129,32 @@ export async function createPlans(name: string, pages: number) {
 // }
 
 export async function createPlansDescription(name: string) {
+  const queryJson = {
+    input_text:
+      "Provide the necessary information on the topic. Create 50 to 100 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should look like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Each data should be in Uzbek language.",
+    output_format: "json",
+    json_structure: {
+      slide: {
+        name: "{{name}}",
+        content: "{{content}}",
+      },
+    },
+  };
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       { role: "user", content: name },
       {
         role: "system",
-        content: `"input_text": "Give the required information for the topic. Create 100 to 300 words for the topic. ${name}. {{uz}} for each topic should be in Uzbek language. The final result should be as follows. List of discussion questions . return as JSON.",
-        "output_format": "json",
-        "json_structure": {
-            "slide":"{{{
-              name: "{{name}}"
-              content: "{{content}}"
-            }}}"
-        }
-      }`,
+        //   content: `"input_text": "Give the required information for the topic. Create 100 to 300 words for the topic. ${name}. {{uz}} for each topic should be in Uzbek language. The final result should be as follows. List of discussion questions . return as JSON. ",
+        //   "output_format": "json",
+        //   "json_structure": {
+        //       "slide":"{{{
+        //         name: "{{name}}"
+        //         content: "{{content}}"
+        //       }}}"
+        //   }
+        // }`,
+        content: JSON.stringify(queryJson),
       },
     ],
     model: "gpt-3.5-turbo-16k-0613",

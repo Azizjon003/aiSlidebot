@@ -1,6 +1,7 @@
 import { Scenes } from "telegraf";
 import enabled from "../utils/enabled";
 import prisma from "../../prisma/prisma";
+import fs from "fs";
 import {
   chunkArrayInline,
   createInlineKeyboard,
@@ -11,6 +12,8 @@ import {
   createPlans,
   createPlansDescription,
 } from "../services/createPlansUseOpenAi";
+import path from "path";
+import { createPresentation } from "../services/createSlide.service";
 const scene = new Scenes.BaseScene("slidesCount");
 
 scene.hears("/start", (ctx: any) => {
@@ -197,6 +200,51 @@ scene.on("message", async (ctx: any) => {
   }
 
   await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
+
+  const description = await prisma.description.findMany({
+    where: {
+      chat_id: chat.id,
+    },
+    include: {
+      plan: true,
+    },
+  });
+
+  let body = description.map((d) => {
+    return {
+      name: d.plan.name.split("&&")[0],
+      content: d.name,
+    };
+  });
+
+  const title = {
+    name: chat.name,
+    author: user?.name,
+  };
+
+  const filePath = path.join(__dirname, "../../output.pptx");
+  const data = {
+    title,
+    body,
+    path: filePath,
+  };
+
+  const slide = await createPresentation(data);
+
+  await sleep(2000);
+
+  const datas = fs.readFileSync(filePath);
+  await ctx.telegram.sendDocument(
+    user_id,
+    {
+      source: datas,
+      filename: `${chat.name}.pptx`,
+    },
+    {
+      caption: `📌 ${chat.name} taqdimoti tayyor`,
+      parse_mode: "HTML",
+    }
+  );
 });
 
 export default scene;

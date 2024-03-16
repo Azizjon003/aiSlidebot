@@ -6,7 +6,7 @@ import PptxGenJS from "pptxgenjs";
  * @param points - Prezentatsiyadagi punktlar ro'yxati.
  * @param fileName - Yaratilgan prezentatsiya faylining nomi.
  */
-function createPresentation(data: any): void {
+export async function createPresentation(data: any): Promise<void> {
   let { title, body, path } = data;
   let pres = new PptxGenJS();
   let slide = pres.addSlide();
@@ -37,28 +37,28 @@ function createPresentation(data: any): void {
       fontSize: 24,
       color: "363636",
     });
-    slide.addText(body[i].content, { x: 1, y: 2 });
+    slide.addText(body[i].content, { x: 1, y: 3, fontSize: 14 });
   }
-  pres.writeFile({ fileName: path }).then(() => {
-    console.log(`Prezentatsiya yaratildi va saqlandi: ${path}`);
-  });
+  let datas = await pres.writeFile({ fileName: path });
+
+  // return datas;
 }
 
 // Funksiyani chaqirish misoli
-createPresentation({
-  title: {
-    name: "Prezentatsiya",
-    author: "Azizjon Aliqulov",
-  },
-  body: [
-    {
-      name: "Slayd 1",
-      content: "Bu prezentatsiya slaydi 1",
-    },
-    {
-      name: "Slayd 2",
-      content: "Bu prezentatsiya slaydi 2",
-    },
-  ],
-  path: "output.pptx",
-});
+// createPresentation({
+//   title: {
+//     name: "Prezentatsiya",
+//     author: "Azizjon Aliqulov",
+//   },
+//   body: [
+//     {
+//       name: "Slayd 1",
+//       content: "Bu prezentatsiya slaydi 1",
+//     },
+//     {
+//       name: "Slayd 2",
+//       content: "Bu prezentatsiya slaydi 2",
+//     },
+//   ],
+//   path: "output.pptx",
+// });
