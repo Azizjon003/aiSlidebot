@@ -78,8 +78,11 @@ export async function createPlans(name: string, pages: number) {
     model: "gpt-3.5-turbo-16k-0613",
     max_tokens: 4096,
   });
-  const plans = JSON.parse(String(chatCompletion.choices[0].message.content))
-    .slides.plans;
+  console.log(chatCompletion.choices[0].message.content);
+  const plans =
+    JSON.parse(String(chatCompletion.choices[0].message.content)).slides
+      .plans ||
+    JSON.parse(String(chatCompletion.choices[0].message.content)).plans;
 
   let plansText = plans.map((plan: any) => {
     return `${plan.uzTitle} && ${plan.enTitle}`;
@@ -131,7 +134,7 @@ export async function createPlansDescription(name: string) {
       { role: "user", content: name },
       {
         role: "system",
-        content: `"input_text": "Give the required information for the topic. Create 200 to 500 words for the topic. ${name}. {{uz}} for each topic should be in Uzbek language. The final result should be as follows. List of discussion questions . return as JSON.",
+        content: `"input_text": "Give the required information for the topic. Create 100 to 300 words for the topic. ${name}. {{uz}} for each topic should be in Uzbek language. The final result should be as follows. List of discussion questions . return as JSON.",
         "output_format": "json",
         "json_structure": {
             "slide":"{{{

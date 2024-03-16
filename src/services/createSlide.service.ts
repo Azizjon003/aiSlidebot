@@ -1,56 +1,64 @@
 import PptxGenJS from "pptxgenjs";
 
-class MyPresentation {
-  private pptx: PptxGenJS;
+/**
+ * PowerPoint prezentatsiyasini yaratish funksiyasi.
+ * @param title - Prezentatsiyaning asosiy sarlavhasi.
+ * @param points - Prezentatsiyadagi punktlar ro'yxati.
+ * @param fileName - Yaratilgan prezentatsiya faylining nomi.
+ */
+function createPresentation(data: any): void {
+  let { title, body, path } = data;
+  let pres = new PptxGenJS();
+  let slide = pres.addSlide();
 
-  constructor() {
-    this.pptx = new PptxGenJS();
-    this.pptx.layout = "LAYOUT_WIDE";
-  }
+  // Slaydga sarlavha qo'shish
+  slide.addText(title.name, {
+    x: 1,
+    y: 1,
+    fontSize: 24,
+    color: "363636",
+  });
 
-  addTitleSlide(title: string, author: string): void {
-    let slide = this.pptx.addSlide();
-    slide.addText(title, {
-      x: 1.0,
-      y: 0.5,
-      w: 8.0,
-      h: 1.5,
-      align: "center",
-      fontSize: 44,
+  // Slaydga punktlar ro'yxatini qo'shish
+  // const bulletPoints = .map((point) => ({
+  //   text: point,
+  //   options: { bullet: true },
+  // }));
+
+  slide.addText(title.author, { x: 1, y: 2 });
+
+  // // Prezentatsiyani saqlash
+
+  for (let i = 0; i < body.length; i++) {
+    slide = pres.addSlide();
+    slide.addText(body[i].name, {
+      x: 1,
+      y: 1,
+      fontSize: 24,
       color: "363636",
     });
-    slide.addText(`Muallif: ${author}`, {
-      x: 1.0,
-      y: 2.0,
-      w: 8.0,
-      h: 0.5,
-      align: "center",
-      fontSize: 24,
-      color: "6f6f6f",
-    });
-    slide.addShape("line", {
-      x: 0.0,
-      y: 1.6,
-      w: "100%",
-      line: { color: "DDDDDD", width: 1.5 },
-    });
+    slide.addText(body[i].content, { x: 1, y: 2 });
   }
-
-  // ... (other methods) ...
-
-  save(filename: string): Promise<string> {
-    return this.pptx.writeFile({ fileName: filename });
-  }
+  pres.writeFile({ fileName: path }).then(() => {
+    console.log(`Prezentatsiya yaratildi va saqlandi: ${path}`);
+  });
 }
 
-// Usage
-const myPres = new MyPresentation();
-myPres.addTitleSlide("KOMPYUTER HAQIDA", "Erali Temirov");
-myPres
-  .save("Kompyuter_Haqida.pptx")
-  .then((fileName) => {
-    console.log(`Taqdimot saqlandi: ${fileName}`);
-  })
-  .catch((error) => {
-    console.error("Xatolik yuz berdi:", error);
-  });
+// Funksiyani chaqirish misoli
+createPresentation({
+  title: {
+    name: "Prezentatsiya",
+    author: "Azizjon Aliqulov",
+  },
+  body: [
+    {
+      name: "Slayd 1",
+      content: "Bu prezentatsiya slaydi 1",
+    },
+    {
+      name: "Slayd 2",
+      content: "Bu prezentatsiya slaydi 2",
+    },
+  ],
+  path: "output.pptx",
+});

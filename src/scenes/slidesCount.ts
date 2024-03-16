@@ -150,8 +150,11 @@ scene.on("message", async (ctx: any) => {
       },
     });
   }
-
-  await sleep(2000);
+  try {
+    await sleep(2000);
+  } catch (error) {
+    console.log(error);
+  }
 
   let plan = await prisma.plan.findMany({
     where: {
@@ -169,13 +172,13 @@ scene.on("message", async (ctx: any) => {
         createdAt: "desc",
       },
     });
-    let datas = plan.map((p) => {
-      return {
-        role: "user",
-        content: p.name,
-      };
-    });
-    const description = await createPlansDescription(p.name);
+
+    let description = { content: "" };
+    try {
+      description = await createPlansDescription(p.name);
+    } catch (error) {
+      console.log(error);
+    }
     await prisma.description.create({
       data: {
         plan_id: p.id,
@@ -186,7 +189,11 @@ scene.on("message", async (ctx: any) => {
 
     txt += `\n\n ${description.content}`;
     await ctx.reply(txt);
-    await sleep(1000);
+    try {
+      await sleep(1000);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
@@ -197,3 +204,5 @@ export default scene;
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
+
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
