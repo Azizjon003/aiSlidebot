@@ -130,13 +130,29 @@ export async function createPlans(name: string, pages: number) {
 
 export async function createPlansDescription(name: string) {
   const queryJson = {
-    input_text:
-      "Provide the necessary information on the topic. Create 50 to 100 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should look like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Each data should be in Uzbek language.",
+    input_text: `Provide the necessary information on the topic. Create 50 to 100 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
     output_format: "json",
     json_structure: {
       slide: {
         name: "{{name}}",
-        content: "{{content}}",
+        content: [
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+        ],
       },
     },
   };

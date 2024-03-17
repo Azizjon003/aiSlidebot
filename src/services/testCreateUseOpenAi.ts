@@ -83,24 +83,44 @@ export async function createPlans(name: string, pages: number) {
 }
 
 export async function createPlansDescription(name: string) {
+  const queryJson = {
+    input_text: `Provide the necessary information on the topic. Create 50 to 100 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
+    output_format: "json",
+    json_structure: {
+      slide: {
+        name: "{{name}}",
+        content: [
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+          {
+            title: "{{title}}",
+            uzContent: "{{uzContent}}",
+          },
+        ],
+      },
+    },
+  };
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       { role: "user", content: name },
       {
         role: "system",
-        content: `"input_text": "Give the required information for the topic. Create 100 to 300 words for the topic. ${name}. {{uz}} for each topic should be in Uzbek language. The final result should be as follows. List of discussion questions . return as JSON.",
-        "output_format": "json",
-        "json_structure": {
-            "slide":"{{{
-              name: "{{name}}"
-              content: "{{content}}"
-            }}}"
-        }
-      }`,
+        content: JSON.stringify(queryJson),
       },
     ],
     model: "gpt-3.5-turbo-16k-0613",
     max_tokens: 4096,
+    frequency_penalty: 0,
   });
 
   console.log(chatCompletion.choices[0].message.content);
