@@ -38,3 +38,34 @@ export const addInlineKeyboard = (arr: any[]) => {
 
   return left;
 };
+
+export const contentToString = (content: any) => {
+  let text = "";
+  for (let txt of content) {
+    let description = `<b>${txt?.title}</b>\n
+    <i>${txt?.uzContent}</i>\n
+    `;
+    text += description;
+  }
+
+  return text;
+};
+
+export const parseItems = (dataString: string) => {
+  const titles = dataString
+    .match(/"title": "(.*?)"/g)
+    ?.map((val) => val.match(/"title": "(.*?)"/)?.[1]);
+
+  const uzContents = dataString
+    .match(/"uzContent": "(.*?)"/g)
+    ?.map((val) => val.match(/"uzContent": "(.*?)"/)?.[1]);
+
+  let content = uzContents?.map((uzContent, index) => {
+    return {
+      uzContent,
+      title: titles?.[index],
+    };
+  });
+
+  return content;
+};

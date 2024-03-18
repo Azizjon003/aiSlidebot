@@ -1,5 +1,6 @@
 import OpenAI from "openai";
 import { plansInsert, rejalarniAjratibOlish } from "../utils/textToPlans";
+import { parseItems } from "../utils/functions";
 require("dotenv").config();
 const key = process.env["OPEN_AI_KEY"] || "";
 console.log(key);
@@ -130,7 +131,7 @@ export async function createPlans(name: string, pages: number) {
 
 export async function createPlansDescription(name: string) {
   const queryJson = {
-    input_text: `Provide the necessary information on the topic. Create 50 to 100 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
+    input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
     output_format: "json",
     json_structure: {
       slide: {
@@ -161,26 +162,18 @@ export async function createPlansDescription(name: string) {
       { role: "user", content: name },
       {
         role: "system",
-        //   content: `"input_text": "Give the required information for the topic. Create 100 to 300 words for the topic. ${name}. {{uz}} for each topic should be in Uzbek language. The final result should be as follows. List of discussion questions . return as JSON. ",
-        //   "output_format": "json",
-        //   "json_structure": {
-        //       "slide":"{{{
-        //         name: "{{name}}"
-        //         content: "{{content}}"
-        //       }}}"
-        //   }
-        // }`,
         content: JSON.stringify(queryJson),
       },
     ],
     model: "gpt-3.5-turbo-16k-0613",
+    // model: "gpt-4-turbo-preview",
     max_tokens: 4096,
   });
 
   console.log(chatCompletion.choices[0].message.content);
-  const description = JSON.parse(
-    String(chatCompletion.choices[0].message.content)
-  ).slide;
+  const description = parseItems(
+    chatCompletion.choices[0].message.content ?? ""
+  );
 
   // let descriptionText = description.map((plan: any) => {
   //   return `${plan.uzTitle} && ${plan.enTitle}`;
@@ -191,7 +184,7 @@ export async function createPlansDescription(name: string) {
   // return descriptionText;
 
   return {
-    name: description.name,
-    content: description.content,
+    name: "Slayd",
+    content: description,
   };
 }

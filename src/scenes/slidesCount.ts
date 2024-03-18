@@ -14,6 +14,7 @@ import {
 } from "../services/createPlansUseOpenAi";
 import path from "path";
 import { createPresentation } from "../services/createSlide.service";
+import { contentToString } from "../utils/functions";
 const scene = new Scenes.BaseScene("slidesCount");
 
 scene.hears("/start", (ctx: any) => {
@@ -176,7 +177,7 @@ scene.on("message", async (ctx: any) => {
       },
     });
 
-    let description = { content: "" };
+    let description: any;
     try {
       description = await createPlansDescription(p.name);
     } catch (error) {
@@ -185,13 +186,17 @@ scene.on("message", async (ctx: any) => {
     await prisma.description.create({
       data: {
         plan_id: p.id,
-        name: description.content,
+        // name: descriptio,
+        content: description.content,
         chat_id: chat.id,
       },
     });
 
-    txt += `\n\n ${description.content}`;
-    await ctx.reply(txt);
+    txt += contentToString(description.content);
+    // txt += `\n\n ${description.content}`;
+    await ctx.reply(txt, {
+      parse_mode: "HTML",
+    });
     try {
       await sleep(1000);
     } catch (error) {
@@ -201,50 +206,50 @@ scene.on("message", async (ctx: any) => {
 
   await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
 
-  const description = await prisma.description.findMany({
-    where: {
-      chat_id: chat.id,
-    },
-    include: {
-      plan: true,
-    },
-  });
+  // const description = await prisma.description.findMany({
+  //   where: {
+  //     chat_id: chat.id,
+  //   },
+  //   include: {
+  //     plan: true,
+  //   },
+  // });
 
-  let body = description.map((d) => {
-    return {
-      name: d.plan.name.split("&&")[0],
-      content: d.name,
-    };
-  });
+  // let body = description.map((d) => {
+  //   return {
+  //     name: d.plan.name.split("&&")[0],
+  //     content: d.name,
+  //   };
+  // });
 
-  const title = {
-    name: chat.name,
-    author: user?.name,
-  };
+  // const title = {
+  //   name: chat.name,
+  //   author: user?.name,
+  // };
 
-  const filePath = path.join(__dirname, "../../output.pptx");
-  const data = {
-    title,
-    body,
-    path: filePath,
-  };
+  // const filePath = path.join(__dirname, "../../output.pptx");
+  // const data = {
+  //   title,
+  //   body,
+  //   path: filePath,
+  // };
 
-  const slide = await createPresentation(data);
+  // const slide = await createPresentation(data);
 
-  await sleep(2000);
+  // await sleep(2000);
 
-  const datas = fs.readFileSync(filePath);
-  await ctx.telegram.sendDocument(
-    user_id,
-    {
-      source: datas,
-      filename: `${chat.name}.pptx`,
-    },
-    {
-      caption: `📌 ${chat.name} taqdimoti tayyor`,
-      parse_mode: "HTML",
-    }
-  );
+  // const datas = fs.readFileSync(filePath);
+  // await ctx.telegram.sendDocument(
+  //   user_id,
+  //   {
+  //     source: datas,
+  //     filename: `${chat.name}.pptx`,
+  //   },
+  //   {
+  //     caption: `📌 ${chat.name} taqdimoti tayyor`,
+  //     parse_mode: "HTML",
+  //   }
+  // );
 });
 
 export default scene;
