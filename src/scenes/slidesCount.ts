@@ -192,6 +192,8 @@ scene.on("message", async (ctx: any) => {
       },
     });
 
+    console.log(description.content);
+
     txt += contentToString(description.content);
     // txt += `\n\n ${description.content}`;
     await ctx.reply(txt, {

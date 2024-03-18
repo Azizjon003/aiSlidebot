@@ -1,6 +1,6 @@
 import OpenAI from "openai";
 import { plansInsert, rejalarniAjratibOlish } from "../utils/textToPlans";
-import { parseItems } from "../utils/functions";
+import { parseItems, parseTitles } from "../utils/functions";
 require("dotenv").config();
 const key = process.env["OPEN_AI_KEY"] || "";
 console.log(key);
@@ -62,7 +62,7 @@ export async function createPlans(name: string, pages: number) {
       {
         role: "system",
 
-        content: `"input_text": "Create ${pages} plans for the topic. Create 50 to 80 words for each plan. ${name}. Each plan should have {{uz}}, {{eng}} in Uzbek and English. Final the result should be the following. List of discussion questions. Return as JSON.",
+        content: `"input_text": "Create ${pages} layout for topic. Create 20 to 40 words for each plan. ${name}. Each plan must have {{uz}}, {{eng}} in Uzbek and English. The end result should look like this. List of discussion questions. Return as JSON.",
         "output_format": "json",
         "json_structure": {
             "slides":"{{
@@ -76,14 +76,17 @@ export async function createPlans(name: string, pages: number) {
       },
     ],
     // model: "gpt-3.5-turbo-1106",
-    model: "gpt-3.5-turbo-16k-0613",
+    model: "gpt-3.5-turbo-0125",
+    // model: "gpt-3.5-turbo-16k-0613",
     max_tokens: 4096,
+    response_format: {
+      type: "json_object",
+    },
   });
   console.log(chatCompletion.choices[0].message.content);
-  const plans =
-    JSON.parse(String(chatCompletion.choices[0].message.content)).slides
-      .plans ||
-    JSON.parse(String(chatCompletion.choices[0].message.content)).plans;
+  const content = chatCompletion.choices[0].message.content || ""; // Handle null case
+  // const plans = parseTitles(content);
+  const plans = JSON.parse(content).slides.plans;
 
   let plansText = plans.map((plan: any) => {
     return `${plan.uzTitle} && ${plan.enTitle}`;
@@ -165,15 +168,19 @@ export async function createPlansDescription(name: string) {
         content: JSON.stringify(queryJson),
       },
     ],
-    model: "gpt-3.5-turbo-16k-0613",
+    model: "gpt-3.5-turbo-0125",
+    // model: "gpt-3.5-turbo-16k-0613",
     // model: "gpt-4-turbo-preview",
     max_tokens: 4096,
+    response_format: {
+      type: "json_object",
+    },
   });
 
   console.log(chatCompletion.choices[0].message.content);
-  const description = parseItems(
+  const description = JSON.parse(
     chatCompletion.choices[0].message.content ?? ""
-  );
+  ).slide.content;
 
   // let descriptionText = description.map((plan: any) => {
   //   return `${plan.uzTitle} && ${plan.enTitle}`;
@@ -184,7 +191,9 @@ export async function createPlansDescription(name: string) {
   // return descriptionText;
 
   return {
-    name: "Slayd",
+    name: "Qon tomir kasalliklari ",
     content: description,
   };
 }
+
+createPlansDescription("Qon tomir kasalliklari");
