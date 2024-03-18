@@ -18,8 +18,6 @@ function roundReact(): void {
     // Doira shaklini belgilash
   });
 
-  // Doira ichiga matn qo'shish
-  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
   slide.addText(
     "To'rtburchak ichidagi matn va budnasdnsaldnasldasnldj asndkjasndlj kasndljkasn dkjasndkjlasnd kjasndkjlnas dkjnaskjldnask djasndlkjasndkjlasn  lndkaslndkljasn jkdnaskjld naslkndaskjl ndkjlasndsa",
     {
@@ -42,3 +40,138 @@ function roundReact(): void {
 }
 
 // Funksiyani chaqirish
+
+// roundReact();
+
+// Kichik doirachalardan tashkil topish
+
+function roundReactSmall(): void {
+  let pres = new PptxGenJS();
+  let slide = pres.addSlide();
+
+  // Doira yaratish
+  slide.addShape(pres.ShapeType.roundRect, {
+    x: 0.3,
+    y: 1.2,
+    w: 4,
+    h: 1.8,
+    fill: { color: "ffffff" },
+    line: {
+      color: "0EC765",
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+    // Doira shaklini belgilash
+  });
+
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  slide.addText(
+    "To'rtburchak ichidagi matn va budnasdnsaldnasldasnldj asndkjasndlj kasndljkasn dkjasndkjlasnd kjasndkjlnas dkjnaskjldnask djasndlkjasndkjlasn  lndkaslndkljasn jkdnaskjld naslkndaskjl ndkjlasndsa",
+    {
+      x: 0.3,
+      y: 1.2,
+      w: 4,
+      h: 1.5,
+      fontSize: 12,
+
+      color: "000000",
+      align: "left",
+      valign: "top",
+    }
+  );
+
+  slide.addShape(pres.ShapeType.roundRect, {
+    x: 5.7,
+    y: 1.2,
+    w: 4,
+    h: 1.8,
+    fill: { color: "ffffff" },
+    line: {
+      color: "0EC765",
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+    // Doira shaklini belgilash
+  });
+
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  slide.addText(
+    "To'rtburchak ichidagi matn va budnasdnsaldnasldasnldj asndkjasndlj kasndljkasn dkjasndkjlasnd kjasndkjlnas dkjnaskjldnask djasndlkjasndkjlasn  lndkaslndkljasn jkdnaskjld naslkndaskjl ndkjlasndsa",
+    {
+      x: 5.7,
+      y: 1.2,
+      w: 4,
+      h: 1.5,
+      fontSize: 12,
+
+      color: "000000",
+      align: "left",
+      valign: "top",
+    }
+  );
+
+  slide.addShape(pres.ShapeType.roundRect, {
+    x: 5.7,
+    y: 3.2,
+    w: 4,
+    h: 1.8,
+    fill: { color: "ffffff" },
+    line: {
+      color: "0EC765",
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+    // Doira shaklini belgilash
+  });
+
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  slide.addText(
+    "To'rtburchak ichidagi matn va budnasdnsaldnasldasnldj asndkjasndlj kasndljkasn dkjasndkjlasnd kjasndkjlnas dkjnaskjldnask djasndlkjasndkjlasn  lndkaslndkljasn jkdnaskjld naslkndaskjl ndkjlasndsa",
+    {
+      x: 5.7,
+      y: 3.2,
+      w: 4,
+      h: 1.5,
+      fontSize: 12,
+
+      color: "000000",
+      align: "left",
+      valign: "top",
+    }
+  );
+
+  slide.addShape(pres.ShapeType.roundRect, {
+    x: 0.3,
+    y: 3.2,
+    w: 4,
+    h: 1.8,
+    fill: { color: "ffffff" },
+    line: {
+      color: "0EC765",
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+    // Doira shaklini belgilash
+  });
+
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  slide.addText(
+    "To'rtburchak ichidagi matn va budnasdnsaldnasldasnldj asndkjasndlj kasndljkasn dkjasndkjlasnd kjasndkjlnas dkjnaskjldnask djasndlkjasndkjlasn  lndkaslndkljasn jkdnaskjld naslkndaskjl ndkjlasndsa",
+    {
+      x: 0.3,
+      y: 3.2,
+      w: 4,
+      h: 1.5,
+      fontSize: 12,
+
+      color: "000000",
+      align: "left",
+      valign: "top",
+    }
+  );
+  // Prezentatsiyani saqlash
+  pres.writeFile({ fileName: "DoiraShakliVaMatnKichik.pptx" }).then(() => {
+    console.log("Prezentatsiya yaratildi va saqlandi.");
+  });
+}
+roundReactSmall();

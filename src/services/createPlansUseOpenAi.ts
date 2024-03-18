@@ -196,4 +196,4 @@ export async function createPlansDescription(name: string) {
   };
 }
 
-createPlansDescription("Qon tomir kasalliklari");
+// createPlansDescription("Qon tomir kasalliklari");
