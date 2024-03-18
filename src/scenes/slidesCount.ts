@@ -167,7 +167,7 @@ scene.on("message", async (ctx: any) => {
   });
 
   for (let [index, p] of plan.entries()) {
-    let txt = `📌${index + 1}${p.name.split("&&")[0]}`;
+    let txt = `📌${index + 1}${p.name.split("&&")[0]}\n`;
     const plan = await prisma.plan.findMany({
       where: {
         chat_id: chat.id,
@@ -187,6 +187,7 @@ scene.on("message", async (ctx: any) => {
       data: {
         plan_id: p.id,
         // name: descriptio,
+        name: p.name.split("&&")[0],
         content: description.content,
         chat_id: chat.id,
       },
@@ -208,50 +209,45 @@ scene.on("message", async (ctx: any) => {
 
   await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
 
-  // const description = await prisma.description.findMany({
-  //   where: {
-  //     chat_id: chat.id,
-  //   },
-  //   include: {
-  //     plan: true,
-  //   },
-  // });
+  const description = await prisma.description.findMany({
+    where: {
+      chat_id: chat.id,
+    },
+    include: {
+      plan: true,
+    },
+  });
 
-  // let body = description.map((d) => {
-  //   return {
-  //     name: d.plan.name.split("&&")[0],
-  //     content: d.name,
-  //   };
-  // });
+  let body = description;
 
-  // const title = {
-  //   name: chat.name,
-  //   author: user?.name,
-  // };
+  const title = {
+    name: chat.name,
+    author: user?.name,
+  };
 
-  // const filePath = path.join(__dirname, "../../output.pptx");
-  // const data = {
-  //   title,
-  //   body,
-  //   path: filePath,
-  // };
+  const filePath = path.join(__dirname, "../../output.pptx");
+  const data = {
+    title,
+    body,
+    path: filePath,
+  };
 
-  // const slide = await createPresentation(data);
+  const slide = await createPresentation(data);
 
-  // await sleep(2000);
+  await sleep(2000);
 
-  // const datas = fs.readFileSync(filePath);
-  // await ctx.telegram.sendDocument(
-  //   user_id,
-  //   {
-  //     source: datas,
-  //     filename: `${chat.name}.pptx`,
-  //   },
-  //   {
-  //     caption: `📌 ${chat.name} taqdimoti tayyor`,
-  //     parse_mode: "HTML",
-  //   }
-  // );
+  const datas = fs.readFileSync(filePath);
+  await ctx.telegram.sendDocument(
+    user_id,
+    {
+      source: datas,
+      filename: `${chat.name}.pptx`,
+    },
+    {
+      caption: `📌 ${chat.name} taqdimoti tayyor`,
+      parse_mode: "HTML",
+    }
+  );
 });
 
 export default scene;
