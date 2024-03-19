@@ -444,7 +444,6 @@ export async function createPresentation(data: any): Promise<void> {
             w: 4,
             h: 1.5,
             fontSize: 10,
-
             color: "000000",
             align: "left",
             valign: "top",

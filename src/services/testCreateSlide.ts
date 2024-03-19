@@ -174,4 +174,64 @@ function roundReactSmall(): void {
     console.log("Prezentatsiya yaratildi va saqlandi.");
   });
 }
-roundReactSmall();
+
+function addSectionSlide(
+  pres: PptxGenJS,
+  title: string,
+  bulletPoints: string[]
+): void {
+  let slide = pres.addSlide();
+  slide.addText(title, {
+    x: 0.5,
+    y: 0.5,
+    w: "90%",
+    h: 0.8,
+    fontSize: 24,
+    color: "000000",
+    bold: true,
+  });
+  bulletPoints.forEach((point, i) => {
+    slide.addText(point, {
+      x: 0.5,
+      y: 1.5 + i * 0.5,
+      w: "90%",
+      h: 0.5,
+      fontSize: 14,
+      color: "000000",
+      bullet: { type: "number" },
+    });
+  });
+}
+
+function createPedagogyPresentation() {
+  let pres = new PptxGenJS();
+
+  // Slayd 1: Personal Relationships in Pedagogy
+  addSectionSlide(pres, "Personal Relationships in Pedagogy", [
+    "In pedagogy personal relationships can be divided into two categories: official and unofficial.",
+    "Both are important for the development of children and adults alike.",
+  ]);
+
+  // Slayd 2: Business vs Personal Relationships
+  addSectionSlide(pres, "Business vs Personal Relationships", [
+    "Business relationships are somewhat formal with a focus on results, deadlines, and professionalism.",
+    "Personal relationships are more casual and allow for a deeper understanding and connection with students and colleagues.",
+  ]);
+
+  // Slayd 3: Rational vs Emotional Relationships
+  addSectionSlide(pres, "Rational vs Emotional Relationships", [
+    "Rational relationships are based on logic, reason, and mutual benefit.",
+    "Emotional relationships are based on empathy, understanding, and feelings.",
+  ]);
+
+  // Qolgan slaydlarni shu tarzda qo'shing...
+
+  // Prezentatsiyani saqlash
+  pres
+    .writeFile({ fileName: "Personal-Relationships-in-Pedagogy.pptx" })
+    .then(() => {
+      console.log("Prezentatsiya yaratildi va saqlandi.");
+    });
+}
+
+createPedagogyPresentation();
