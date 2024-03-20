@@ -1,3 +1,4 @@
+import path from "path";
 import PptxGenJS from "pptxgenjs";
 
 function roundReact(): void {
@@ -205,33 +206,279 @@ function addSectionSlide(
 
 function createPedagogyPresentation() {
   let pres = new PptxGenJS();
+  let presSlide = pres.addSlide();
+  const imagePath = path.join(__dirname, "../../_ (40).jpeg");
+  presSlide.addImage({
+    path: imagePath,
+    x: "60%",
+    y: "0%",
 
-  // Slayd 1: Personal Relationships in Pedagogy
-  addSectionSlide(pres, "Personal Relationships in Pedagogy", [
-    "In pedagogy personal relationships can be divided into two categories: official and unofficial.",
-    "Both are important for the development of children and adults alike.",
-  ]);
+    sizing: {
+      type: "cover",
+      w: "40%",
+      h: "100%",
+    },
+  });
 
-  // Slayd 2: Business vs Personal Relationships
-  addSectionSlide(pres, "Business vs Personal Relationships", [
-    "Business relationships are somewhat formal with a focus on results, deadlines, and professionalism.",
-    "Personal relationships are more casual and allow for a deeper understanding and connection with students and colleagues.",
-  ]);
+  presSlide.addText("Personal Relationships in Pedagogy", {
+    x: "5%",
+    y: "25%",
+    w: "50%",
+    h: "20%",
+    fontSize: 24,
+    fontFace: "Playfair Display",
+    bold: true,
+  });
 
-  // Slayd 3: Rational vs Emotional Relationships
-  addSectionSlide(pres, "Rational vs Emotional Relationships", [
-    "Rational relationships are based on logic, reason, and mutual benefit.",
-    "Emotional relationships are based on empathy, understanding, and feelings.",
-  ]);
+  presSlide.addText("By: John Doe", {
+    x: "5%",
+    y: "65%",
+    w: "50%",
+    h: "20%",
+    fontSize: 14,
+    fontFace: "Playfair Display",
+    italic: true,
+  });
 
-  // Qolgan slaydlarni shu tarzda qo'shing...
+  // 2 slide
 
-  // Prezentatsiyani saqlash
-  pres
-    .writeFile({ fileName: "Personal-Relationships-in-Pedagogy.pptx" })
-    .then(() => {
-      console.log("Prezentatsiya yaratildi va saqlandi.");
-    });
+  let two = pres.addSlide();
+
+  two.addText("Business vs Personal Relationships ", {
+    x: "15%",
+    y: "10%",
+    w: "70%",
+    h: "20%",
+    fontSize: 20,
+    fontFace: "Playfair Display",
+    bold: true,
+  });
+
+  two.addImage({
+    path: imagePath,
+    x: "10%",
+    y: "30%",
+
+    sizing: {
+      type: "cover",
+      w: "20%",
+      h: "20%",
+    },
+  });
+
+  two.addText("Business Relationships", {
+    x: "10%",
+    y: "50%",
+    w: "20%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+  });
+
+  two.addText(
+    "Business relationships are somewhat formal, with a focus on results, deadlines, and professionalism.",
+    {
+      x: "10%",
+      y: "60%",
+      w: "20%",
+      h: "15%",
+      fontSize: 10,
+      bold: false,
+    }
+  );
+
+  two.addImage({
+    path: imagePath,
+    x: "40%",
+    y: "30%",
+
+    sizing: {
+      type: "cover",
+      w: "20%",
+      h: "20%",
+    },
+  });
+
+  two.addText("Business Relationships", {
+    x: "40%",
+    y: "50%",
+    w: "20%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+  });
+
+  two.addText(
+    "Business relationships are somewhat formal, with a focus on results, deadlines, and professionalism.",
+    {
+      x: "40%",
+      y: "60%",
+      w: "20%",
+      h: "15%",
+      fontSize: 10,
+      bold: false,
+    }
+  );
+
+  two.addImage({
+    path: imagePath,
+    x: "70%",
+    y: "30%",
+
+    sizing: {
+      type: "cover",
+      w: "20%",
+      h: "20%",
+    },
+  });
+
+  two.addText("Business Relationships", {
+    x: "70%",
+    y: "50%",
+    w: "20%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+  });
+
+  two.addText(
+    "Business relationships are somewhat formal, with a focus on results, deadlines, and professionalism.",
+    {
+      x: "70%",
+      y: "60%",
+      w: "20%",
+      h: "15%",
+      fontSize: 10,
+      bold: false,
+    }
+  );
+
+  const three = pres.addSlide();
+
+  three.addText("Personal Relationships", {
+    x: "15%",
+    y: "10%",
+    w: "70%",
+    h: "20%",
+    fontSize: 20,
+    fontFace: "Playfair Display",
+    bold: true,
+  });
+
+  three.addShape(pres.ShapeType.roundRect, {
+    x: "10%",
+    y: "30%",
+    w: "25%",
+    h: "40%",
+    fill: { color: "008000" },
+    line: {
+      color: "0EC765",
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+  });
+
+  three.addText("Personal Relationships", {
+    x: "10%",
+    y: "35%",
+    w: "25%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+  });
+
+  three.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "10%",
+      y: "40%",
+      w: "25%",
+      h: "15%",
+      fontSize: 10,
+      bold: false,
+    }
+  );
+
+  three.addShape(pres.ShapeType.roundRect, {
+    x: "40%",
+    y: "30%",
+    w: "25%",
+    h: "40%",
+    fill: { color: "008000" },
+    line: {
+      color: "0EC765",
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+  });
+
+  three.addText("Personal Relationships", {
+    x: "40%",
+    y: "35%",
+    w: "25%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+  });
+
+  three.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "40%",
+      y: "40%",
+      w: "25%",
+      h: "15%",
+      fontSize: 10,
+      bold: false,
+    }
+  );
+
+  three.addShape(pres.ShapeType.roundRect, {
+    x: "70%",
+    y: "30%",
+    w: "25%",
+    h: "40%",
+    fill: { color: "008000" },
+    line: {
+      color: "0EC765",
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+  });
+
+  three.addText("Personal Relationships", {
+    x: "70%",
+    y: "35%",
+    w: "25%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+  });
+
+  three.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "70%",
+      y: "40%",
+      w: "25%",
+      h: "15%",
+      fontSize: 10,
+      bold: false,
+    }
+  );
+
+  const four = pres.addSlide();
+
+  four.addText("Personal Relationships in Pedagogy", {
+    x: "15%",
+    y: "10%",
+    w: "70%",
+    h: "20%",
+    fontSize: 20,
+    fontFace: "Playfair Display",
+    bold: true,
+  });
+
+  pres.writeFile({ fileName: "DoiraShakliVaMatnKichik.pptx" }).then(() => {
+    console.log("Prezentatsiya yaratildi va saqlandi.");
+  });
 }
 
 createPedagogyPresentation();
