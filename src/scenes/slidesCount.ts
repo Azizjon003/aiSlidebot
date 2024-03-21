@@ -187,7 +187,7 @@ scene.on("message", async (ctx: any) => {
       data: {
         plan_id: p.id,
         // name: descriptio,
-        name: p.name.split("&&")[0],
+        name: p.name,
         content: description.content,
         chat_id: chat.id,
       },
