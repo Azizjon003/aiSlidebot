@@ -359,6 +359,8 @@ scene.action("confirm", async (ctx: any) => {
       },
     },
   });
+
+  ctx.scene.enter("start");
 });
 scene.action("reject", async (ctx: any) => {
   ctx.answerCbQuery();

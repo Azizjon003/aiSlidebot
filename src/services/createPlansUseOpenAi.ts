@@ -56,23 +56,26 @@ const openai = new OpenAI({
 // }
 
 export async function createPlans(name: string, pages: number) {
+  const queryJson = {
+    input_text: `Create ${pages} layout for topic. Create 20 to 40 words for each plan. ${name}. Each plan must have {{uz}}, {{eng}} in Uzbek and English. The end result should look like this. List of discussion questions. Return as JSON.`,
+    output_format: "json",
+    json_structure: {
+      slides: {
+        plans: [
+          {
+            uzTitle: "{{uzTitle}}",
+            enTitle: "{{enTitle}}",
+          },
+        ],
+      },
+    },
+  };
   const chatCompletion = await openai.chat.completions.create({
     messages: [
-      { role: "user", content: name },
+      // { role: "user", content: name },
       {
-        role: "system",
-
-        content: `"input_text": "Create ${pages} layout for topic. Create 20 to 40 words for each plan. ${name}. Each plan must have {{uz}}, {{eng}} in Uzbek and English. The end result should look like this. List of discussion questions. Return as JSON.",
-        "output_format": "json",
-        "json_structure": {
-            "slides":"{{
-              "plans":[{
-          "uzTitle": "{{uzTitle}}",
-          "enTitle": "{{enTitle}}"
-              }]
-            }}"
-        }
-      }`,
+        role: "user",
+        content: JSON.stringify(queryJson),
       },
     ],
     // model: "gpt-3.5-turbo-1106",
@@ -89,7 +92,7 @@ export async function createPlans(name: string, pages: number) {
   const plans = JSON.parse(content).slides.plans;
 
   let plansText = plans.map((plan: any) => {
-    return `${plan.uzTitle} && ${plan.enTitle}`;
+    return `${plan.uzTitle} && ${plan.enTitle}`.replace(/\d+/g, "");
   });
 
   console.log(plansText);
@@ -162,15 +165,13 @@ export async function createPlansDescription(name: string) {
   };
   const chatCompletion = await openai.chat.completions.create({
     messages: [
-      { role: "user", content: name },
+      // { role: "user", content: name },
       {
-        role: "system",
+        role: "user",
         content: JSON.stringify(queryJson),
       },
     ],
     model: "gpt-3.5-turbo-0125",
-    // model: "gpt-3.5-turbo-16k-0613",
-    // model: "gpt-4-turbo-preview",
     max_tokens: 4096,
     response_format: {
       type: "json_object",
