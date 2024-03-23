@@ -47,11 +47,11 @@ scene.action(/\d+$/, async (ctx: any) => {
 
   const text = `Taqdimot muvzusini kiriting: 
 
-  1. Har bir mavzuga umumiy bilimdondek qarayman. Qaysidir tor doirada ishlatiladigan mavzularni kiritishda ularni aniqroq izohlashga urinib ko'ring. 
+  1. Har bir mavzuga 20 yillik o'qituvchi kabi qarayman.  
   2. Qisqartma so'zlarga, imloviy xatoli so'zlarga tushunmay qolishim mumkin.
   3. Inglizchaga tarjima qilganda ma'nosi chalkashishi mumkin bo'lgan mavzularni kiritmang. 
   
-  ❗️ Kiritilgan mavzuga tushunmagan holda boshqa mavzuga chalg'ib ketishim mumkin. Iltimos, mavzu yozishda e'tiborli bo'ling.`;
+   ❗️ Iltimos, mavzu yozishda e'tiborli bo'ling.`;
   ctx.session.user = {
     action: "slidesName",
     chat_id: chat.id,
@@ -126,7 +126,7 @@ scene.on("message", async (ctx: any) => {
   
   📌 Mavzu: <b>${chat?.name}</b>
   
-  Eslatma: Avval, taqdimot matnini birin ketin yuboraman. So'ngra taqdimot faylini tayyorlayman. Iltimos, shoshilmang.`;
+  Eslatma: Avval, taqdimot ning matnlarini yuboraman.So'ngra taqdimotni tayyorlayman.\n Iltimos shoshilmang men sekinroq javob berishim mumkin`;
 
   await ctx.reply(txt, {
     reply_markup: {
@@ -227,7 +227,10 @@ scene.action("confirm", async (ctx: any) => {
     inline_keyboard: [],
   });
 
-  ctx.reply("Taqdimot tasdiqlandi. Endi slaydlarni tayyorlayman");
+  ctx.reply("Taqdimot tasdiqlandi. Endi taqdimot matnini yuboraman");
+
+  let messageId = await ctx.reply("⌛️");
+  console.log(messageId);
   const user_id = ctx.from?.id;
   const user = await prisma.user.findFirst({
     where: {
@@ -269,9 +272,9 @@ scene.action("confirm", async (ctx: any) => {
       chat_id: chat.id,
     },
   });
-
+  let messageIDs;
   for (let [index, p] of plan.entries()) {
-    let txt = `📌${index + 1}${p.name.split("&&")[0]}\n`;
+    let txt = `📌${index + 1}. ${p.name.split("&&")[0]}\n`;
     const plan = await prisma.plan.findMany({
       where: {
         chat_id: chat.id,
@@ -309,11 +312,15 @@ scene.action("confirm", async (ctx: any) => {
     } catch (error) {
       console.log(error);
     }
+    await ctx.deleteMessage(
+      index == 0 ? messageId.message_id : messageIDs?.message_id
+    );
+    messageIDs = await ctx.reply("⌛️");
   }
 
-  await ctx.reply(
-    "Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman\nEslatma: Avval, taqdimot matnini birin ketin yuboraman. So'ngra taqdimot faylini tayyorlayman. Iltimos, shoshilmang."
-  );
+  ctx.deleteMessage(messageIDs.message_id);
+
+  await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
 
   const description = await prisma.description.findMany({
     where: {

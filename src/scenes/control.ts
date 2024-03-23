@@ -102,7 +102,8 @@ scene.hears("Balans", async (ctx: any) => {
     wallet.balance
   }\nSiz olishingiz mumkin bo'lgan slidelar soni: ${Math.floor(
     wallet.balance / Number(priceSlide?.price)
-  )}`;
+  )}
+  \n To'lov qilish imkoniyati yaqinda qo'shiladi`;
   const inlineKeyboard = [
     {
       text: "Balansni to'ldirish",

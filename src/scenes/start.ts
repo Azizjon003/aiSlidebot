@@ -22,10 +22,9 @@ scene.enter(async (ctx: any) => {
       `Assalomu alaykum!\nYangi Taqdimot tugmasini bosib taqdimot yaratishni boshlashingiz mumkin!\nTakliflar
 
       👉 Bot ingliz tilida kiritilgan mavzularni yaxshi tushunadi.
-      👉 Ingliz tiliga tarjima qilinganda ma'nosi o'zgarishi mumkin bo'lgan mavzularni kiritishdan saqlaning.
-      👉 Mavzu qaysi tilda kiritilishidan qat'iy nazar, tanlangan til asosida taqdimot yaratiladi.
-      👉 Bot butun dunyo ma'lumotlari asosida taqdimot tayyorlaydi. Agar O'zbekistonga oid ma'lumot kerak bo'lsa, mavzuni kiritishda davlat nomini ham kiritgan ma'qul.
-      👉 Shaxslar asosida taqdimot yaratishda, shaxs haqida aniqroq ma'lumot berishga urinib ko'ring.
+      👉 Bot sekinroq ishlaydi bunga sabab chatgpt-4 dan foydalanganligi
+      👉 Botga yangi taqdimot qo'shish uchun "Yangi Taqdimot" tugmasini bosing
+    
       `,
       keyboards(keyboard)
     );

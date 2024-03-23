@@ -25,11 +25,17 @@ scene.action(/\d+/, async (ctx: any) => {
   ctx.answerCbQuery();
 
   const count = ctx.callbackQuery.data;
-  const chatId = ctx.session.user?.chat_id;
-
+  const chatId = await prisma.chat.findFirst({
+    where: {
+      user_id: user?.id,
+    },
+    orderBy: {
+      created_at: "desc",
+    },
+  });
   const chat = await prisma.chat.update({
     where: {
-      id: chatId,
+      id: chatId?.id,
     },
     data: {
       pageCount: Number(count),
