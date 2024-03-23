@@ -12,57 +12,57 @@ const scene = new Scenes.BaseScene("control");
 scene.hears("/start", (ctx: any) => {
   ctx.scene.enter("start");
 });
+export const countArray = [
+  {
+    text: "5",
+    callback_data: 5,
+  },
+  {
+    text: " 6 ",
+    callback_data: 6,
+  },
+  {
+    text: " 7 ",
+    callback_data: 7,
+  },
+  {
+    text: " 8 ",
+    callback_data: 8,
+  },
+  {
+    text: " 9 ",
+    callback_data: 9,
+  },
+  {
+    text: " 10 ",
+    callback_data: 10,
+  },
+  {
+    text: " 11 ",
+    callback_data: 11,
+  },
+  {
+    text: " 12 ",
+    callback_data: 12,
+  },
+  {
+    text: " 13 ",
+    callback_data: 13,
+  },
+  {
+    text: " 14 ",
+    callback_data: 14,
+  },
+  {
+    text: " 15 ",
+    callback_data: 15,
+  },
+];
 
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
   const user_id = ctx.from?.id;
-  const count = [
-    {
-      text: "5",
-      callback_data: 5,
-    },
-    {
-      text: " 6 ",
-      callback_data: 6,
-    },
-    {
-      text: " 7 ",
-      callback_data: 7,
-    },
-    {
-      text: " 8 ",
-      callback_data: 8,
-    },
-    {
-      text: " 9 ",
-      callback_data: 9,
-    },
-    {
-      text: " 10 ",
-      callback_data: 10,
-    },
-    {
-      text: " 11 ",
-      callback_data: 11,
-    },
-    {
-      text: " 12 ",
-      callback_data: 12,
-    },
-    {
-      text: " 13 ",
-      callback_data: 13,
-    },
-    {
-      text: " 14 ",
-      callback_data: 14,
-    },
-    {
-      text: " 15 ",
-      callback_data: 15,
-    },
-  ];
 
-  const result = chunkArrayInline(count, 3);
+  const result = chunkArrayInline(countArray, 3);
 
   const text = `🧮 Slaydlar soni nechta bo'lsin?`;
 
@@ -109,8 +109,10 @@ scene.hears("Balans", async (ctx: any) => {
       callbackData: `balance:${user?.id}`,
     },
   ];
-  ctx.reply(text, createInlineKeyboard(inlineKeyboard));
 
-  ctx.scene.enter("balans");
+  ctx.reply(text);
+  // ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+
+  // ctx.scene.enter("balans");
 });
 export default scene;

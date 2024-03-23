@@ -15,6 +15,7 @@ import {
 import path from "path";
 import { createPresentation } from "../services/createSlide.service";
 import { contentToString } from "../utils/functions";
+import { countArray } from "./control";
 const scene = new Scenes.BaseScene("slidesCount");
 
 scene.hears("/start", (ctx: any) => {
@@ -150,12 +151,12 @@ scene.on("message", async (ctx: any) => {
             callback_data: "changeSlides",
           },
         ],
-        [
-          {
-            text: "Muallifni o'zgartirish",
-            callback_data: "changeAuthor",
-          },
-        ],
+        // [
+        //   {
+        //     text: "Muallifni o'zgartirish",
+        //     callback_data: "changeAuthor",
+        //   },
+        // ],
       ],
     },
     parse_mode: "HTML",
@@ -166,26 +167,60 @@ scene.on("message", async (ctx: any) => {
     chat_id: chat.id,
   };
 
-  await prisma.wallet.update({
+  // await prisma.wallet.update({
+  //   where: {
+  //     id: user?.wallet?.id,
+  //   },
+  //   data: {
+  //     balance: {
+  //       decrement: Number(slidePrice?.price),
+  //     },
+  //   },
+  // });
+});
+
+scene.action("changeSlides", async (ctx: any) => {
+  const user_id = ctx.from?.id;
+  const user = await prisma.user.findFirst({
     where: {
-      id: user?.wallet?.id,
-    },
-    data: {
-      balance: {
-        decrement: Number(slidePrice?.price),
-      },
+      telegram_id: String(user_id),
     },
   });
+
+  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+  ctx.answerCbQuery();
+
+  const result = chunkArrayInline(countArray, 3);
+  const text = `🧮 Slaydlar sonini qaytadan tanlang`;
+  ctx.editMessageText(text, {
+    reply_markup: {
+      inline_keyboard: result,
+    },
+  });
+
+  const chatId = ctx.session.user?.chat_id;
+  const chat = await prisma.chat.findFirst({
+    where: {
+      id: chatId,
+    },
+  });
+
+  ctx.session.user = {
+    action: "slidesCount",
+    chat_id: ctx.session.user?.chat_id,
+  };
+
+  ctx.scene.enter("editSlidesCount");
 });
 
 scene.action("confirm", async (ctx: any) => {
   ctx.answerCbQuery();
   const message = ctx.callbackQuery.message;
-  console.log(message);
+  ctx.editMessageReplyMarkup({
+    inline_keyboard: [],
+  });
 
   ctx.reply("Taqdimot tasdiqlandi. Endi slaydlarni tayyorlayman");
-  ctx.reply("Taqdimot tasdiqlandi. Endi slaydlarni tayyorlayman");
-
   const user_id = ctx.from?.id;
   const user = await prisma.user.findFirst({
     where: {
@@ -262,7 +297,9 @@ scene.action("confirm", async (ctx: any) => {
     }
   }
 
-  await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
+  await ctx.reply(
+    "Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman\nEslatma: Avval, taqdimot matnini birin ketin yuboraman. So'ngra taqdimot faylini tayyorlayman. Iltimos, shoshilmang."
+  );
 
   const description = await prisma.description.findMany({
     where: {
@@ -303,6 +340,12 @@ scene.action("confirm", async (ctx: any) => {
       parse_mode: "HTML",
     }
   );
+});
+scene.action("reject", async (ctx: any) => {
+  ctx.answerCbQuery();
+  ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
+  ctx.reply("Taqdimot bekor qilindi");
+  ctx.scene.enter("start");
 });
 
 export default scene;
