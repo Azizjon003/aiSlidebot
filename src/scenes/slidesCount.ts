@@ -124,7 +124,40 @@ scene.on("message", async (ctx: any) => {
   Eslatma: Avval, taqdimot matnini birin ketin yuboraman. So'ngra taqdimot faylini tayyorlayman. Iltimos, shoshilmang.`;
 
   await ctx.reply(txt, {
-    reply_markup: keyboards(["Tayyor", "Orqaga"]),
+    reply_markup: {
+      inline_keyboard: [
+        [
+          {
+            text: "Tasdiqlash",
+            callback_data: "confirm",
+          },
+        ],
+        [
+          {
+            text: "Bekor qilish",
+            callback_data: "reject",
+          },
+        ],
+        // [
+        //   {
+        //     text: "Mavzuni o'zgartirish",
+        //     callback_data: "change",
+        //   },
+        // ],
+        [
+          {
+            text: "Slaydlar sonini o'zgartirish",
+            callback_data: "changeSlides",
+          },
+        ],
+        [
+          {
+            text: "Muallifni o'zgartirish",
+            callback_data: "changeAuthor",
+          },
+        ],
+      ],
+    },
     parse_mode: "HTML",
   });
 
@@ -143,7 +176,27 @@ scene.on("message", async (ctx: any) => {
       },
     },
   });
+});
 
+scene.action("confirm", async (ctx: any) => {
+  ctx.answerCbQuery();
+  const message = ctx.callbackQuery.message;
+  console.log(message);
+  ctx.reply("Taqdimot tasdiqlandi. Endi slaydlarni tayyorlayman");
+
+  const user_id = ctx.from?.id;
+  const user = await prisma.user.findFirst({
+    where: {
+      telegram_id: String(user_id),
+    },
+  });
+
+  const chat = await prisma.chat.findFirst({
+    where: {
+      id: ctx.session.user?.chat_id,
+    },
+  });
+  if (!chat) return ctx.reply("Mavzu topilmadi topilmadi");
   const plans = await createPlans(String(chat.name), chat.pageCount);
   console.log(plans);
   for (let plan of plans) {
@@ -255,5 +308,3 @@ export default scene;
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));

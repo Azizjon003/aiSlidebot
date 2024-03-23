@@ -481,4 +481,34 @@ function createPedagogyPresentation() {
   });
 }
 
-createPedagogyPresentation();
+// createPedagogyPresentation();
+
+const createAnimationSlide = async () => {
+  const pptx = new PptxGenJS();
+  const slide = pptx.addSlide();
+
+  // Matn blokiga animatsiya qo'shish
+  const textboxOpts: any = { x: 1, y: 1, w: 8, h: 2, fill: "F1F1F1" };
+  const textOpts = { color: "363636", align: pptx.AlignH.center };
+
+  // Animatsiya parametrlari
+  const animOpts = {
+    animStart: "click", // Animatsiya boshlanishi: click, withPrev, afterPrev
+    anim: "fade", // Animatsiya turi: fade, zoom, none
+    animDuration: 1, // Animatsiya davomiyligi (soniyada)
+    animDelay: 0, // Animatsiya kechiktirishi (soniyada)
+  };
+
+  // Matn blokini va unga animatsiya qo'shish
+
+  slide.addText("Hello, World!", textboxOpts); // Animatsiyani qo'shish
+
+  // Prezentatsiyani saqlash
+  pptx
+    .writeFile({ fileName: "Animated_Presentation.pptx" })
+    .then((fileName) => {
+      console.log(`Created: ${fileName}`);
+    });
+};
+
+createAnimationSlide();
