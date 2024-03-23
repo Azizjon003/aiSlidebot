@@ -166,9 +166,9 @@ export async function createPlansDescription(name: string) {
   };
   const chatCompletion = await openai.chat.completions.create({
     messages: [
-      // { role: "user", content: name },
+      { role: "user", content: name },
       {
-        role: "user",
+        role: "system",
         content: JSON.stringify(queryJson),
       },
     ],
@@ -180,9 +180,34 @@ export async function createPlansDescription(name: string) {
   });
 
   console.log(chatCompletion.choices[0].message.content);
-  const description = JSON.parse(
-    chatCompletion.choices[0].message.content ?? ""
-  ).slide.content;
+  let description = "";
+  try {
+    description = await JSON.parse(
+      chatCompletion.choices[0].message.content ?? ""
+    ).slide.content;
+  } catch (error) {
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        { role: "user", content: name },
+        {
+          role: "system",
+          content: JSON.stringify(queryJson),
+        },
+        {
+          role: "system",
+          content: "please JSON format based on the given structure.",
+        },
+      ],
+      model: "gpt-3.5-turbo-0125",
+      max_tokens: 4096,
+      response_format: {
+        type: "json_object",
+      },
+    });
+    description = await JSON.parse(
+      chatCompletion.choices[0].message.content ?? ""
+    ).slide.content;
+  }
 
   // let descriptionText = description.map((plan: any) => {
   //   return `${plan.uzTitle} && ${plan.enTitle}`;
