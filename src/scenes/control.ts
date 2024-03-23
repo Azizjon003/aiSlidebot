@@ -37,26 +37,26 @@ export const countArray = [
     text: " 10 ",
     callback_data: 10,
   },
-  {
-    text: " 11 ",
-    callback_data: 11,
-  },
-  {
-    text: " 12 ",
-    callback_data: 12,
-  },
-  {
-    text: " 13 ",
-    callback_data: 13,
-  },
-  {
-    text: " 14 ",
-    callback_data: 14,
-  },
-  {
-    text: " 15 ",
-    callback_data: 15,
-  },
+  // {
+  //   text: " 11 ",
+  //   callback_data: 11,
+  // },
+  // {
+  //   text: " 12 ",
+  //   callback_data: 12,
+  // },
+  // {
+  //   text: " 13 ",
+  //   callback_data: 13,
+  // },
+  // {
+  //   text: " 14 ",
+  //   callback_data: 14,
+  // },
+  // {
+  //   text: " 15 ",
+  //   callback_data: 15,
+  // },
 ];
 
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
