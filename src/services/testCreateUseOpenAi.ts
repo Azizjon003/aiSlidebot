@@ -119,7 +119,7 @@ export async function createPlansDescription(name: string) {
       },
     ],
     model: "gpt-3.5-turbo-0125",
-    max_tokens: 4096,
+    max_tokens: 1024,
     frequency_penalty: 0,
     response_format: {
       type: "json_object",

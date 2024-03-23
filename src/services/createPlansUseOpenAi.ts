@@ -81,7 +81,7 @@ export async function createPlans(name: string, pages: number) {
     // model: "gpt-3.5-turbo-1106",
     model: "gpt-3.5-turbo-0125",
     // model: "gpt-3.5-turbo-16k-0613",
-    max_tokens: 4096,
+    max_tokens: 1024,
     response_format: {
       type: "json_object",
     },
@@ -173,7 +173,7 @@ export async function createPlansDescription(name: string) {
       },
     ],
     model: "gpt-3.5-turbo-0125",
-    max_tokens: 4096,
+    max_tokens: 1024,
     response_format: {
       type: "json_object",
     },
@@ -199,7 +199,7 @@ export async function createPlansDescription(name: string) {
         },
       ],
       model: "gpt-3.5-turbo-0125",
-      max_tokens: 4096,
+      max_tokens: 1024,
       response_format: {
         type: "json_object",
       },
