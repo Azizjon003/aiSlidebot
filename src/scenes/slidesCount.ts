@@ -83,7 +83,11 @@ scene.on("message", async (ctx: any) => {
 
   let chat = await prisma.chat.findFirst({
     where: {
-      id: ctx.session.user?.chat_id,
+      user_id: user?.id,
+      // id: ctx.session.user?.chat_id,
+    },
+    orderBy: {
+      created_at: "desc",
     },
   });
 
@@ -198,10 +202,13 @@ scene.action("changeSlides", async (ctx: any) => {
     },
   });
 
-  const chatId = ctx.session.user?.chat_id;
   const chat = await prisma.chat.findFirst({
     where: {
-      id: chatId,
+      // id: chatId,
+      user_id: user?.id,
+    },
+    orderBy: {
+      created_at: "desc",
     },
   });
 
@@ -233,7 +240,11 @@ scene.action("confirm", async (ctx: any) => {
 
   const chat = await prisma.chat.findFirst({
     where: {
-      id: ctx.session.user?.chat_id,
+      // id: ctx.session.user?.chat_id,
+      user_id: user?.id,
+    },
+    orderBy: {
+      created_at: "desc",
     },
   });
   if (!chat) return ctx.reply("Mavzu topilmadi topilmadi");
