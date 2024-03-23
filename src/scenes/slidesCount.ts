@@ -182,6 +182,8 @@ scene.action("confirm", async (ctx: any) => {
   ctx.answerCbQuery();
   const message = ctx.callbackQuery.message;
   console.log(message);
+
+  ctx.reply("Taqdimot tasdiqlandi. Endi slaydlarni tayyorlayman");
   ctx.reply("Taqdimot tasdiqlandi. Endi slaydlarni tayyorlayman");
 
   const user_id = ctx.from?.id;
