@@ -226,6 +226,9 @@ scene.action("confirm", async (ctx: any) => {
     where: {
       telegram_id: String(user_id),
     },
+    include: {
+      wallet: true,
+    },
   });
 
   const chat = await prisma.chat.findFirst({
@@ -340,6 +343,22 @@ scene.action("confirm", async (ctx: any) => {
       parse_mode: "HTML",
     }
   );
+
+  const slidePrice = await prisma.plansSlides.findFirst({
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+  await prisma.wallet.update({
+    where: {
+      id: user?.wallet?.id,
+    },
+    data: {
+      balance: {
+        decrement: Number(slidePrice?.price),
+      },
+    },
+  });
 });
 scene.action("reject", async (ctx: any) => {
   ctx.answerCbQuery();
