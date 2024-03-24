@@ -4,12 +4,16 @@ import balans from "./balans";
 import control from "./control";
 import slidesCount from "./slidesCount";
 import editSlides from "./editSlides";
+import admin from "./admin";
+import sendMesssage from "./message";
 const stage = new Scenes.Stage([
   start,
   balans,
   control,
   slidesCount,
   editSlides,
+  admin,
+  sendMesssage,
 ]);
 
 export default stage;

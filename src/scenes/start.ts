@@ -9,6 +9,7 @@ export let keyboard2 = [
   "Foydalanuvchilar",
   "Hamma foydalanuchilarga xabar yuborish",
   "Bugungi statistika",
+  "Foydalanuvchilarga limit qo'shish",
 ];
 scene.enter(async (ctx: any) => {
   const user_id = ctx.from?.id;
@@ -32,7 +33,9 @@ scene.enter(async (ctx: any) => {
     return ctx.scene.enter("control");
   } else if (enable === "two") {
     const text = "Assalomu alaykum Admin xush kelibsiz";
+
     ctx.reply(text, keyboards(keyboard2));
+    return ctx.scene.enter("admin");
   } else if (enable === "three") {
     ctx.reply("Assalomu alaykum.Kechirasiz siz admin tomonidan bloklangansiz");
   }
