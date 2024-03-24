@@ -1,5 +1,11 @@
 export let subcribeFunk = async (ctx: any, next: any) => {
   const data = ctx.callbackQuery?.data;
+
+  const chatType = ctx.chat?.type;
+  console.log(chatType);
+  if (chatType === "channel") {
+    return next();
+  }
   if (ctx.callbackQuery?.data === "checkSubscribing") {
     await ctx.deleteMessage();
   }
