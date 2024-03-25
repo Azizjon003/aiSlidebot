@@ -222,12 +222,13 @@ scene.action("changeSlides", async (ctx: any) => {
 
 scene.action("confirm", async (ctx: any) => {
   // ctx.answerCbQuery();
+
   const message = ctx.callbackQuery.message;
-  ctx.editMessageReplyMarkup({
+  await ctx.editMessageReplyMarkup({
     inline_keyboard: [],
   });
 
-  ctx.reply("Taqdimot tasdiqlandi. Endi taqdimot matnini yuboraman");
+  await ctx.reply("Taqdimot tasdiqlandi. Endi taqdimot matnini yuboraman");
 
   const user_id = ctx.from?.id;
   const user = await prisma.user.findFirst({
@@ -238,6 +239,7 @@ scene.action("confirm", async (ctx: any) => {
       wallet: true,
     },
   });
+  await ctx.telegram.sendChatAction(user?.telegram_id, "typing");
 
   const chat = await prisma.chat.findFirst({
     where: {
@@ -261,10 +263,10 @@ scene.action("reject", async (ctx: any) => {
 export default scene;
 
 const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
-  await ctx.telegram.sendChatAction(user.telegram_id, "typing");
   const plans = await createPlans(String(chat.name), chat.pageCount);
   console.log(plans);
   for (let plan of plans) {
+    await ctx.telegram.sendChatAction(user.telegram_id, "typing");
     await prisma.plan.create({
       data: {
         chat_id: chat.id,
@@ -280,21 +282,15 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
   });
   for (let [index, p] of plan.entries()) {
     let txt = `📌${index + 1}. ${p.name.split("&&")[0]}\n`;
-    const plan = await prisma.plan.findMany({
-      where: {
-        chat_id: chat.id,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
 
     let description: any;
     try {
+      await ctx.telegram.sendChatAction(user.telegram_id, "typing");
       description = await createPlansDescription(p.name);
     } catch (error) {
       console.log(error);
     }
+
     await prisma.description.create({
       data: {
         plan_id: p.id,
@@ -305,10 +301,10 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     });
 
     console.log(description.content);
-
+    await ctx.telegram.sendChatAction(user.telegram_id, "typing");
     txt += contentToString(description.content);
     // txt += `\n\n ${description.content}`;
-    await ctx.reply(txt, {
+    await ctx.telegram.sendMessage(user.telegram_id, txt, {
       parse_mode: "HTML",
     });
     await ctx.telegram.sendChatAction(user.telegram_id, "typing");
