@@ -221,7 +221,7 @@ scene.action("changeSlides", async (ctx: any) => {
 });
 
 scene.action("confirm", async (ctx: any) => {
-  ctx.answerCbQuery();
+  // ctx.answerCbQuery();
   const message = ctx.callbackQuery.message;
   ctx.editMessageReplyMarkup({
     inline_keyboard: [],
@@ -229,8 +229,6 @@ scene.action("confirm", async (ctx: any) => {
 
   ctx.reply("Taqdimot tasdiqlandi. Endi taqdimot matnini yuboraman");
 
-  let messageId = await ctx.reply("⌛️");
-  console.log(messageId);
   const user_id = ctx.from?.id;
   const user = await prisma.user.findFirst({
     where: {
@@ -243,7 +241,6 @@ scene.action("confirm", async (ctx: any) => {
 
   const chat = await prisma.chat.findFirst({
     where: {
-      // id: ctx.session.user?.chat_id,
       user_id: user?.id,
     },
     orderBy: {
@@ -251,7 +248,21 @@ scene.action("confirm", async (ctx: any) => {
     },
   });
   if (!chat) return ctx.reply("Mavzu topilmadi topilmadi");
+
+  createPresentationAsync(chat, user, ctx);
+});
+scene.action("reject", async (ctx: any) => {
+  ctx.answerCbQuery();
+  ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
+  ctx.reply("Taqdimot bekor qilindi");
+  ctx.scene.enter("start");
+});
+
+export default scene;
+
+const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
   const plans = await createPlans(String(chat.name), chat.pageCount);
+  ctx.telegram.sendChatAction(user.telegram_id, "typing");
   console.log(plans);
   for (let plan of plans) {
     await prisma.plan.create({
@@ -261,18 +272,12 @@ scene.action("confirm", async (ctx: any) => {
       },
     });
   }
-  try {
-    await sleep(2000);
-  } catch (error) {
-    console.log(error);
-  }
 
   let plan = await prisma.plan.findMany({
     where: {
       chat_id: chat.id,
     },
   });
-  let messageIDs;
   for (let [index, p] of plan.entries()) {
     let txt = `📌${index + 1}. ${p.name.split("&&")[0]}\n`;
     const plan = await prisma.plan.findMany({
@@ -293,7 +298,6 @@ scene.action("confirm", async (ctx: any) => {
     await prisma.description.create({
       data: {
         plan_id: p.id,
-        // name: descriptio,
         name: p.name,
         content: description.content,
         chat_id: chat.id,
@@ -307,18 +311,8 @@ scene.action("confirm", async (ctx: any) => {
     await ctx.reply(txt, {
       parse_mode: "HTML",
     });
-    try {
-      await sleep(1000);
-    } catch (error) {
-      console.log(error);
-    }
-    await ctx.deleteMessage(
-      index == 0 ? messageId.message_id : messageIDs?.message_id
-    );
-    messageIDs = await ctx.reply("⌛️");
+    ctx.telegram.sendChatAction(user.telegram_id, "typing");
   }
-
-  ctx.deleteMessage(messageIDs.message_id);
 
   await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
 
@@ -347,11 +341,9 @@ scene.action("confirm", async (ctx: any) => {
 
   const slide = await createPresentation(data);
 
-  await sleep(2000);
-
   const datas = fs.readFileSync(filePath);
   await ctx.telegram.sendDocument(
-    user_id,
+    user?.telegram_id,
     {
       source: datas,
       filename: `${chat.name}.pptx`,
@@ -378,17 +370,5 @@ scene.action("confirm", async (ctx: any) => {
     },
   });
 
-  ctx.scene.enter("start");
-});
-scene.action("reject", async (ctx: any) => {
-  ctx.answerCbQuery();
-  ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
-  ctx.reply("Taqdimot bekor qilindi");
-  ctx.scene.enter("start");
-});
-
-export default scene;
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+  return ctx.scene.enter("start");
+};
