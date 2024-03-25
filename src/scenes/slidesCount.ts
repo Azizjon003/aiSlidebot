@@ -261,8 +261,8 @@ scene.action("reject", async (ctx: any) => {
 export default scene;
 
 const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
+  await ctx.telegram.sendChatAction(user.telegram_id, "typing");
   const plans = await createPlans(String(chat.name), chat.pageCount);
-  ctx.telegram.sendChatAction(user.telegram_id, "typing");
   console.log(plans);
   for (let plan of plans) {
     await prisma.plan.create({
@@ -311,7 +311,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     await ctx.reply(txt, {
       parse_mode: "HTML",
     });
-    ctx.telegram.sendChatAction(user.telegram_id, "typing");
+    await ctx.telegram.sendChatAction(user.telegram_id, "typing");
   }
 
   await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
