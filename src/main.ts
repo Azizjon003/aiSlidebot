@@ -22,3 +22,10 @@ bot.catch((err: any, ctx: any) => {
   console.log(`Ooops, encountered an error for ${ctx}`, err);
 });
 botStart(bot);
+https: process.on("unhandledRejection", (reason, promise) => {
+  console.error("Ushlanmagan rad etilgan va'da:", promise, "Sabab:");
+});
+
+process.on("uncaughtException", (error) => {
+  console.error("Ushlanmagan istisno:", error);
+});
