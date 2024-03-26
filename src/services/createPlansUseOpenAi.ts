@@ -2,65 +2,11 @@ import { plansInsert, rejalarniAjratibOlish } from "../utils/textToPlans";
 import { parseItems, parseTitles } from "../utils/functions";
 require("dotenv").config();
 const key = process.env["OPEN_AI_KEY"] || "";
+import OpenAI from "openai";
 console.log(key);
-
-import axios from "axios";
-
-export let createPlans = async (name: string, pages: number) => {
-  const queryJson = {
-    input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {{uz}}, {{eng}} in Uzbek and English. The end result should look like this. List of discussion questions. Return as JSON.`,
-    output_format: "json",
-    json_structure: {
-      slides: {
-        plans: [
-          {
-            uzTitle: "{{uzTitle}}",
-            enTitle: "{{enTitle}}",
-          },
-        ],
-      },
-    },
-  };
-
-  // try {
-  const response = await axios.post(
-    "https://api.openai.com/v1/chat/completions",
-    {
-      model: "gpt-3.5-turbo-0125",
-      messages: [
-        {
-          role: "user",
-          content: JSON.stringify(queryJson),
-        },
-      ],
-      max_tokens: 1024,
-      response_format: {
-        type: "json_object",
-      },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${key}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  // console.log(response.data.choices[0].message.content);
-  const content = response.data.choices[0].message.content || "";
-  let plans = JSON.parse(content).slides.plans;
-
-  let plansText = plans.map((plan: any) =>
-    `${plan.uzTitle} && ${plan.enTitle}`.replace(/\d+/g, "")
-  );
-
-  return plansText;
-  // } catch (error: any) {
-  //   console.error("Error during API call:", error.data);
-  //   // Xato bilan bog'liq qo'shimcha ishlov berish
-  //   throw error; // Yoki xato haqida ma'lumot berish
-  // }
-};
+const openai = new OpenAI({
+  apiKey: key,
+});
 
 // export let createPlans = async (name: string, pages: number) => {
 //   const queryJson = {
@@ -77,57 +23,113 @@ export let createPlans = async (name: string, pages: number) => {
 //       },
 //     },
 //   };
-//   const chatCompletion = await openai.chat.completions.create({
-//     messages: [
-//       // { role: "user", content: name },
-//       {
-//         role: "user",
-//         content: JSON.stringify(queryJson),
-//       },
-//     ],
-//     model: "gpt-3.5-turbo-0125",
-//     max_tokens: 1024,
-//     response_format: {
-//       type: "json_object",
-//     },
-//   });
-//   console.log(chatCompletion.choices[0].message.content);
-//   const content = chatCompletion.choices[0].message.content || ""; // Handle null case
-//   // const plans = parseTitles(content);
-//   let plans;
-//   try {
-//     plans = JSON.parse(content).slides.plans;
-//   } catch (error) {
-//     const chatCompletion = await openai.chat.completions.create({
+
+//   // try {
+//   const response = await axios.post(
+//     "https://api.openai.com/v1/chat/completions",
+//     {
+//       model: "gpt-3.5-turbo-0125",
 //       messages: [
-//         // { role: "user", content: name },
 //         {
 //           role: "user",
 //           content: JSON.stringify(queryJson),
 //         },
 //       ],
-//       // model: "gpt-3.5-turbo-1106",
-//       model: "gpt-3.5-turbo-0125",
-//       // model: "gpt-3.5-turbo-16k-0613",
-//       // model: "gpt-4-turbo-preview",
 //       max_tokens: 1024,
 //       response_format: {
 //         type: "json_object",
 //       },
-//     });
-//     console.log(chatCompletion.choices[0].message.content);
-//     const content = chatCompletion.choices[0].message.content || "";
-//     plans = JSON.parse(content).slides.plans;
-//   }
+//     },
+//     {
+//       headers: {
+//         Authorization: `Bearer ${key}`,
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   );
 
-//   let plansText = plans.map((plan: any) => {
-//     return `${plan.uzTitle} && ${plan.enTitle}`.replace(/\d+/g, "");
-//   });
+//   // console.log(response.data.choices[0].message.content);
+//   const content = response.data.choices[0].message.content || "";
+//   let plans = JSON.parse(content).slides.plans;
 
-//   console.log(plansText);
+//   let plansText = plans.map((plan: any) =>
+//     `${plan.uzTitle} && ${plan.enTitle}`.replace(/\d+/g, "")
+//   );
 
 //   return plansText;
+//   // } catch (error: any) {
+//   //   console.error("Error during API call:", error.data);
+//   //   // Xato bilan bog'liq qo'shimcha ishlov berish
+//   //   throw error; // Yoki xato haqida ma'lumot berish
+//   // }
 // };
+
+export let createPlans = async (name: string, pages: number) => {
+  const queryJson = {
+    input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {{uz}}, {{eng}} in Uzbek and English. The end result should look like this. List of discussion questions. Return as JSON.`,
+    output_format: "json",
+    json_structure: {
+      slides: {
+        plans: [
+          {
+            uzTitle: "{{uzTitle}}",
+            enTitle: "{{enTitle}}",
+          },
+        ],
+      },
+    },
+  };
+  const chatCompletion = await openai.chat.completions.create({
+    messages: [
+      // { role: "user", content: name },
+      {
+        role: "user",
+        content: JSON.stringify(queryJson),
+      },
+    ],
+    model: "gpt-3.5-turbo-0125",
+    max_tokens: 1024,
+    response_format: {
+      type: "json_object",
+    },
+  });
+  console.log(chatCompletion.choices[0].message.content);
+  const content = chatCompletion.choices[0].message.content || ""; // Handle null case
+  // const plans = parseTitles(content);
+  let plans;
+  try {
+    plans = JSON.parse(content).slides.plans;
+  } catch (error) {
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        // { role: "user", content: name },
+        {
+          role: "user",
+          content: JSON.stringify(queryJson),
+        },
+      ],
+      // model: "gpt-3.5-turbo-1106",
+      model: "gpt-3.5-turbo-0125",
+      // model: "gpt-3.5-turbo-16k-0613",
+      // model: "gpt-4-turbo-preview",
+      max_tokens: 1024,
+      response_format: {
+        type: "json_object",
+      },
+    });
+    console.log(chatCompletion.choices[0].message.content);
+    const content = chatCompletion.choices[0].message.content || "";
+    plans = JSON.parse(content).slides.plans;
+  }
+
+  let plansText = plans.map((plan: any) => {
+    return `${plan.uzTitle} && ${plan.enTitle}`.replace(/\d+/g, "");
+  });
+
+  console.log(plansText);
+
+  return plansText;
+};
 
 // createPlans("Qon tomir kasallilari", 10);
 
@@ -164,92 +166,10 @@ export let createPlans = async (name: string, pages: number) => {
 //   return chatCompletion.choices[0].message.content;
 // }
 
-// export let createPlansDescription = async (name: string) => {
-// const queryJson = {
-//   // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
-//   input_text: `Provide the necessary information on the topic. Create 30 to 50 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in Uzbek. In the title, the name of the topic for the slide section should be in Uzbek. UzContent should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
-//   output_format: "json",
-//   json_structure: {
-//     slide: {
-//       name: "{{name}}",
-//       content: [
-//         {
-//           title: "{{title}}",
-//           uzContent: "{{uzContent}}",
-//         },
-//         {
-//           title: "{{title}}",
-//           uzContent: "{{uzContent}}",
-//         },
-//         {
-//           title: "{{title}}",
-//           uzContent: "{{uzContent}}",
-//         },
-//         {
-//           title: "{{title}}",
-//           uzContent: "{{uzContent}}",
-//         },
-//       ],
-//     },
-//   },
-// };
-//   const chatCompletion = await openai.chat.completions.create({
-//     messages: [
-//       { role: "user", content: name },
-//       {
-//         role: "system",
-//         content: JSON.stringify(queryJson),
-//       },
-//     ],
-//     model: "gpt-4-turbo-preview",
-
-//     // model: "gpt-3.5-turbo-0125",
-//     max_tokens: 800,
-//     response_format: {
-//       type: "json_object",
-//     },
-//   });
-
-//   let description = "";
-//   try {
-//     description = await JSON.parse(
-//       chatCompletion.choices[0].message.content ?? ""
-//     ).slide.content;
-//   } catch (error) {
-//     const chatCompletion = await openai.chat.completions.create({
-//       messages: [
-//         { role: "user", content: name },
-//         {
-//           role: "system",
-//           content: JSON.stringify(queryJson),
-//         },
-//         {
-//           role: "system",
-//           content: "please JSON format based on the given structure.",
-//         },
-//       ],
-//       model: "gpt-3.5-turbo-0125",
-//       // model: "gpt-4-turbo-preview",
-//       max_tokens: 800,
-//       response_format: {
-//         type: "json_object",
-//       },
-//     });
-//     description = await JSON.parse(
-//       chatCompletion.choices[0].message.content ?? ""
-//     ).slide.content;
-//   }
-
-//   return {
-//     name: "Qon tomir kasalliklari ",
-//     content: description,
-//   };
-// };
-
 export let createPlansDescription = async (name: string) => {
   const queryJson = {
     // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
-    input_text: `Provide the necessary information on the topic. Create 30 to 50 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in Uzbek. In the title, the name of the topic for the slide section should be in Uzbek. UzContent should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
+    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in Uzbek. In the title, the name of the topic for the slide section should be in Uzbek. UzContent should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
     output_format: "json",
     json_structure: {
       slide: {
@@ -275,42 +195,124 @@ export let createPlansDescription = async (name: string) => {
       },
     },
   };
+  const chatCompletion = await openai.chat.completions.create({
+    messages: [
+      { role: "user", content: name },
+      {
+        role: "system",
+        content: JSON.stringify(queryJson),
+      },
+    ],
+    model: "gpt-4-turbo-preview",
 
-  // try {
-  const response = await axios.post(
-    "https://api.openai.com/v1/chat/completions",
-    {
-      model: "gpt-4-turbo-preview", // Specify the model here
+    // model: "gpt-3.5-turbo-0125",
+    max_tokens: 800,
+    response_format: {
+      type: "json_object",
+    },
+  });
+
+  let description = "";
+  try {
+    description = await JSON.parse(
+      chatCompletion.choices[0].message.content ?? ""
+    ).slide.content;
+  } catch (error) {
+    const chatCompletion = await openai.chat.completions.create({
       messages: [
         { role: "user", content: name },
         {
           role: "system",
           content: JSON.stringify(queryJson),
         },
+        {
+          role: "system",
+          content: "please JSON format based on the given structure.",
+        },
       ],
+      model: "gpt-3.5-turbo-0125",
+      // model: "gpt-4-turbo-preview",
       max_tokens: 800,
       response_format: {
         type: "json_object",
       },
-    },
-    {
-      headers: {
-        Authorization: `Bearer ${key}`, // Replace with your actual API key
-        "Content-Type": "application/json",
-      },
-    }
-  );
+    });
+    description = await JSON.parse(
+      chatCompletion.choices[0].message.content ?? ""
+    ).slide.content;
+  }
 
-  const description = JSON.parse(response.data.choices[0].message.content ?? "")
-    .slide.content;
-
-  console.log(description);
   return {
-    name: name,
+    name: "Qon tomir kasalliklari ",
     content: description,
   };
-  // } catch (error) {
-  //   console.error("Error during API call:", error.response?.data || error.message);
-  //   throw error; // Or handle the error as needed
-  // }
 };
+
+// export let createPlansDescription = async (name: string) => {
+//   const queryJson = {
+//     // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
+//     input_text: `Provide the necessary information on the topic. Create 30 to 50 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in Uzbek. In the title, the name of the topic for the slide section should be in Uzbek. UzContent should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
+//     output_format: "json",
+//     json_structure: {
+//       slide: {
+//         name: "{{name}}",
+//         content: [
+//           {
+//             title: "{{title}}",
+//             uzContent: "{{uzContent}}",
+//           },
+//           {
+//             title: "{{title}}",
+//             uzContent: "{{uzContent}}",
+//           },
+//           {
+//             title: "{{title}}",
+//             uzContent: "{{uzContent}}",
+//           },
+//           {
+//             title: "{{title}}",
+//             uzContent: "{{uzContent}}",
+//           },
+//         ],
+//       },
+//     },
+//   };
+
+//   // try {
+//   const response = await axios.post(
+//     "https://api.openai.com/v1/chat/completions",
+//     {
+//       model: "gpt-4-turbo-preview", // Specify the model here
+//       messages: [
+//         { role: "user", content: name },
+//         {
+//           role: "system",
+//           content: JSON.stringify(queryJson),
+//         },
+//       ],
+//       max_tokens: 800,
+//       response_format: {
+//         type: "json_object",
+//       },
+//     },
+//     {
+//       headers: {
+//         Authorization: `Bearer ${key}`, // Replace with your actual API key
+//         "Content-Type": "application/json",
+//       },
+//     }
+//   );
+
+//   const description = JSON.parse(response.data.choices[0].message.content ?? "")
+//     .slide.content;
+
+//   console.log(description);
+//   return {
+//     name: name,
+//     content: description,
+//   };
+//   // } catch (error) {
+//   //   console.error("Error during API call:", error.response?.data || error.message);
+//   //   throw error; // Or handle the error as needed
+//   // }
+// };
