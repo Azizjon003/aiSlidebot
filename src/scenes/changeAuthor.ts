@@ -1,20 +1,17 @@
 import { Scenes } from "telegraf";
 import enabled from "../utils/enabled";
 import prisma from "../../prisma/prisma";
-import {
-  chunkArrayInline,
-  createInlineKeyboard,
-  keyboards,
-} from "../utils/keyboards";
-import { getBalance } from "../utils/isBalance";
-const scene = new Scenes.BaseScene("editSlidesCount");
-
+import { keyboards } from "../utils/keyboards";
+const scene = new Scenes.BaseScene("changeAuthor");
+import xss from "xss";
 scene.hears("/start", (ctx: any) => {
   ctx.scene.enter("start");
 });
 
-scene.action(/\d+/, async (ctx: any) => {
+scene.on("message", async (ctx: any) => {
+  let text = xss(ctx.message.text);
   const user_id = ctx.from?.id;
+
   const user = await prisma.user.findFirst({
     where: {
       telegram_id: String(user_id),
@@ -22,10 +19,8 @@ scene.action(/\d+/, async (ctx: any) => {
   });
 
   if (!user) return ctx.reply("Foydalanuvchi topilmadi");
-  ctx.answerCbQuery();
 
-  const count = ctx.callbackQuery.data;
-  const chatId = await prisma.chat.findFirst({
+  const chat = await prisma.chat.findFirst({
     where: {
       user_id: user?.id,
     },
@@ -33,20 +28,23 @@ scene.action(/\d+/, async (ctx: any) => {
       created_at: "desc",
     },
   });
-  const chat = await prisma.chat.update({
+
+  if (!chat) return ctx.reply("Chat topilmadi");
+
+  const users = await prisma.user.update({
     where: {
-      id: chatId?.id,
+      id: user.id,
     },
     data: {
-      pageCount: Number(count),
+      name: text,
     },
   });
 
-  ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
+  await ctx.deleteMessage(ctx.message?.message_id);
 
   let txt = `🏙 Taqdimot haqida:
 
-  ➡️ Muallif: ${user?.name}
+  ➡️ Muallif: ${users?.name}
   🖊 Til: 🇺🇿 (O'zbekcha)
   🧮 Slaydlar: <i>${chat.pageCount}</i> ta
   

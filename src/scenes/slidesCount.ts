@@ -155,12 +155,12 @@ scene.on("message", async (ctx: any) => {
             callback_data: "changeSlides",
           },
         ],
-        // [
-        //   {
-        //     text: "Muallifni o'zgartirish",
-        //     callback_data: "changeAuthor",
-        //   },
-        // ],
+        [
+          {
+            text: "Muallifni o'zgartirish",
+            callback_data: "changeAuthor",
+          },
+        ],
       ],
     },
     parse_mode: "HTML",
@@ -218,6 +218,17 @@ scene.action("changeSlides", async (ctx: any) => {
   };
 
   ctx.scene.enter("editSlidesCount");
+});
+
+scene.action("changeAuthor", async (ctx: any) => {
+  ctx.answerCbQuery();
+  ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
+  ctx.reply("Muallifni kiriting");
+  ctx.session.user = {
+    action: "changeAuthor",
+    chat_id: ctx.session.user?.chat_id,
+  };
+  ctx.scene.enter("changeAuthor");
 });
 
 scene.action("confirm", async (ctx: any) => {

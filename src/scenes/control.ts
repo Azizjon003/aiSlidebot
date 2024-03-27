@@ -37,14 +37,14 @@ export const countArray = [
     text: " 10 ",
     callback_data: 10,
   },
-  // {
-  //   text: " 11 ",
-  //   callback_data: 11,
-  // },
-  // {
-  //   text: " 12 ",
-  //   callback_data: 12,
-  // },
+  {
+    text: " 11 ",
+    callback_data: 11,
+  },
+  {
+    text: " 12 ",
+    callback_data: 12,
+  },
   // {
   //   text: " 13 ",
   //   callback_data: 13,
@@ -115,5 +115,24 @@ scene.hears("Balans", async (ctx: any) => {
   // ctx.reply(text, createInlineKeyboard(inlineKeyboard));
 
   // ctx.scene.enter("balans");
+});
+scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
+  const user_id = ctx.from?.id;
+  const friends = await prisma.invitedUsers.count({
+    where: {
+      invited_user_id: String(user_id),
+      isActive: true,
+    },
+  });
+  const text = `
+  Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
+  https://t.me/ai_slide_uzbot?start=${user_id}
+  \n
+  Har bir taklif qilingan do'stingiz uchun 1000 so'm bonus oling
+  \n
+  Siz taklif qilgan do'stingizlar soni: ${friends}
+  `;
+
+  ctx.reply(text);
 });
 export default scene;

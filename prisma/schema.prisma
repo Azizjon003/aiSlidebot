@@ -83,3 +83,13 @@ model plansSlides {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
+
+
+model invitedUsers {
+  id       String  @id @default(uuid())
+  user_id  String? @unique
+  invited_user_id String
+  isActive Boolean @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

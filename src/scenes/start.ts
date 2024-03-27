@@ -4,7 +4,11 @@ import prisma from "../../prisma/prisma";
 import { keyboards } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("start");
 
-export let keyboard = ["Yangi Taqdimot", "Balans"];
+export let keyboard = [
+  "Yangi Taqdimot",
+  "Balans",
+  "Do'stlarimni taklif qilish",
+];
 export let keyboard2 = [
   "Foydalanuvchilar",
   "Hamma foydalanuchilarga xabar yuborish",
@@ -17,6 +21,42 @@ scene.enter(async (ctx: any) => {
   const user_name = ctx.from?.first_name || ctx.from?.username;
 
   const enable = await enabled(String(user_id), String(user_name));
+
+  const invitedUsers = await prisma.invitedUsers.findFirst({
+    where: {
+      user_id: String(user_id),
+      isActive: false,
+    },
+  });
+
+  if (invitedUsers) {
+    await prisma.invitedUsers.update({
+      where: {
+        id: invitedUsers.id,
+      },
+      data: {
+        isActive: true,
+      },
+    });
+
+    await prisma.wallet.updateMany({
+      where: {
+        user: {
+          telegram_id: invitedUsers.invited_user_id,
+        },
+      },
+      data: {
+        balance: {
+          increment: 1000,
+        },
+      },
+    });
+
+    await ctx.telegram.sendMessage(
+      invitedUsers.invited_user_id,
+      `Sizni do'stingiz botimizga taklif qildi va sizga 1000 so'm bonus berildi`
+    );
+  }
 
   if (enable === "one") {
     ctx.reply(

@@ -1,12 +1,25 @@
-export let subcribeFunk = async (ctx: any, next: any) => {
-  const data = ctx.callbackQuery?.data;
+import prisma from "../../prisma/prisma";
 
+export let subcribeFunk = async (ctx: any, next: any) => {
+  const data = String(ctx?.callbackQuery?.data);
+  const action = ctx.message?.text?.split(" ")[0];
+
+  const id = String(ctx.from.id);
+  let invitedUser: any;
+
+  if (action === "/start") {
+    invitedUser = ctx.message?.text?.split(" ")[1];
+  }
   const chatType = ctx.chat?.type;
   console.log(chatType);
   if (chatType === "channel") {
     return next();
   }
-  if (ctx.callbackQuery?.data === "checkSubscribing") {
+  if (data?.includes("checkSubscribing")) {
+    invitedUser = data.split("_")[1];
+    if (invitedUser.length > 24) {
+      invitedUser = null;
+    }
     await ctx.deleteMessage();
   }
   let channels = [
@@ -31,11 +44,56 @@ export let subcribeFunk = async (ctx: any, next: any) => {
     }
   }
   if (!channels.length) {
-    if (data === "checkSubscribing") {
+    if (data.includes("checkSubscribing")) {
+      if (invitedUser) {
+        console.log("invitedUser", invitedUser);
+        const invitedUsers = await prisma.invitedUsers.findFirst({
+          where: {
+            user_id: id,
+          },
+        });
+
+        if (!invitedUsers) {
+          const user = await prisma.user.findFirst({
+            where: {
+              telegram_id: id,
+            },
+          });
+          const invitedUsersId = await prisma.user.findFirst({
+            where: {
+              telegram_id: String(invitedUser),
+            },
+          });
+
+          if (!user && invitedUsersId) {
+            await prisma.invitedUsers.create({
+              data: {
+                user_id: id,
+                invited_user_id: String(invitedUser),
+              },
+            });
+
+            console.log("invitedUsersId", invitedUsersId);
+          }
+        }
+      }
       ctx.reply(
         "Tabriklaymiz! Siz botdan to'liq foydalanishingiz mumkin! 🎉\n /start buyrug'ini bosing"
+        // {
+        //   reply_markup: {
+        //     inline_keyboard: [
+        //       [
+        //         {
+        //           text: "🚀 Botni ishlatish",
+        //           callback_url: `https://t.me/ai_slide_uzbot?start=${invitedUser}`,
+        //         },
+        //       ],
+        //     ],
+        //   },
+        // }
       );
     }
+
     return next();
   }
   const text =
@@ -44,17 +102,21 @@ export let subcribeFunk = async (ctx: any, next: any) => {
     {
       text: `A'zo bo'lish: ${channel.name}`,
       url: `https://t.me/${channel.link}`,
-      callback_data: "checkSubscribing", // Added callback_data property
     },
   ]);
 
+  console.log(invitedUser);
   keyboard.push([
     {
       text: "Qo'shildim 🤝",
-      callback_data: "checkSubscribing",
+      callback_data: invitedUser
+        ? `checkSubscribing_${invitedUser}`
+        : `checkSubscribing`, // Added callback_data property
+      // callback_data: "checkSubscribing",
     },
   ]);
 
+  console.log(keyboard);
   return ctx.reply(text, {
     reply_markup: {
       inline_keyboard: keyboard,

@@ -1,10 +1,12 @@
 import prisma from "../../prisma/prisma";
+import xss from "xss";
 enum enabledEnum {
   one = "one",
   two = "two",
   three = "three",
 }
 const enabled = async (id: string, name: string): Promise<enabledEnum> => {
+  name = xss(name);
   const user = await prisma.user.findFirst({
     where: {
       telegram_id: id,
