@@ -1,15 +1,17 @@
 import prisma from "../../prisma/prisma";
+import bot from "../core/bot";
 
 export let subcribeFunk = async (ctx: any, next: any) => {
   const data = String(ctx?.callbackQuery?.data);
   const action = ctx.message?.text?.split(" ")[0];
 
+  console.log("Enter");
   const id = String(ctx.from.id);
   let invitedUser: any;
 
   if (action === "/start") {
     invitedUser = ctx.message?.text?.split(" ")[1];
-    if (invitedUser.length > 24) {
+    if (invitedUser?.length > 24) {
       invitedUser = null;
     }
     if (invitedUser) {
@@ -78,19 +80,7 @@ export let subcribeFunk = async (ctx: any, next: any) => {
   if (!channels.length) {
     if (data.includes("checkSubscribing")) {
       ctx.reply(
-        "Tabriklaymiz! Siz botdan to'liq foydalanishingiz mumkin! 🎉\n /start buyrug'ini bosing"
-        // {
-        //   reply_markup: {
-        //     inline_keyboard: [
-        //       [
-        //         {
-        //           text: "🚀 Botni ishlatish",
-        //           callback_url: `https://t.me/ai_slide_uzbot?start=${invitedUser}`,
-        //         },
-        //       ],
-        //     ],
-        //   },
-        // }
+        `Tabriklaymiz! Siz botdan to'liq foydalanishingiz mumkin! 🎉\n/start buyrug'ini bosing`
       );
     }
 
@@ -111,8 +101,7 @@ export let subcribeFunk = async (ctx: any, next: any) => {
       text: "Qo'shildim 🤝",
       callback_data: invitedUser
         ? `checkSubscribing_${invitedUser}`
-        : `checkSubscribing`, // Added callback_data property
-      // callback_data: "checkSubscribing",
+        : `checkSubscribing`,
     },
   ]);
 

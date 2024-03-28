@@ -39,12 +39,13 @@ export const addInlineKeyboard = (arr: any[]) => {
   return left;
 };
 
-export const contentToString = (content: any) => {
+export const contentToString = (content: any, lang: string) => {
   let text = "";
   console.log(content);
   for (let txt of content) {
+    console.log(txt[`${lang}Content`]);
     let description = `<b>${txt?.title}</b>\n
-    <i>${txt?.uzContent}</i>\n
+    <i>${txt[`${lang}Content`]}</i>\n
     `;
     text += description;
   }

@@ -7,6 +7,7 @@ import editSlides from "./editSlides";
 import admin from "./admin";
 import sendMesssage from "./message";
 import changeAuthor from "./changeAuthor";
+import addLanguage from "./addLanguage";
 const stage = new Scenes.Stage([
   start,
   balans,
@@ -16,6 +17,7 @@ const stage = new Scenes.Stage([
   admin,
   sendMesssage,
   changeAuthor,
+  addLanguage,
 ]);
 
 export default stage;

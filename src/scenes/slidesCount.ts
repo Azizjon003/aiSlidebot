@@ -11,11 +11,28 @@ import { getBalance } from "../utils/isBalance";
 import {
   createPlans,
   createPlansDescription,
+  createPlansDescriptionLanguage,
+  createPlansLanguage,
 } from "../services/createPlansUseOpenAi";
 import path from "path";
 import { createPresentation } from "../services/createSlide.service";
 import { contentToString } from "../utils/functions";
 import { countArray } from "./control";
+import { inlineKeyboard } from "telegraf/typings/markup";
+export const languages = [
+  {
+    text: "🇺🇿 O'zbekcha",
+    callback_data: "uz",
+  },
+  {
+    text: "🇷🇺 Русский",
+    callback_data: "ru",
+  },
+  {
+    text: "🇺🇸 English",
+    callback_data: "eng",
+  },
+];
 const scene = new Scenes.BaseScene("slidesCount");
 
 scene.hears("/start", (ctx: any) => {
@@ -44,20 +61,29 @@ scene.action(/\d+$/, async (ctx: any) => {
       user_id: user?.id,
     },
   });
+  const text = `Kerakli tilni tanlang`;
+  const keyboard = chunkArrayInline(languages, 3);
 
-  const text = `Taqdimot muvzusini kiriting: 
+  // const text = `Taqdimot muvzusini kiriting:
 
-  1. Har bir mavzuga 20 yillik o'qituvchi kabi qarayman.  
-  2. Qisqartma so'zlarga, imloviy xatoli so'zlarga tushunmay qolishim mumkin.
-  3. Inglizchaga tarjima qilganda ma'nosi chalkashishi mumkin bo'lgan mavzularni kiritmang. 
-  
-   ❗️ Iltimos, mavzu yozishda e'tiborli bo'ling.`;
+  // 1. Har bir mavzuga 20 yillik o'qituvchi kabi qarayman.
+  // 2. Qisqartma so'zlarga, imloviy xatoli so'zlarga tushunmay qolishim mumkin.
+  // 3. Inglizchaga tarjima qilganda ma'nosi chalkashishi mumkin bo'lgan mavzularni kiritmang.
+
+  //  ❗️ Iltimos, mavzu yozishda e'tiborli bo'ling.`;
   ctx.session.user = {
     action: "slidesName",
     chat_id: chat.id,
   };
 
-  ctx.reply(text);
+  await ctx.reply(text, {
+    parse_mode: "HTML",
+    reply_markup: {
+      inline_keyboard: keyboard,
+    },
+  });
+
+  ctx.scene.enter("addLanguage");
 });
 
 scene.on("message", async (ctx: any) => {
@@ -121,7 +147,7 @@ scene.on("message", async (ctx: any) => {
   let txt = `🏙 Taqdimot haqida:
 
   ➡️ Muallif: ${user?.name}
-  🖊 Til: 🇺🇿 (O'zbekcha)
+  🖊 Til: ${chat.language}
   🧮 Slaydlar: <i>${chat.pageCount}</i> ta
   
   📌 Mavzu: <b>${chat?.name}</b>
@@ -274,7 +300,12 @@ scene.action("reject", async (ctx: any) => {
 export default scene;
 
 const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
-  const plans = await createPlans(String(chat.name), chat.pageCount);
+  const plans = await createPlansLanguage(
+    String(chat.name),
+    chat.pageCount,
+    chat.lang,
+    chat.language
+  );
   console.log(plans);
   for (let plan of plans) {
     await ctx.telegram.sendChatAction(user.telegram_id, "typing");
@@ -297,7 +328,11 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     let description: any;
     try {
       await ctx.telegram.sendChatAction(user.telegram_id, "typing");
-      description = await createPlansDescription(p.name);
+      description = await createPlansDescriptionLanguage(
+        p.name,
+        chat.lang,
+        chat.language
+      );
     } catch (error) {
       console.log(error);
     }
@@ -313,7 +348,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
 
     console.log(description.content);
     await ctx.telegram.sendChatAction(user.telegram_id, "typing");
-    txt += contentToString(description.content);
+    txt += contentToString(description.content, chat.lang);
     // txt += `\n\n ${description.content}`;
     await ctx.telegram.sendMessage(user.telegram_id, txt, {
       parse_mode: "HTML",
@@ -346,7 +381,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     path: filePath,
   };
 
-  const slide = await createPresentation(data);
+  const slide = await createPresentation(data, chat.lang);
 
   const datas = fs.readFileSync(filePath);
   await ctx.telegram.sendDocument(

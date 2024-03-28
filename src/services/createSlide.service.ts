@@ -9,7 +9,10 @@ import { searchImages } from "./searchImages.service";
  * @param points - Prezentatsiyadagi punktlar ro'yxati.
  * @param fileName - Yaratilgan prezentatsiya faylining nomi.
  */
-export async function createPresentation(data: any): Promise<void> {
+export async function createPresentation(
+  data: any,
+  lang: string
+): Promise<void> {
   let { title, body, path } = data;
   let pres = new PptxGenJS();
   let slide = pres.addSlide();
@@ -120,7 +123,7 @@ export async function createPresentation(data: any): Promise<void> {
             valign: "top",
           });
 
-          slide.addText(slidesSubData.uzContent, {
+          slide.addText(slidesSubData[`${lang}Content`], {
             x: 3.5,
             y: 1.8,
             w: 6,
@@ -145,7 +148,7 @@ export async function createPresentation(data: any): Promise<void> {
             valign: "top",
           });
 
-          slide.addText(slidesSubData.uzContent, {
+          slide.addText(slidesSubData[`${lang}Content`], {
             x: 3.5,
             y: 2.7,
             w: 6,
@@ -170,7 +173,7 @@ export async function createPresentation(data: any): Promise<void> {
             valign: "top",
           });
 
-          slide.addText(slidesSubData.uzContent, {
+          slide.addText(slidesSubData[`${lang}Content`], {
             x: 3.5,
             y: 3.5,
             w: 6,
@@ -205,7 +208,7 @@ export async function createPresentation(data: any): Promise<void> {
             bold: true,
           });
 
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: "10%",
             y: "60%",
             w: "20%",
@@ -239,7 +242,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // // Doira ichiga matn qo'shish
           // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          // slide.addText(`\n${slidesSubData?.uzContent}`, {
+          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
           //   x: 0.3,
           //   y: 1.3,
           //   w: 4,
@@ -273,7 +276,7 @@ export async function createPresentation(data: any): Promise<void> {
             bold: true,
           });
 
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: "40%",
             y: "60%",
             w: "20%",
@@ -308,7 +311,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // // Doira ichiga matn qo'shish
           // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          // slide.addText(`\n${slidesSubData?.uzContent}`, {
+          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
           //   x: 5.7,
           //   y: 1.3,
           //   w: 4,
@@ -342,7 +345,7 @@ export async function createPresentation(data: any): Promise<void> {
             bold: true,
           });
 
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: "70%",
             y: "60%",
             w: "20%",
@@ -376,7 +379,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // // Doira ichiga matn qo'shish
           // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          // slide.addText(`\n${slidesSubData?.uzContent}`, {
+          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
           //   x: 5.7,
           //   y: 3.3,
           //   w: 4,
@@ -416,7 +419,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: 0.3,
             y: 1.3,
             w: 4,
@@ -453,7 +456,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: 5.7,
             y: 1.3,
             w: 4,
@@ -490,7 +493,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: 5.7,
             y: 3.3,
             w: 4,
@@ -528,7 +531,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: 0.3,
             y: 3.3,
             w: 4,
@@ -568,7 +571,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: 0.3,
             y: 1.3,
             w: 4,
@@ -605,7 +608,7 @@ export async function createPresentation(data: any): Promise<void> {
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: 5.7,
             y: 1.3,
             w: 4,
@@ -641,7 +644,7 @@ export async function createPresentation(data: any): Promise<void> {
           });
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(` \n${slidesSubData?.uzContent}`, {
+          slide.addText(` \n${slidesSubData[`${lang}Content`]}`, {
             x: 5.7,
             y: 3.3,
             w: 4,
@@ -679,7 +682,7 @@ export async function createPresentation(data: any): Promise<void> {
             align: "left",
             valign: "top",
           });
-          slide.addText(`\n${slidesSubData?.uzContent}`, {
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
             x: 0.3,
             y: 3.3,
             w: 4,
@@ -735,7 +738,7 @@ let test = async () => {
 
   console.log(data.body.length, "data");
 
-  const slide = await createPresentation(data);
+  const slide = await createPresentation(data, "uz");
 };
 
 // test();
