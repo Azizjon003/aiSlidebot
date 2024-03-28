@@ -1,5 +1,6 @@
 import PPTXGenJS from "pptxgenjs";
 import OpenAI from "openai";
+import { create } from "domain";
 require("dotenv").config();
 const key = process.env["OPEN_AI_KEY"] || "";
 const openai = new OpenAI({
@@ -150,3 +151,166 @@ export async function createPlansDescription(name: string) {
 createPlansDescription(
   "Qon tomirlarining asosiy kasalliklarini qanday aniqlaymiz? && How can we identify the main diseases of blood clots?"
 );
+
+export let createPlansLanguage = async (
+  name: string,
+  pages: number,
+  lang: string,
+  language: string
+) => {
+  const queryJson = {
+    input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {{${lang}}}, {{eng}} in ${language} and English. The end result should look like this. List of discussion questions. Return as JSON.`,
+    output_format: "json",
+    json_structure: {
+      slides: {
+        plans: [
+          {
+            [lang]: `{{${lang}}}`,
+            eng: "{{eng}}",
+          },
+        ],
+      },
+    },
+  };
+  const chatCompletion = await openai.chat.completions.create({
+    messages: [
+      { role: "user", content: name },
+      {
+        role: "system",
+        content: JSON.stringify(queryJson),
+      },
+    ],
+    model: "gpt-4-turbo-preview",
+    // model: "gpt-3.5-turbo-0125",
+    max_tokens: 1024,
+    response_format: {
+      type: "json_object",
+    },
+  });
+  console.log(chatCompletion.choices[0].message.content);
+  const content = chatCompletion.choices[0].message.content || ""; // Handle null case
+  // const plans = parseTitles(content);
+  let plans;
+  try {
+    plans = JSON.parse(content).slides.plans;
+  } catch (error) {
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        // { role: "user", content: name },
+        {
+          role: "user",
+          content: JSON.stringify(queryJson),
+        },
+      ],
+      // model: "gpt-3.5-turbo-1106",
+      // model: "gpt-3.5-turbo-0125",
+      // model: "gpt-3.5-turbo-16k-0613",
+      model: "gpt-4-turbo-preview",
+      max_tokens: 1500,
+      response_format: {
+        type: "json_object",
+      },
+    });
+    console.log(chatCompletion.choices[0].message.content);
+    const content = chatCompletion.choices[0].message.content || "";
+    plans = JSON.parse(content).slides.plans;
+  }
+
+  let plansText = plans.map((plan: any) => {
+    return `${plan[lang]} && ${plan.eng}`.replace(/\d+/g, "");
+  });
+
+  console.log(plansText);
+
+  return plansText;
+};
+
+export let createPlansDescriptionLanguage = async (
+  name: string,
+  lang: string,
+  languege: string
+) => {
+  const queryJson = {
+    // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
+    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each topic should be in ${languege} language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in Uzbek. In the title, the name of the topic for the slide section should be in ${languege}. ${lang}Content should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
+    output_format: "json",
+    json_structure: {
+      slide: {
+        name: "{{name}}",
+        content: [
+          {
+            title: "{{title}}",
+            [`${lang}Content`]: `{{${lang}Content}}`,
+          },
+          {
+            title: "{{title}}",
+            [`${lang}Content`]: `{{${lang}Content}}`,
+          },
+          {
+            title: "{{title}}",
+            [`${lang}Content`]: `{{${lang}Content}}`,
+          },
+          {
+            title: "{{title}}",
+            [`${lang}Content`]: `{{${lang}Content}}`,
+          },
+        ],
+      },
+    },
+  };
+  const chatCompletion = await openai.chat.completions.create({
+    messages: [
+      { role: "user", content: name },
+      {
+        role: "system",
+        content: JSON.stringify(queryJson),
+      },
+    ],
+    // model: "gpt-4-turbo-preview",
+    model: "gpt-3.5-turbo-0125",
+    // model: "gpt-3.5-turbo-0125",
+    max_tokens: 800,
+    response_format: {
+      type: "json_object",
+    },
+  });
+
+  let description = "";
+  try {
+    description = await JSON.parse(
+      chatCompletion.choices[0].message.content ?? ""
+    ).slide.content;
+  } catch (error) {
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        { role: "user", content: name },
+        {
+          role: "system",
+          content: JSON.stringify(queryJson),
+        },
+        {
+          role: "system",
+          content: "please JSON format based on the given structure.",
+        },
+      ],
+      model: "gpt-3.5-turbo-0125",
+      // model: "gpt-4-turbo-preview",
+      max_tokens: 800,
+      response_format: {
+        type: "json_object",
+      },
+    });
+    description = await JSON.parse(
+      chatCompletion.choices[0].message.content ?? ""
+    ).slide.content;
+  }
+
+  console.log(description);
+
+  return {
+    name: "Qon tomir kasalliklari ",
+    content: description,
+  };
+};
+
+createPlansDescriptionLanguage("Vascular diseases", "eng", "English");
