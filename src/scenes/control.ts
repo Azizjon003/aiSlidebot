@@ -124,8 +124,7 @@ scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
       isActive: true,
     },
   });
-  const text = `
-  Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
+  const text = `Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
   https://t.me/Magic_slides_bot?start=${user_id}
   \n
   Har bir taklif qilingan do'stingiz uchun 1000 so'm bonus oling
