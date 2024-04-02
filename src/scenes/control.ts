@@ -111,10 +111,10 @@ scene.hears("Balans", async (ctx: any) => {
     },
   ];
 
-  ctx.reply(text);
-  // ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+  // ctx.reply(text);
+  ctx.reply(text, createInlineKeyboard(inlineKeyboard));
 
-  // ctx.scene.enter("balans");
+  ctx.scene.enter("balans");
 });
 scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
   const user_id = ctx.from?.id;

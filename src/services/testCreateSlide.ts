@@ -485,25 +485,451 @@ function createPedagogyPresentation() {
 
 const createAnimationSlide = async () => {
   const pptx = new PptxGenJS();
+  pptx.theme = { bodyFontFace: "Playfair Display" };
+
   const slide = pptx.addSlide();
+  slide.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
 
-  // Matn blokiga animatsiya qo'shish
-  const textboxOpts: any = { x: 1, y: 1, w: 8, h: 2, fill: "F1F1F1" };
-  const textOpts = { color: "363636", align: pptx.AlignH.center };
+  slide.addImage({
+    path: path.join(__dirname, "../../image2.png"),
+    x: 0,
+    y: 0,
+    w: "40%",
+    h: "100%",
+  });
 
-  // Animatsiya parametrlari
-  const animOpts = {
-    animStart: "click", // Animatsiya boshlanishi: click, withPrev, afterPrev
-    anim: "fade", // Animatsiya turi: fade, zoom, none
-    animDuration: 1, // Animatsiya davomiyligi (soniyada)
-    animDelay: 0, // Animatsiya kechiktirishi (soniyada)
-  };
+  slide.addText("Personal Relationships in Pedagogy", {
+    x: "45%",
+    y: "25%",
+    w: "50%",
+    h: "20%",
+    fontSize: 24,
+    fontFace: "Playfair Display",
+    bold: true,
+    color: "f0f0f0",
+  });
 
-  // Matn blokini va unga animatsiya qo'shish
+  slide.addText("By: John Doe", {
+    x: "45%",
+    y: "55%",
+    w: "50%",
+    h: "20%",
+    fontSize: 14,
+    fontFace: "Playfair Display",
+    italic: true,
+    color: "f0f0f0",
+  });
 
-  slide.addText("Hello, World!", textboxOpts); // Animatsiyani qo'shish
+  const two = pptx.addSlide();
 
-  // Prezentatsiyani saqlash
+  two.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
+  let plans = [
+    "1. Business Relationships",
+    "2. Business relationships are somewhat formal, with a focus on results, deadlines, and professionalism.",
+    "3. Business Relationships",
+
+    "4. Business relationships are somewhat formal, with a focus on results, deadlines, and professionalism.",
+    "5. Business Relationships",
+    "6. Business relationships are somewhat formal, with a focus on results, deadlines, and professionalism.",
+    "7. Business Relationships",
+
+    "8. Business relationships are somewhat formal, with a focus on results, deadlines, and professionalism.",
+    "9. Business Relationships",
+  ];
+
+  let PlanString = plans.join("\n\n");
+  two.addText(PlanString, {
+    x: "5%",
+    y: "5%",
+    w: "90%",
+    h: "90%",
+    fontSize: 12,
+    bold: true,
+    color: "f0f0f0",
+  });
+
+  const three = pptx.addSlide();
+
+  three.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
+
+  three.addText("Personal Relationships", {
+    x: "5%",
+    y: "5%",
+    w: "90%",
+    h: "10%",
+    fontSize: 16,
+    fontFace: "Playfair Display",
+    bold: true,
+    color: "f0f0f0",
+  });
+
+  three.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "5%",
+      y: "15%",
+      w: "90%",
+      h: "10%",
+      fontSize: 10,
+      italic: true,
+      color: "f0f0f0",
+    }
+  );
+
+  three.addShape(pptx.ShapeType.roundRect, {
+    x: "5%",
+    y: "30%",
+    w: "90%",
+    h: "20%",
+    fill: {
+      color: "0d092c",
+      transparency: 30,
+    },
+    line: {
+      color: "332f4c",
+      transparency: 0,
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+  });
+
+  three.addText("Personal Relationships", {
+    x: "5%",
+    y: "30%",
+    w: "90%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+    color: "f0f0f0",
+    align: "left",
+  });
+
+  three.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "5%",
+      y: "35%",
+      w: "90%",
+      h: "15%",
+      fontSize: 8,
+      italic: true,
+      color: "f0f0f0",
+      align: "left",
+    }
+  );
+
+  three.addShape(pptx.ShapeType.roundRect, {
+    x: "5%",
+    y: "53%",
+    w: "90%",
+    h: "20%",
+    fill: {
+      color: "0d092c",
+      transparency: 30,
+    },
+    line: {
+      color: "332f4c",
+      transparency: 0,
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+  });
+
+  three.addText("Personal Relationships", {
+    x: "5%",
+    y: "53%",
+    w: "90%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+    color: "f0f0f0",
+    align: "left",
+  });
+
+  three.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "5%",
+      y: "57%",
+      w: "90%",
+      h: "15%",
+      fontSize: 8,
+      italic: true,
+      color: "f0f0f0",
+      align: "left",
+    }
+  );
+
+  three.addShape(pptx.ShapeType.roundRect, {
+    x: "5%",
+    y: "75%",
+    w: "90%",
+    h: "20%",
+    fill: {
+      color: "0d092c",
+      transparency: 30,
+    },
+    line: {
+      color: "332f4c",
+      transparency: 0,
+    },
+    rectRadius: 0.2, // Doira shaklini belgilash
+  });
+
+  three.addText("Personal Relationships", {
+    x: "5%",
+    y: "75%",
+    w: "90%",
+    h: "10%",
+    fontSize: 12,
+    bold: true,
+    color: "f0f0f0",
+    align: "left",
+  });
+
+  three.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "5%",
+      y: "80%",
+      w: "90%",
+      h: "15%",
+      fontSize: 8,
+      italic: true,
+      color: "f0f0f0",
+      align: "left",
+    }
+  );
+
+  const four = pptx.addSlide();
+
+  four.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
+
+  four.addText("Personal Relationships", {
+    x: "5%",
+    y: "5%",
+    w: "90%",
+    h: "10%",
+    fontSize: 16,
+    fontFace: "Playfair Display",
+    bold: true,
+    color: "f0f0f0",
+  });
+
+  four.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "5%",
+      y: "15%",
+      w: "90%",
+      h: "10%",
+      fontSize: 10,
+      italic: true,
+      color: "f0f0f0",
+    }
+  );
+
+  // four.addShape(pptx.ShapeType.roundRect, {
+  //   x: 0.3,
+  //   y: 1.2,
+  //   w: 4,
+  //   h: 1.8,
+  //   fill: { color: "ffffff", transparency: 100 },
+  //   line: {
+  //     color: "ffffff",
+  //   },
+  //   rectRadius: 0.2, // Doira shaklini belgilash
+  //   // Doira shaklini belgilash
+  // });
+  four.addText(`dsajkdnas dsnajkdnsak dnsajkndjksa`, {
+    x: 0.3,
+    y: 1.7,
+    w: 4,
+    h: 1.5,
+    fontSize: 10,
+    bold: true,
+    color: "f0f0f0",
+    align: "left",
+    valign: "top",
+  });
+
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  four.addText(`dasnjdsa dsajkdnsak dnsajkdnsja dnjksandjksa`, {
+    x: 0.3,
+    y: 2,
+    w: 4,
+    h: 1.5,
+    fontSize: 10,
+    color: "f0f0f0",
+    align: "left",
+    valign: "top",
+  });
+  // four.addShape(pptx.ShapeType.roundRect, {
+  //   x: 5.7,
+  //   y: 1.2,
+  //   w: 4,
+  //   h: 1.8,
+  //   fill: { color: "ffffff", transparency: 100 },
+  //   line: {
+  //     color: "ffffff",
+  //   },
+  //   rectRadius: 0.2, // Doira shaklini belgilash
+  //   // Doira shaklini belgilash
+  // });
+  four.addText(`dsanjkdnas dsanjkdnsajdsa kjdnsakd sadjksa`, {
+    x: 5.7,
+    y: 1.7,
+    w: 4,
+    h: 1.5,
+    fontSize: 10,
+    bold: true,
+    color: "f0f0f0",
+    align: "left",
+    valign: "top",
+  });
+
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  four.addText(`Content dsajdhsa dsahdusaid dsahuidbiusa dsabiudbsai dasda`, {
+    x: 5.7,
+    y: 2,
+    w: 4,
+    h: 1.5,
+    fontSize: 10,
+    color: "f0f0f0",
+    align: "left",
+    valign: "top",
+  });
+  // four.addShape(pptx.ShapeType.roundRect, {
+  //   x: 5.7,
+  //   y: 3.2,
+  //   w: 4,
+  //   h: 1.8,
+  //   fill: { color: "ffffff", transparency: 100 },
+  //   line: {
+  //     color: "ffffff",
+  //   },
+  //   rectRadius: 0.2,
+  // });
+  four.addText("Doiraning nmadirlarabsdas dsabdjhas das", {
+    x: 5.7,
+    y: 3.5,
+    w: 4,
+    h: 1.5,
+    fontSize: 10,
+    bold: true,
+    color: "f0f0f0",
+    align: "left",
+    valign: "top",
+  });
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  four.addText(`dasjkdnsakjd dnjskadksandsa kjdnsajkdsad skjdnsakjdnsakj`, {
+    x: 5.7,
+    y: 4,
+    w: 4,
+    h: 1.5,
+    fontSize: 10,
+
+    color: "f0f0f0",
+    align: "left",
+    valign: "top",
+  });
+  // four.addShape(pptx.ShapeType.roundRect, {
+  //   x: 0.3,
+  //   y: 3.2,
+  //   w: 4,
+  //   h: 1.8,
+  //   fill: { color: "ffffff", transparency: 100 },
+
+  //   rectRadius: 0.2, // Doira shaklini belgilash
+  //   // Doira shaklini belgilash
+  // });
+
+  // Doira ichiga matn qo'shish
+  // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+  four.addText(`Matnning joylashuvi va o'lchami doirani`, {
+    x: 0.3,
+    y: 3.5,
+    w: 4,
+    h: 1.5,
+    fontSize: 10,
+    bold: true,
+    color: "f0f0f0",
+    align: "left",
+    valign: "top",
+  });
+  four.addText(
+    "// E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan ",
+    {
+      x: 0.3,
+      y: 4,
+      w: 4,
+      h: 1.5,
+      fontSize: 10,
+      color: "f0f0f0",
+      align: "left",
+      valign: "top",
+    }
+  );
+
+  let five = pptx.addSlide();
+  five.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
+
+  five.addText("Personal Relationships in Pedagogy", {
+    x: "5%",
+    y: "5%",
+    w: "90%",
+    h: "10%",
+    fontSize: 16,
+    fontFace: "Playfair Display",
+    bold: true,
+    color: "f0f0f0",
+  });
+
+  five.addText(`NImadirlar `);
+  five.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "5%",
+      y: "15%",
+      w: "90%",
+      h: "10%",
+      fontSize: 10,
+      italic: true,
+      color: "f0f0f0",
+    }
+  );
+
   pptx
     .writeFile({ fileName: "Animated_Presentation.pptx" })
     .then((fileName) => {
