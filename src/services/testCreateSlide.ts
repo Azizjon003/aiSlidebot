@@ -907,7 +907,7 @@ const createAnimationSlide = async () => {
 
   five.addText("Personal Relationships in Pedagogy", {
     x: "5%",
-    y: "5%",
+    y: "15%",
     w: "90%",
     h: "10%",
     fontSize: 16,
@@ -916,20 +916,176 @@ const createAnimationSlide = async () => {
     color: "f0f0f0",
   });
 
-  five.addText(`NImadirlar `);
+  // five.addImage({
+  //   path: path.join(__dirname, "../../traingle.png"),
+  //   x: "20%",
+  //   y: "35%",
+  //   w: "3%",
+  //   h: "3%",
+  // });
+
+  five.addText(`NImadirlar text `, {
+    x: "5%",
+    y: "40%",
+    w: "25%",
+    h: "10%",
+    fontSize: 10,
+    italic: true,
+    color: "f0f0f0",
+    align: "center",
+  });
   five.addText(
     "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
     {
       x: "5%",
-      y: "15%",
-      w: "90%",
+      y: "50%",
+      w: "25%",
       h: "10%",
       fontSize: 10,
       italic: true,
       color: "f0f0f0",
+      align: "center",
     }
   );
 
+  // five.addImage({
+  //   path: path.join(__dirname, "../../traingle.png"),
+  //   x: "40%",
+  //   y: "25%",
+  //   w: "3%",
+  //   h: "3%",
+  // });
+
+  five.addText(`NImadirlar text `, {
+    x: "35%",
+    y: "40%",
+    w: "25%",
+    h: "10%",
+    fontSize: 10,
+    italic: true,
+    color: "f0f0f0",
+    align: "center",
+  });
+  five.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "35%",
+      y: "50%",
+      w: "25%",
+      h: "10%",
+      fontSize: 10,
+      italic: true,
+      color: "f0f0f0",
+      align: "center",
+    }
+  );
+
+  // five.addImage({
+  //   path: path.join(__dirname, "../../traingle.png"),
+  //   x: "60%",
+  //   y: "35%",
+  //   w: "3%",
+  //   h: "3%",
+  // });
+
+  five.addText(`NImadirlar text `, {
+    x: "65%",
+    y: "40%",
+    w: "25%",
+    h: "10%",
+    fontSize: 10,
+    italic: true,
+    color: "f0f0f0",
+    align: "center",
+  });
+  five.addText(
+    "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+    {
+      x: "65%",
+      y: "50%",
+      w: "25%",
+      h: "10%",
+      fontSize: 10,
+      italic: true,
+      color: "f0f0f0",
+      align: "center",
+    }
+  );
+  const six = pptx.addSlide();
+  six.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
+  const textColor = "FFFFFF";
+  const primaryColor = "6A0DAD"; // Dark purple
+  const secondaryColor = "D3BFFF"; // Light purple
+
+  // Add Title to the Slide
+  six.addText("Timeline", {
+    x: 1.5,
+    y: 0.5,
+    fontFace: "Arial",
+    fontSize: 36,
+    color: textColor,
+  });
+
+  // Add the timeline itself
+  const timelineOpts = {
+    x: 0.5,
+    y: 1.5,
+    w: 9,
+    h: 3,
+    lineSize: 3,
+    lineColor: primaryColor,
+    arrowHeadLength: 0,
+    arrowTailLength: 0,
+  };
+
+  six.addShape(pptx.ShapeType.line, timelineOpts);
+
+  // Add the dates and descriptions
+  const months = ["January", "February", "March", "April"];
+  const descriptions = [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+    "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim",
+    "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque",
+    "Foste natus error sit volupta tem accusa ntiu",
+  ];
+
+  months.forEach((month, i) => {
+    // Add the month name
+    six.addText(month, {
+      x: 1.0,
+      y: 1.5 * (i + 1),
+      fontFace: "Arial",
+      fontSize: 18,
+      color: secondaryColor,
+      align: "right",
+    });
+
+    // Add the description text
+    six.addText(descriptions[i], {
+      x: 2.0,
+      y: 1.5 * (i + 1),
+      w: 5.5,
+      fontFace: "Arial",
+      fontSize: 12,
+      color: textColor,
+    });
+
+    // Add dots on the timeline
+    six.addShape(pptx.ShapeType.roundRect, {
+      x: 1.8,
+      y: 1.5 * (i + 1) - 0.1,
+      w: 0.2,
+      h: 0.2,
+      fill: { color: primaryColor },
+      line: { color: primaryColor },
+    });
+  });
   pptx
     .writeFile({ fileName: "Animated_Presentation.pptx" })
     .then((fileName) => {
