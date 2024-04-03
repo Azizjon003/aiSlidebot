@@ -1,5 +1,6 @@
 import prisma from "../../prisma/prisma";
 import xss from "xss";
+import { getBalance } from "./isBalance";
 enum enabledEnum {
   one = "one",
   two = "two",
@@ -25,13 +26,15 @@ const enabled = async (id: string, name: string): Promise<enabledEnum> => {
 
     return enabledEnum.one;
   } else {
-    await prisma.user.create({
+    let user = await prisma.user.create({
       data: {
         telegram_id: id,
         name: name,
         username: name,
       },
     });
+
+    await getBalance(user.id);
 
     return enabledEnum.one;
   }

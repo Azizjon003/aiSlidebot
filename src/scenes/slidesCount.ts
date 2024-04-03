@@ -95,7 +95,7 @@ scene.on("message", async (ctx: any) => {
       telegram_id: String(user_id),
     },
   });
-  const getBalans = await getBalance(String(users?.id));
+  // const getBalans = await getBalance(String(users?.id));
   const user = await prisma.user.findFirst({
     where: {
       telegram_id: String(user_id),

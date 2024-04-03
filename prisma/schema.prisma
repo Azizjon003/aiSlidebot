@@ -26,6 +26,9 @@ model User {
   isActive  Boolean @default(true)
   chat         Chat[]
   wallet       wallet?
+  model_id     String?
+  model        gptModel? @relation(fields: [model_id], references: [id])
+  walletRequest walletRequest[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -40,6 +43,8 @@ model Chat {
   description Description[]
   language String?
   lang     String?
+  model_id String?
+  model   gptModel? @relation(fields: [model_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -93,4 +98,28 @@ model invitedUsers {
   isActive Boolean @default(false)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+enum walletRequestStatus {
+  PENDING
+  APPROVED
+  DECLINED
+}
+
+model walletRequest {
+  id       String  @id @default(uuid())
+  user_id  String
+  user     User @relation(fields: [user_id], references: [id])
+  amount   Int
+  status   walletRequestStatus
+  message_id String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model gptModel {
+  id      String  @id @default(uuid())
+  name    String
+  chats   Chat[]
+  users   User[]
 }

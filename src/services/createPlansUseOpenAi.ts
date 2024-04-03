@@ -390,12 +390,21 @@ export let createPlansLanguage = async (
 
   return plansText;
 };
+enum modelLang {
+  gpt3 = "gpt-3",
+  gpt4 = "gpt-4",
+}
 
 export let createPlansDescriptionLanguage = async (
   name: string,
   lang: string,
-  languege: string
+  languege: string,
+  model: modelLang = modelLang.gpt3
 ) => {
+  let models = {
+    "gpt-3": "gpt-3.5-turbo-0125",
+    "gpt-4": "gpt-4-turbo-preview",
+  };
   const queryJson = {
     // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
     input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each topic should be in ${languege} language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in ${languege}. In the title, the name of the topic for the slide section should be in ${languege}. ${lang}Content should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
@@ -433,7 +442,7 @@ export let createPlansDescriptionLanguage = async (
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: "gpt-3.5-turbo-0125",
+    model: models[model],
     // model: "gpt-3.5-turbo-0125",
     max_tokens: 800,
     response_format: {
@@ -459,7 +468,8 @@ export let createPlansDescriptionLanguage = async (
           content: "please JSON format based on the given structure.",
         },
       ],
-      model: "gpt-3.5-turbo-0125",
+      // model: "gpt-3.5-turbo-0125",
+      model: models[model],
       // model: "gpt-4-turbo-preview",
       max_tokens: 800,
       response_format: {

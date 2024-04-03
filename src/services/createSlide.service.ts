@@ -695,8 +695,6 @@ export async function createPresentation(
         }
       }
     }
-
-    // slide.addText(body[i].content, { x: 1, y: 3, fontSize: 14 });
   }
 
   console.log("path", path);

@@ -134,4 +134,124 @@ scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
 
   ctx.reply(text);
 });
+
+scene.hears("AI modelni tanlash", async (ctx: any) => {
+  const user_id = ctx.from?.id;
+
+  let user = await prisma.user.findFirst({
+    where: {
+      telegram_id: String(user_id),
+    },
+    include: {
+      model: true,
+    },
+  });
+  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+
+  if (!user?.model_id) {
+    const models = await prisma.gptModel.findFirst({
+      where: {
+        name: "gpt-3",
+      },
+    });
+    user = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        model_id: models?.id,
+      },
+
+      include: {
+        model: true,
+      },
+    });
+    // return ctx.reply("Sizda AI modeli mavjud");
+  }
+
+  const text = `Sizning tanlangan modelingiz: ${user?.model?.name}\nPastdagi kerakli modellardan tanlab shu model bilan taqdimot tayyorlashingiz mumkin.Narxlari quyidagicha \n GPT-3: 2000 so'm \n GPT-4: 4000 so'm`;
+  const inlineKeyboard = [
+    {
+      text: "GPT-3",
+      callbackData: "gpt-3",
+    },
+    {
+      text: "GPT-4",
+      callbackData: "gpt-4",
+    },
+  ];
+  ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+  // ctx.reply(text);
+});
+
+scene.action("gpt-3", async (ctx: any) => {
+  ctx.answerCbQuery();
+  ctx.deleteMessage();
+  const user_id = ctx.from?.id;
+  const user = await prisma.user.findFirst({
+    where: {
+      telegram_id: String(user_id),
+    },
+    include: {
+      model: true,
+    },
+  });
+  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+
+  const model = await prisma.gptModel.findFirst({
+    where: {
+      name: "gpt-3",
+    },
+  });
+
+  if (!model) return ctx.reply("Model topilmadi");
+
+  await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      model_id: model.id,
+    },
+  });
+  const text = `Siz tanlagan model: ${model.name}`;
+  ctx.reply(text);
+  ctx.scene.enter("start");
+});
+
+scene.action("gpt-4", async (ctx: any) => {
+  ctx.answerCbQuery();
+  ctx.deleteMessage();
+  const user_id = ctx.from?.id;
+  const user = await prisma.user.findFirst({
+    where: {
+      telegram_id: String(user_id),
+    },
+    include: {
+      model: true,
+    },
+  });
+  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+
+  const model = await prisma.gptModel.findFirst({
+    where: {
+      name: "gpt-4",
+    },
+  });
+
+  if (!model) return ctx.reply("Model topilmadi");
+
+  await prisma.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      model_id: model.id,
+    },
+  });
+  const text = `Siz tanlagan model: ${model.name}`;
+  ctx.reply(text);
+  ctx.scene.enter("start");
+});
+
 export default scene;

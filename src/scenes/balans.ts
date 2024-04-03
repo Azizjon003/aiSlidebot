@@ -2,6 +2,7 @@ import { Scenes } from "telegraf";
 import enabled from "../utils/enabled";
 import prisma from "../../prisma/prisma";
 import { keyboards } from "../utils/keyboards";
+import { walletRequestStatus } from "@prisma/client";
 const scene = new Scenes.BaseScene("balans");
 
 scene.hears("/start", (ctx: any) => {
@@ -10,7 +11,7 @@ scene.hears("/start", (ctx: any) => {
 
 scene.action(
   /^balance:([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$/,
-  async (ctx) => {
+  async (ctx: any) => {
     const user_id = ctx.from.id;
     const user = await prisma.user.findFirst({
       where: {
@@ -32,18 +33,13 @@ scene.action(
       return ctx.reply("Bu foydalanuchi mavjud emas");
     }
 
-    const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:`;
+    ctx.deleteMessage();
+    const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:\n Minimal summa 2000 so'm mumkin`;
+
     ctx.reply(text);
 
-    ctx.sendInvoice({
-      title: "Balans to'ldirish",
-      description: "Balans to'ldirish",
-      payload: "balans",
-      provider_token: String(process.env.PROVIDER_TOKEN),
-      start_parameter: "start_parameter",
-      currency: "UZS",
-      prices: [{ label: "Balans to'ldirish", amount: 10000 }],
-    });
+    return ctx.scene.enter("createWalletRequest");
   }
 );
+
 export default scene;

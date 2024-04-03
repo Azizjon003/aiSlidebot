@@ -8,6 +8,7 @@ export let keyboard = [
   "Yangi Taqdimot",
   "Balans",
   "Do'stlarimni taklif qilish",
+  "AI modelni tanlash",
 ];
 export let keyboard2 = [
   "Foydalanuvchilar",
@@ -60,7 +61,8 @@ scene.enter(async (ctx: any) => {
   }
 
   if (enable === "one") {
-    ctx.reply(
+    ctx.telegram.sendMessage(
+      user_id,
       `Assalomu alaykum!\nYangi Taqdimot tugmasini bosib taqdimot yaratishni boshlashingiz mumkin!\nTakliflar
 
       👉 Bot ingliz tilida kiritilgan mavzularni yaxshi tushunadi.
@@ -75,10 +77,13 @@ scene.enter(async (ctx: any) => {
   } else if (enable === "two") {
     const text = "Assalomu alaykum Admin xush kelibsiz";
 
-    ctx.reply(text, keyboards(keyboard2));
+    ctx.telegram.sendMessage(user_id, text, keyboards(keyboard2));
     return ctx.scene.enter("admin");
   } else if (enable === "three") {
-    ctx.reply("Assalomu alaykum.Kechirasiz siz admin tomonidan bloklangansiz");
+    ctx.telegram.sendMessage(
+      user_id,
+      "Assalomu alaykum.Kechirasiz siz admin tomonidan bloklangansiz"
+    );
   }
 });
 
