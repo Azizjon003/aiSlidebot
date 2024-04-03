@@ -26,11 +26,17 @@ const enabled = async (id: string, name: string): Promise<enabledEnum> => {
 
     return enabledEnum.one;
   } else {
+    const gpt3 = await prisma.gptModel.findFirst({
+      where: {
+        name: "gpt-3",
+      },
+    });
     let user = await prisma.user.create({
       data: {
         telegram_id: id,
         name: name,
         username: name,
+        model_id: gpt3?.id,
       },
     });
 

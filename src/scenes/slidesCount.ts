@@ -41,13 +41,34 @@ scene.hears("/start", (ctx: any) => {
 
 scene.action(/\d+$/, async (ctx: any) => {
   const user_id = ctx.from?.id;
-  const user = await prisma.user.findFirst({
+  let user = await prisma.user.findFirst({
     where: {
       telegram_id: String(user_id),
+    },
+    include: {
+      model: true,
     },
   });
 
   if (!user) return ctx.reply("Foydalanuvchi mavjud emas");
+  if (!user?.model_id) {
+    const model = await prisma.gptModel.findFirst({
+      where: {
+        name: "gpt-3",
+      },
+    });
+    user = await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        model_id: model?.id,
+      },
+      include: {
+        model: true,
+      },
+    });
+  }
   const count = ctx.callbackQuery.data;
   const messageId = ctx.callbackQuery.message?.message_id;
   ctx.deleteMessage(messageId);
@@ -59,6 +80,7 @@ scene.action(/\d+$/, async (ctx: any) => {
     data: {
       pageCount: Number(count),
       user_id: user?.id,
+      model_id: user?.model_id,
     },
   });
   const text = `Kerakli tilni tanlang`;
@@ -90,11 +112,7 @@ scene.on("message", async (ctx: any) => {
   const user_id = ctx.from?.id;
   const action = ctx.session.user?.action;
   if (action !== "slidesName") return ctx.scene.enter("start");
-  const users = await prisma.user.findFirst({
-    where: {
-      telegram_id: String(user_id),
-    },
-  });
+
   // const getBalans = await getBalance(String(users?.id));
   const user = await prisma.user.findFirst({
     where: {
@@ -102,6 +120,7 @@ scene.on("message", async (ctx: any) => {
     },
     include: {
       wallet: true,
+      model: true,
     },
   });
 
@@ -137,7 +156,10 @@ scene.on("message", async (ctx: any) => {
     },
   });
 
-  if (Number(slidePrice?.price) > Number(user?.wallet?.balance)) {
+  if (
+    Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 4000) >
+    Number(user?.wallet?.balance)
+  ) {
     ctx.reply(
       `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm`
     );
@@ -274,6 +296,7 @@ scene.action("confirm", async (ctx: any) => {
     },
     include: {
       wallet: true,
+      model: true,
     },
   });
   await ctx.telegram.sendChatAction(user?.telegram_id, "typing");
@@ -306,6 +329,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     chat.lang,
     chat.language
   );
+
   console.log(plans);
   for (let plan of plans) {
     await ctx.telegram.sendChatAction(user.telegram_id, "typing");
@@ -331,7 +355,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       description = await createPlansDescriptionLanguage(
         p.name,
         chat.lang,
-        chat.language
+        chat.language,
+        user?.model?.name
       );
     } catch (error) {
       console.log(error);
@@ -407,7 +432,9 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     },
     data: {
       balance: {
-        decrement: Number(slidePrice?.price),
+        decrement: Number(
+          user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
+        ),
       },
     },
   });
