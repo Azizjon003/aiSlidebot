@@ -1,7 +1,7 @@
 import PptxGenJS from "pptxgenjs";
 import prisma from "../../prisma/prisma";
-import path from "path";
 import { searchImages } from "./searchImages.service";
+import path from "path";
 
 /**
  * PowerPoint prezentatsiyasini yaratish funksiyasi.
@@ -703,44 +703,11 @@ export async function createPresentation(
   // return datas;
 }
 
-let test = async () => {
-  console.log("test");
-  const chat = await prisma.chat.findFirst({
-    where: {
-      id: "f0d94285-3d6f-48ef-ac14-cc9189f99b4c",
-    },
-  });
-  if (!chat) return;
-  const description = await prisma.description.findMany({
-    where: {
-      chat_id: chat.id,
-    },
-    include: {
-      plan: true,
-    },
-  });
-
-  let body = description;
-
-  const title = {
-    name: chat.name,
-    author: "Azizjon Aliqulov",
-  };
-
-  const filePath = path.join(__dirname, "../../output.pptx");
-  const data = {
-    title,
-    body,
-    path: filePath,
-  };
-
-  console.log(data.body.length, "data");
-
-  const slide = await createPresentation(data, "uz");
-};
-
-export const createSlideWithAnimation2 = async (data: any, lang: string) => {
-  let { title, body, path } = data;
+export const createSlideWithAnimationDarkMode = async (
+  data: any,
+  lang: string
+) => {
+  let { title, body, paths } = data;
   let pres = new PptxGenJS();
   pres.theme = { bodyFontFace: "Playfair Display" };
   let slide = pres.addSlide();
@@ -796,6 +763,17 @@ export const createSlideWithAnimation2 = async (data: any, lang: string) => {
     y: 0,
     w: "100%",
     h: "100%",
+  });
+
+  planSlide.addText(title.name, {
+    x: "5%",
+    y: "5%",
+    w: "90%",
+    h: "10%",
+    fontSize: 16,
+    fontFace: "Playfair Display",
+    bold: true,
+    color: "f0f0f0",
   });
 
   planSlide.addText(plansString, {
@@ -966,7 +944,7 @@ export const createSlideWithAnimation2 = async (data: any, lang: string) => {
       } else if ((i + 1) % 3 === 0) {
         if (j === 0) {
           let title = slidesSubData?.title;
-          slide.addText("Personal Relationships", {
+          slide.addText(title, {
             x: "5%",
             y: "5%",
             w: "90%",
@@ -977,24 +955,389 @@ export const createSlideWithAnimation2 = async (data: any, lang: string) => {
             color: "f0f0f0",
           });
 
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "5%",
+            y: "15%",
+            w: "90%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+          });
+
+          slide.addText(title, {
+            x: 0.3,
+            y: 1.7,
+            w: 4,
+            h: 1.5,
+            fontSize: 10,
+            bold: true,
+            color: "f0f0f0",
+            align: "left",
+            valign: "top",
+          });
+
+          // Doira ichiga matn qo'shish
+          // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: 0.3,
+            y: 2,
+            w: 4,
+            h: 1.5,
+            fontSize: 10,
+            color: "f0f0f0",
+            align: "left",
+            valign: "top",
+          });
+        } else if (j === 1) {
+          slide.addText(slidesSubData.title, {
+            x: 5.7,
+            y: 1.7,
+            w: 4,
+            h: 1.5,
+            fontSize: 10,
+            bold: true,
+            color: "f0f0f0",
+            align: "left",
+            valign: "top",
+          });
+
+          // Doira ichiga matn qo'shish
+          // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: 5.7,
+            y: 2,
+            w: 4,
+            h: 1.5,
+            fontSize: 10,
+            color: "f0f0f0",
+            align: "left",
+            valign: "top",
+          });
+        } else if (j === 2) {
+          slide.addText(slidesSubData.title, {
+            x: 5.7,
+            y: 3.5,
+            w: 4,
+            h: 1.5,
+            fontSize: 10,
+            bold: true,
+            color: "f0f0f0",
+            align: "left",
+            valign: "top",
+          });
+          // Doira ichiga matn qo'shish
+          // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: 5.7,
+            y: 4,
+            w: 4,
+            h: 1.5,
+            fontSize: 10,
+
+            color: "f0f0f0",
+            align: "left",
+            valign: "top",
+          });
+        } else if (j === 3) {
+          slide.addText(`Matnning joylashuvi va o'lchami doirani`, {
+            x: 0.3,
+            y: 3.5,
+            w: 4,
+            h: 1.5,
+            fontSize: 10,
+            bold: true,
+            color: "f0f0f0",
+            align: "left",
+            valign: "top",
+          });
           slide.addText(
-            "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+            "// E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan ",
             {
-              x: "5%",
-              y: "15%",
-              w: "90%",
-              h: "10%",
+              x: 0.3,
+              y: 4,
+              w: 4,
+              h: 1.5,
               fontSize: 10,
-              italic: true,
               color: "f0f0f0",
+              align: "left",
+              valign: "top",
             }
           );
+        }
+      } else if ((i + 1) % 2 === 0) {
+        if (j === 0) {
+          let title = slidesSubData?.title;
+          slide.addText(title, {
+            x: "5%",
+            y: "15%",
+            w: "90%",
+            h: "10%",
+            fontSize: 16,
+            fontFace: "Playfair Display",
+            bold: true,
+            color: "f0f0f0",
+          });
+        } else if (j === 1) {
+          slide.addText(slidesSubData.title, {
+            x: "5%",
+            y: "40%",
+            w: "25%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+            align: "center",
+          });
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "5%",
+            y: "50%",
+            w: "25%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+            align: "center",
+          });
+        } else if (j === 2) {
+          slide.addText(slidesSubData.title, {
+            x: "35%",
+            y: "40%",
+            w: "25%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+            align: "center",
+          });
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "35%",
+            y: "50%",
+            w: "25%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+            align: "center",
+          });
+        } else if (j === 3) {
+          slide.addText(slidesSubData.title, {
+            x: "65%",
+            y: "40%",
+            w: "25%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+            align: "center",
+          });
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "65%",
+            y: "50%",
+            w: "25%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+            align: "center",
+          });
+        }
+      } else {
+        if (j === 1) {
+          let title = slidesSubData?.title;
+          slide.addText(title, {
+            x: "5%",
+            y: "5%",
+            w: "90%",
+            h: "10%",
+            fontSize: 16,
+            fontFace: "Playfair Display",
+            bold: true,
+            color: "f0f0f0",
+          });
+          let images = await searchImages(imagesName, 3);
+
+          slide.addImage({
+            path: images,
+            x: "40%",
+            y: "30%",
+
+            sizing: {
+              type: "cover",
+              w: "20%",
+              h: "20%",
+            },
+          });
+
+          slide.addText(`${slidesSubData.title}`, {
+            x: "40%",
+            y: "50%",
+            w: "20%",
+            h: "10%",
+            fontSize: 12,
+            bold: true,
+            color: "f0f0f0",
+          });
+
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+            x: "40%",
+            y: "60%",
+            w: "20%",
+            h: "30%",
+            fontSize: 10,
+            bold: false,
+            color: "f0f0f0",
+          });
+        } else if (j === 0) {
+          let images = await searchImages(imagesName, 2);
+          slide.addImage({
+            path: images,
+            x: "10%",
+            y: "30%",
+
+            sizing: {
+              type: "cover",
+              w: "20%",
+              h: "20%",
+            },
+          });
+
+          slide.addText(`${slidesSubData.title}`, {
+            x: "10%",
+            y: "50%",
+            w: "20%",
+            h: "10%",
+            fontSize: 12,
+            bold: true,
+            color: "f0f0f0",
+          });
+
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+            x: "10%",
+            y: "60%",
+            w: "20%",
+            h: "30%",
+            fontSize: 10,
+            bold: false,
+            color: "f0f0f0",
+          });
+          // slide.addShape(pres.ShapeType.roundRect, {
+          //   x: 0.3,
+          //   y: 1.2,
+          //   w: 4,
+          //   h: 1.8,
+          //   fill: { color: "ffffff" },
+          //   line: {
+          //     color: "0B57D0",
+          //   },
+          //   rectRadius: 0.2, // Doira shaklini belgilash
+          //   // Doira shaklini belgilash
+          // });
+          // slide.addText(`${slidesSubData.title}`, {
+          //   x: 0.3,
+          //   y: 1.2,
+          //   w: 4,
+          //   h: 1.5,
+          //   fontSize: 10,
+          //   bold: true,
+          //   color: "000000",
+          //   align: "left",
+          //   valign: "top",
+          // });
+
+          // // Doira ichiga matn qo'shish
+          // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
+          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          //   x: 0.3,
+          //   y: 1.3,
+          //   w: 4,
+          //   h: 1.5,
+          //   fontSize: 10,
+          //   color: "000000",
+          //   align: "left",
+          //   valign: "top",
+          // });
+        } else if (j === 1) {
+          let images = await searchImages(imagesName, 4);
+
+          slide.addImage({
+            path: images,
+            x: "70%",
+            y: "30%",
+
+            sizing: {
+              type: "cover",
+              w: "20%",
+              h: "20%",
+            },
+          });
+
+          slide.addText(`${slidesSubData.title}`, {
+            x: "70%",
+            y: "50%",
+            w: "20%",
+            h: "10%",
+            fontSize: 12,
+            bold: true,
+            color: "f0f0f0",
+          });
+
+          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+            x: "70%",
+            y: "60%",
+            w: "20%",
+            h: "30%",
+            fontSize: 10,
+            bold: false,
+            color: "f0f0f0",
+          });
         }
       }
     }
   }
+
+  console.log("path", paths);
+  let datas = await pres.writeFile({ fileName: paths });
 };
 
+let test = async () => {
+  console.log("test");
+  const chat = await prisma.chat.findFirst({
+    where: {
+      id: "1d50c2dc-4f1c-4d95-a67e-0e40ff1bd58d",
+    },
+  });
+  if (!chat) return;
+  const description = await prisma.description.findMany({
+    where: {
+      chat_id: chat.id,
+    },
+    include: {
+      plan: true,
+    },
+  });
+
+  let body = description;
+
+  const title = {
+    name: chat.name,
+    author: "Azizjon Aliqulov",
+  };
+
+  const filePath = path.join(__dirname, "../../output2.pptx");
+
+  console.log("filePath", filePath);
+  const data = {
+    title,
+    body,
+    paths: filePath,
+  };
+
+  console.log(data.body.length, "data");
+
+  const slide = await createSlideWithAnimationDarkMode(data, "uz");
+};
+// test();
 // test();
 
 // Funksiyani chaqirish misoli

@@ -16,7 +16,10 @@ import {
   createPlansLanguage,
 } from "../services/createPlansUseOpenAi";
 import path from "path";
-import { createPresentation } from "../services/createSlide.service";
+import {
+  createPresentation,
+  createSlideWithAnimationDarkMode,
+} from "../services/createSlide.service";
 import { contentToString } from "../utils/functions";
 import { countArray } from "./control";
 import { inlineKeyboard } from "telegraf/typings/markup";
@@ -117,7 +120,13 @@ scene.on("message", async (ctx: any) => {
   const user_id = ctx.from?.id;
   const action = ctx.session.user?.action;
   const message = ctx.message.text;
-  if (action !== "slidesName") return await ctx.scene.enter(message);
+  if (action !== "slidesName") {
+    if (message === "Balans") {
+      return await ctx.scene.enter("balans");
+    } else {
+      return await ctx.scene.enter("start");
+    }
+  }
 
   // const getBalans = await getBalance(String(users?.id));
   const user = await prisma.user.findFirst({
@@ -422,7 +431,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       user?.telegram_id,
       {
         source: datas,
-        filename: `${drJson(chat.name)}.pptx`,
+        filename: `${drJson.parse(chat.name)}.pptx`,
       },
       {
         caption: `📌 ${drJson.parse(chat.name)} taqdimoti tayyor`,
@@ -448,6 +457,30 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       },
     });
 
+    const filePaths = path.join(__dirname, "../../output.pptx");
+    const darkModeData = {
+      title,
+      body,
+      paths: filePaths,
+    };
+
+    const slideDark = await createSlideWithAnimationDarkMode(
+      darkModeData,
+      chat.lang
+    );
+
+    const dataDark = fs.readFileSync(filePaths);
+    await ctx.telegram.sendDocument(
+      user?.telegram_id,
+      {
+        source: dataDark,
+        filename: `${drJson.parse(chat.name)}-dark.pptx`,
+      },
+      {
+        caption: `📌 ${drJson.parse(chat.name)} taqdimoti tayyor`,
+        parse_mode: "HTML",
+      }
+    );
     return await ctx.scene.enter("start");
   } catch (error) {
     console.log(error);

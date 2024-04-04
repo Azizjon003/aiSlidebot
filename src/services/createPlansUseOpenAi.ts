@@ -9,7 +9,7 @@ const openai = new OpenAI({
 });
 
 const djJson = require("dirty-json");
-
+const xss = require("xss");
 // export let createPlans = async (name: string, pages: number) => {
 //   const queryJson = {
 //     input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {{uz}}, {{eng}} in Uzbek and English. The end result should look like this. List of discussion questions. Return as JSON.`,
@@ -334,8 +334,8 @@ export let createPlansLanguage = async (
       slides: {
         plans: [
           {
-            [lang]: `{${lang}}`,
-            eng: "{eng}",
+            [lang]: `{{${lang}}}`,
+            eng: "{{eng}}",
           },
         ],
       },
@@ -386,10 +386,7 @@ export let createPlansLanguage = async (
   }
 
   let plansText = plans.map((plan: any) => {
-    return `${djJson.parse(plan[lang])} && ${djJson.parse(plan.eng)}`.replace(
-      /\d+/g,
-      ""
-    );
+    return `${xss(plan[lang])} && ${xss(plan.eng)}`.replace(/\d+/g, "");
   });
 
   console.log(plansText);
