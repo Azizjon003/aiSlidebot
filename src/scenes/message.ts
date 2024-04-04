@@ -6,8 +6,8 @@ import { sleep } from "openai/core";
 import xss from "xss";
 const scene = new Scenes.BaseScene("sendMessage");
 
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
 
 scene.on("message", async (ctx: any) => {
@@ -32,7 +32,7 @@ scene.on("message", async (ctx: any) => {
   ctx.reply(
     "Xabar barcha foydalanuvchilarga yuborildi.\n Qanday xizmatlar bor menga admin :)"
   );
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));

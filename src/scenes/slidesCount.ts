@@ -35,8 +35,8 @@ export const languages = [
 ];
 const scene = new Scenes.BaseScene("slidesCount");
 
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
 
 scene.action(/\d+$/, async (ctx: any) => {
@@ -105,14 +105,14 @@ scene.action(/\d+$/, async (ctx: any) => {
     },
   });
 
-  ctx.scene.enter("addLanguage");
+  return await ctx.scene.enter("addLanguage");
 });
 
 scene.on("message", async (ctx: any) => {
   const user_id = ctx.from?.id;
   const action = ctx.session.user?.action;
   const message = ctx.message.text;
-  if (action !== "slidesName") return ctx.scene.enter(message);
+  if (action !== "slidesName") return await ctx.scene.enter(message);
 
   // const getBalans = await getBalance(String(users?.id));
   const user = await prisma.user.findFirst({
@@ -164,7 +164,7 @@ scene.on("message", async (ctx: any) => {
     ctx.reply(
       `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm`
     );
-    return ctx.scene.enter("start");
+    return await ctx.scene.enter("start");
   }
 
   let txt = `🏙 Taqdimot haqida:
@@ -266,7 +266,7 @@ scene.action("changeSlides", async (ctx: any) => {
     chat_id: ctx.session.user?.chat_id,
   };
 
-  ctx.scene.enter("editSlidesCount");
+  return await ctx.scene.enter("editSlidesCount");
 });
 
 scene.action("changeAuthor", async (ctx: any) => {
@@ -277,7 +277,7 @@ scene.action("changeAuthor", async (ctx: any) => {
     action: "changeAuthor",
     chat_id: ctx.session.user?.chat_id,
   };
-  ctx.scene.enter("changeAuthor");
+  return await ctx.scene.enter("changeAuthor");
 });
 
 scene.action("confirm", async (ctx: any) => {
@@ -318,7 +318,7 @@ scene.action("reject", async (ctx: any) => {
   ctx.answerCbQuery();
   ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
   ctx.reply("Taqdimot bekor qilindi");
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 export default scene;
@@ -440,5 +440,5 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     },
   });
 
-  return ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 };

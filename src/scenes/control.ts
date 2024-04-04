@@ -7,11 +7,11 @@ import {
   keyboards,
 } from "../utils/keyboards";
 import { getBalance } from "../utils/isBalance";
-import {inlineKeyboardNumbers} from "../lib/helper";
+import { inlineKeyboardNumbers } from "../lib/helper";
 const scene = new Scenes.BaseScene("control");
 
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
 export const countArray = inlineKeyboardNumbers(5, 12);
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
@@ -25,7 +25,7 @@ scene.hears("Yangi Taqdimot", async (ctx: any) => {
       inline_keyboard: result,
     },
   });
-  ctx.scene.enter("slidesCount");
+  return await ctx.scene.enter("slidesCount");
 });
 
 scene.hears("Balans", async (ctx: any) => {
@@ -67,12 +67,12 @@ scene.hears("Balans", async (ctx: any) => {
 
   // ctx.reply(text);
   ctx.reply(text, createInlineKeyboard(inlineKeyboard));
-  // return ctx.scene.enter("balans");
+  return await ctx.scene.enter("balans");
 });
 
-scene.action(/^balance:(.+)$/, async (ctx:any) => {
+scene.action(/^balance:(.+)$/, async (ctx: any) => {
   try {
-    await ctx.scene.enter("balans");
+    return await ctx.scene.enter("balans");
   } catch (error) {
     await ctx.reply("Something went wrong!");
   }
@@ -177,7 +177,7 @@ scene.action("gpt-3", async (ctx: any) => {
   });
   const text = `Siz tanlagan model: ${model.name}`;
   ctx.reply(text);
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 scene.action("gpt-4", async (ctx: any) => {

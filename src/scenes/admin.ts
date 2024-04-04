@@ -5,8 +5,8 @@ import { keyboards } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("admin");
 import xss from "xss";
 
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
 
 scene.hears("Foydalanuvchilar", async (ctx: any) => {
@@ -47,7 +47,7 @@ scene.hears("Foydalanuvchilar", async (ctx: any) => {
   await ctx.reply(text, {
     parse_mode: "HTML",
   });
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 scene.hears("Bugungi statistika", async (ctx: any) => {
@@ -90,12 +90,12 @@ scene.hears("Bugungi statistika", async (ctx: any) => {
 
   text += `\nBugun ${userBalanceCount} ta foydalanuvchi balansi 0\n ${userBalance} ta foydalanuvchi balansi 2000\n ${userBalance1} ta foydalanuvchi balansi 2000 dan ko'p`;
   ctx.reply(text);
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 scene.hears("Hamma foydalanuchilarga xabar yuborish", async (ctx: any) => {
   ctx.reply("Xabarni kiriting");
-  ctx.scene.enter("sendMessage");
+  return await ctx.scene.enter("sendMessage");
 });
 
 scene.hears("Umumiy statistika", async (ctx: any) => {
@@ -106,7 +106,7 @@ scene.hears("Umumiy statistika", async (ctx: any) => {
   ctx.reply(
     `Foydalanuvchilar soni: ${users}\n Taqtimotlar  soni: ${chats}\n Umumiy taqdimotlar sahifalar soni: ${slides}`
   );
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 export default scene;

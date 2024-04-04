@@ -5,8 +5,8 @@ import { keyboards } from "../utils/keyboards";
 import { languages } from "./slidesCount";
 const scene = new Scenes.BaseScene("addLanguage");
 
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
 
 scene.action(["eng", "ru", "uz"], async (ctx: any) => {
@@ -89,6 +89,6 @@ scene.action(["eng", "ru", "uz"], async (ctx: any) => {
     parse_mode: "HTML",
   });
 
-  ctx.scene.enter("slidesCount");
+  return await ctx.scene.enter("slidesCount");
 });
 export default scene;
