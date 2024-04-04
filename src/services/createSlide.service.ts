@@ -739,6 +739,262 @@ let test = async () => {
   const slide = await createPresentation(data, "uz");
 };
 
+export const createSlideWithAnimation2 = async (data: any, lang: string) => {
+  let { title, body, path } = data;
+  let pres = new PptxGenJS();
+  pres.theme = { bodyFontFace: "Playfair Display" };
+  let slide = pres.addSlide();
+
+  slide.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
+
+  slide.addImage({
+    path: path.join(__dirname, "../../image2.png"),
+    x: 0,
+    y: 0,
+    w: "40%",
+    h: "100%",
+  });
+
+  slide.addText(title.name, {
+    x: "45%",
+    y: "25%",
+    w: "50%",
+    h: "20%",
+    fontSize: 24,
+    fontFace: "Playfair Display",
+    bold: true,
+    color: "f0f0f0",
+  });
+
+  slide.addText(`By: ${title.author}`, {
+    x: "45%",
+    y: "55%",
+    w: "50%",
+    h: "20%",
+    fontSize: 14,
+    fontFace: "Playfair Display",
+    italic: true,
+    color: "f0f0f0",
+  });
+
+  let plans = body.map((item: any, index: number) => {
+    return `${index + 1}. ${item.name.split("&&")[0]}`;
+  });
+
+  let plansString = plans.join("\n");
+
+  let planSlide = pres.addSlide();
+  planSlide.addImage({
+    path: path.join(__dirname, "../../image.png"),
+    x: 0,
+    y: 0,
+    w: "100%",
+    h: "100%",
+  });
+
+  planSlide.addText(plansString, {
+    x: "5%",
+    y: "5%",
+    w: "90%",
+    h: "90%",
+    fontSize: 12,
+    bold: true,
+    color: "f0f0f0",
+  });
+
+  for (let i = 0; i < body.length; i++) {
+    slide = pres.addSlide();
+    let slideData = body[i].content;
+    slide.addImage({
+      path: path.join(__dirname, "../../image.png"),
+      x: 0,
+      y: 0,
+      w: "100%",
+      h: "100%",
+    });
+    for (let j = 0; j < slideData?.length; j++) {
+      let slidesSubData: any = slideData[j];
+      let imagesName = body[i].name.split("&&")[1];
+      if (i === 0) {
+        if (j === 0) {
+          let title = slidesSubData?.title;
+          slide.addText(title, {
+            x: "5%",
+            y: "5%",
+            w: "90%",
+            h: "10%",
+            fontSize: 16,
+            fontFace: "Playfair Display",
+            bold: true,
+            color: "f0f0f0",
+          });
+
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "5%",
+            y: "15%",
+            w: "90%",
+            h: "10%",
+            fontSize: 10,
+            italic: true,
+            color: "f0f0f0",
+          });
+        } else if (j === 1) {
+          let title = slidesSubData?.title;
+
+          slide.addShape(pres.ShapeType.roundRect, {
+            x: "5%",
+            y: "30%",
+            w: "90%",
+            h: "20%",
+            fill: {
+              color: "0d092c",
+              transparency: 30,
+            },
+            line: {
+              color: "332f4c",
+              transparency: 0,
+            },
+            rectRadius: 0.2, // Doira shaklini belgilash
+          });
+
+          slide.addText(title, {
+            x: "5%",
+            y: "30%",
+            w: "90%",
+            h: "10%",
+            fontSize: 12,
+            bold: true,
+            color: "f0f0f0",
+            align: "left",
+          });
+
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "5%",
+            y: "35%",
+            w: "90%",
+            h: "15%",
+            fontSize: 8,
+            italic: true,
+            color: "f0f0f0",
+            align: "left",
+          });
+        } else if (j === 2) {
+          let title = slidesSubData?.title;
+          slide.addShape(pres.ShapeType.roundRect, {
+            x: "5%",
+            y: "53%",
+            w: "90%",
+            h: "20%",
+            fill: {
+              color: "0d092c",
+              transparency: 30,
+            },
+            line: {
+              color: "332f4c",
+              transparency: 0,
+            },
+            rectRadius: 0.2, // Doira shaklini belgilash
+          });
+
+          slide.addText(title, {
+            x: "5%",
+            y: "53%",
+            w: "90%",
+            h: "10%",
+            fontSize: 12,
+            bold: true,
+            color: "f0f0f0",
+            align: "left",
+          });
+
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "5%",
+            y: "57%",
+            w: "90%",
+            h: "15%",
+            fontSize: 8,
+            italic: true,
+            color: "f0f0f0",
+            align: "left",
+          });
+        } else if (j === 3) {
+          let title = slidesSubData?.title;
+          slide.addShape(pres.ShapeType.roundRect, {
+            x: "5%",
+            y: "75%",
+            w: "90%",
+            h: "20%",
+            fill: {
+              color: "0d092c",
+              transparency: 30,
+            },
+            line: {
+              color: "332f4c",
+              transparency: 0,
+            },
+            rectRadius: 0.2, // Doira shaklini belgilash
+          });
+
+          slide.addText(title, {
+            x: "5%",
+            y: "75%",
+            w: "90%",
+            h: "10%",
+            fontSize: 12,
+            bold: true,
+            color: "f0f0f0",
+            align: "left",
+          });
+
+          slide.addText(slidesSubData[`${lang}Content`], {
+            x: "5%",
+            y: "80%",
+            w: "90%",
+            h: "15%",
+            fontSize: 8,
+            italic: true,
+            color: "f0f0f0",
+            align: "left",
+          });
+        }
+      } else if ((i + 1) % 3 === 0) {
+        if (j === 0) {
+          let title = slidesSubData?.title;
+          slide.addText("Personal Relationships", {
+            x: "5%",
+            y: "5%",
+            w: "90%",
+            h: "10%",
+            fontSize: 16,
+            fontFace: "Playfair Display",
+            bold: true,
+            color: "f0f0f0",
+          });
+
+          slide.addText(
+            "Personal relationships are informal, with a focus on trust, empathy, and mutual respect.",
+            {
+              x: "5%",
+              y: "15%",
+              w: "90%",
+              h: "10%",
+              fontSize: 10,
+              italic: true,
+              color: "f0f0f0",
+            }
+          );
+        }
+      }
+    }
+  }
+};
+
 // test();
 
 // Funksiyani chaqirish misoli
