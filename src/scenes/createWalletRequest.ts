@@ -21,19 +21,19 @@ scene.action("pay_other", async (ctx: any) => {
   ctx.scene.state.waitingForAmount = true;
 });
 
-scene.on("message", async (ctx: any) => {
-  if (ctx.scene.state.waitingForAmount) {
-    const text = ctx.message.text;
-    const amount = parseInt(text, 10);
-    ctx.scene.state.waitingForAmount = false;
+// scene.on("message", async (ctx: any) => {
+//   if (ctx.scene.state.waitingForAmount) {
+//     const text = ctx.message.text;
+//     const amount = parseInt(text, 10);
+//     ctx.scene.state.waitingForAmount = false;
 
-    if (!isNaN(amount)) {
-      await processPayment(ctx, ctx.from.id, amount);
-    } else {
-      await ctx.reply("Yaroqsiz summa, iltimos, qayta urining.");
-    }
-  }
-});
+//     if (!isNaN(amount)) {
+//       await processPayment(ctx, ctx.from.id, amount);
+//     } else {
+//       await ctx.reply("Yaroqsiz summa, iltimos, qayta urining.");
+//     }
+//   }
+// });
 
 scene.action("main_menu", async (ctx: any) => {
   try {

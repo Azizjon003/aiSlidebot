@@ -45,7 +45,9 @@ scene.action(
 );
 
 scene.on("message", async (ctx: any) => {
-  ctx.reply("Bu buyruqni tushunmadim 😔");
+  ctx.reply(
+    "Bu buyruqni tushunmadim 😔. /start buyrug'ini bosib qaytadan boshlang"
+  );
 });
 // Simplified action handler for all pay actions
 

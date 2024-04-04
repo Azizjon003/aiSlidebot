@@ -799,10 +799,11 @@ export const createSlideWithAnimationDarkMode = async (
     for (let j = 0; j < slideData?.length; j++) {
       let slidesSubData: any = slideData[j];
       let imagesName = body[i].name.split("&&")[1];
+      let titles = body[i].name.split("&&")[0];
       if (i === 0) {
         if (j === 0) {
-          let title = slidesSubData?.title;
-          slide.addText(title, {
+          // let title = slidesSubData?.title;
+          slide.addText(titles, {
             x: "5%",
             y: "5%",
             w: "90%",
@@ -944,7 +945,7 @@ export const createSlideWithAnimationDarkMode = async (
       } else if ((i + 1) % 3 === 0) {
         if (j === 0) {
           let title = slidesSubData?.title;
-          slide.addText(title, {
+          slide.addText(titles, {
             x: "5%",
             y: "5%",
             w: "90%",
@@ -1068,7 +1069,7 @@ export const createSlideWithAnimationDarkMode = async (
       } else if ((i + 1) % 2 === 0) {
         if (j === 0) {
           let title = slidesSubData?.title;
-          slide.addText(title, {
+          slide.addText(titles, {
             x: "5%",
             y: "15%",
             w: "90%",
@@ -1145,7 +1146,7 @@ export const createSlideWithAnimationDarkMode = async (
       } else {
         if (j === 1) {
           let title = slidesSubData?.title;
-          slide.addText(title, {
+          slide.addText(titles, {
             x: "5%",
             y: "5%",
             w: "90%",
@@ -1257,7 +1258,7 @@ export const createSlideWithAnimationDarkMode = async (
           //   align: "left",
           //   valign: "top",
           // });
-        } else if (j === 1) {
+        } else if (j === 2) {
           let images = await searchImages(imagesName, 4);
 
           slide.addImage({

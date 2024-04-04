@@ -18,9 +18,19 @@ scene.hears("Yangi Taqdimot", async (ctx: any) => {
   const user_id = ctx.from?.id;
 
   const result = chunkArrayInline(countArray, 3);
+  let txt = `⌛️`;
+
+  let res = await ctx.reply(txt, {
+    reply_markup: {
+      keyboard: [["Bosh menyu"]],
+      resize_keyboard: true,
+    },
+  });
+
+  await ctx.deleteMessage(res.message_id);
   const text = `🧮 Slaydlar soni nechta bo'lsin?`;
 
-  ctx.reply(text, {
+  await ctx.reply(text, {
     reply_markup: {
       inline_keyboard: result,
     },

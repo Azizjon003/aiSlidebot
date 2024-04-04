@@ -100,20 +100,22 @@ bot.on("successful_payment", async (ctx: any) => {
     user_id,
     parseInt(String(amountId.message_id)) || ctx.message.message_id - 1
   );
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 // bot.on("successful_payment", async (ctx: any) => {
 //   console.log(ctx.update);
 // });
-bot.start((ctx: any) => ctx.scene.enter("start"));
+bot.start(async (ctx: any) => {
+  return await ctx.scene.enter("start");
+});
 
 bot.catch((err: any, ctx) => {
   const userId = ctx?.from?.id;
   if (userId) {
     bot.telegram.sendMessage(
       userId,
-      "Xatolik yuz berdi. Iltimos qayta urinib ko'ring/start buyrug'ini bosib qayta urunib ko'ring"
+      "Xatolik yuz berdi. Iltimos qayta urinib ko'ring\n /start buyrug'ini bosib qayta urunib ko'ring"
     );
   }
   console.log(err);

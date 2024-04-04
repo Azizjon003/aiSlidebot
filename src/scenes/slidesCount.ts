@@ -122,7 +122,7 @@ scene.on("message", async (ctx: any) => {
   const message = ctx.message.text;
   if (action !== "slidesName") {
     if (message === "Balans") {
-      return await ctx.scene.enter("balans");
+      return await ctx.scene.enter("control");
     } else {
       return await ctx.scene.enter("start");
     }
@@ -479,6 +479,17 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       {
         caption: `📌 ${drJson.parse(chat.name)} taqdimoti tayyor`,
         parse_mode: "HTML",
+      }
+    );
+
+    await ctx.telegram.sendMessage(
+      user?.telegram_id,
+      "Bosh menyuga o'tih uchun pastdagi tugmani bosing",
+      {
+        reply_markup: {
+          keyboards: [["Bosh menyu"]],
+        },
+        resize_keyboard: true,
       }
     );
     return await ctx.scene.enter("start");
