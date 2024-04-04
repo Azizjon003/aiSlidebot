@@ -9,8 +9,8 @@ import {
 import { getBalance } from "../utils/isBalance";
 const scene = new Scenes.BaseScene("editSlidesCount");
 
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
 
 scene.action(/\d+/, async (ctx: any) => {
@@ -97,7 +97,7 @@ scene.action(/\d+/, async (ctx: any) => {
     chat_id: chat.id,
   };
 
-  ctx.scene.enter("slidesCount");
+  return await ctx.scene.enter("slidesCount");
 });
 
 export default scene;

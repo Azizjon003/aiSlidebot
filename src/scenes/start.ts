@@ -5,18 +5,20 @@ import { keyboards } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("start");
 
 export let keyboard = [
-  "Yangi Taqdimot",
-  "Balans",
-  "Do'stlarimni taklif qilish",
-  "AI modelni tanlash",
+  ["Yangi Taqdimot", "Balans"],
+  ["Do'stlarimni taklif qilish"],
 ];
-export let keyboard2 = [
-  "Foydalanuvchilar",
-  "Hamma foydalanuchilarga xabar yuborish",
-  "Bugungi statistika",
-  "Foydalanuvchilarga limit qo'shish",
-  "Umumiy statistika",
+export let admin_keyboard = [
+  ["Foydalanuvchilar", "Hamma foydalanuchilarga xabar yuborish"],
+  ["Bugungi statistika", "Foydalanuvchilarga limit qo'shish"],
+  ["Umumiy statistika"],
 ];
+
+// scene.on("message", async (ctx: any, next: any) => {
+//   console.log(ctx.message.text, "start");
+
+//   next();
+// });
 scene.enter(async (ctx: any) => {
   const user_id = ctx.from?.id;
 
@@ -73,17 +75,19 @@ scene.enter(async (ctx: any) => {
       keyboards(keyboard)
     );
 
-    return ctx.scene.enter("control");
+    console.log("start scene");
+    return await ctx.scene.enter("control");
   } else if (enable === "two") {
     const text = "Assalomu alaykum Admin xush kelibsiz";
 
-    ctx.telegram.sendMessage(user_id, text, keyboards(keyboard2));
-    return ctx.scene.enter("admin");
+    ctx.telegram.sendMessage(user_id, text, keyboards(admin_keyboard));
+    return await ctx.scene.enter("admin");
   } else if (enable === "three") {
     ctx.telegram.sendMessage(
       user_id,
       "Assalomu alaykum.Kechirasiz siz admin tomonidan bloklangansiz"
     );
+    return;
   }
 });
 

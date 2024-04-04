@@ -7,63 +7,17 @@ import {
   keyboards,
 } from "../utils/keyboards";
 import { getBalance } from "../utils/isBalance";
+import { inlineKeyboardNumbers } from "../lib/helper";
 const scene = new Scenes.BaseScene("control");
 
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
-export const countArray = [
-  {
-    text: "5",
-    callback_data: 5,
-  },
-  {
-    text: " 6 ",
-    callback_data: 6,
-  },
-  {
-    text: " 7 ",
-    callback_data: 7,
-  },
-  {
-    text: " 8 ",
-    callback_data: 8,
-  },
-  {
-    text: " 9 ",
-    callback_data: 9,
-  },
-  {
-    text: " 10 ",
-    callback_data: 10,
-  },
-  {
-    text: " 11 ",
-    callback_data: 11,
-  },
-  {
-    text: " 12 ",
-    callback_data: 12,
-  },
-  // {
-  //   text: " 13 ",
-  //   callback_data: 13,
-  // },
-  // {
-  //   text: " 14 ",
-  //   callback_data: 14,
-  // },
-  // {
-  //   text: " 15 ",
-  //   callback_data: 15,
-  // },
-];
-
+export const countArray = inlineKeyboardNumbers(5, 12);
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
   const user_id = ctx.from?.id;
 
   const result = chunkArrayInline(countArray, 3);
-
   const text = `🧮 Slaydlar soni nechta bo'lsin?`;
 
   ctx.reply(text, {
@@ -71,7 +25,7 @@ scene.hears("Yangi Taqdimot", async (ctx: any) => {
       inline_keyboard: result,
     },
   });
-  ctx.scene.enter("slidesCount");
+  return await ctx.scene.enter("slidesCount");
 });
 
 scene.hears("Balans", async (ctx: any) => {
@@ -100,10 +54,10 @@ scene.hears("Balans", async (ctx: any) => {
 
   const text = `Balansingiz: ${
     wallet.balance
-  }\nSiz olishingiz mumkin bo'lgan slidelar soni: ${Math.floor(
+  }\nSiz olishingiz mumkin bo'lgan taqdimotlar soni: ${Math.floor(
     wallet.balance / Number(priceSlide?.price)
-  )}
-  \n To'lov qilish imkoniyati yaqinda qo'shiladi`;
+  )} ta
+  \n Ko'proq taqdimotlar yaratish uchun balansni to'ldiring`;
   const inlineKeyboard = [
     {
       text: "Balansni to'ldirish",
@@ -113,8 +67,15 @@ scene.hears("Balans", async (ctx: any) => {
 
   // ctx.reply(text);
   ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+  return await ctx.scene.enter("balans");
+});
 
-  ctx.scene.enter("balans");
+scene.action(/^balance:(.+)$/, async (ctx: any) => {
+  try {
+    return await ctx.scene.enter("balans");
+  } catch (error) {
+    await ctx.reply("Something went wrong!");
+  }
 });
 scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
   const user_id = ctx.from?.id;
@@ -216,7 +177,7 @@ scene.action("gpt-3", async (ctx: any) => {
   });
   const text = `Siz tanlagan model: ${model.name}`;
   ctx.reply(text);
-  ctx.scene.enter("start");
+  return await ctx.scene.enter("start");
 });
 
 scene.action("gpt-4", async (ctx: any) => {

@@ -4,8 +4,8 @@ import prisma from "../../prisma/prisma";
 import { keyboards } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("changeAuthor");
 import xss from "xss";
-scene.hears("/start", (ctx: any) => {
-  ctx.scene.enter("start");
+scene.hears("/start", async (ctx: any) => {
+  return await ctx.scene.enter("start");
 });
 
 scene.on("message", async (ctx: any) => {
@@ -95,7 +95,7 @@ scene.on("message", async (ctx: any) => {
     chat_id: chat.id,
   };
 
-  ctx.scene.enter("slidesCount");
+  return await ctx.scene.enter("slidesCount");
 });
 
 export default scene;
