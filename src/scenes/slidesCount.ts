@@ -111,7 +111,8 @@ scene.action(/\d+$/, async (ctx: any) => {
 scene.on("message", async (ctx: any) => {
   const user_id = ctx.from?.id;
   const action = ctx.session.user?.action;
-  if (action !== "slidesName") return ctx.scene.enter("start");
+  const message = ctx.message.text;
+  if (action !== "slidesName") return ctx.scene.enter(message);
 
   // const getBalans = await getBalance(String(users?.id));
   const user = await prisma.user.findFirst({

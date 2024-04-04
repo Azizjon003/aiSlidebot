@@ -5,17 +5,16 @@ import { keyboards } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("start");
 
 export let keyboard = [
-  "Yangi Taqdimot",
-  "Balans",
-  "Do'stlarimni taklif qilish",
-  "AI modelni tanlash",
+  ["Yangi Taqdimot",
+  "Balans"],
+  ["Do'stlarimni taklif qilish"]
 ];
-export let keyboard2 = [
-  "Foydalanuvchilar",
-  "Hamma foydalanuchilarga xabar yuborish",
-  "Bugungi statistika",
-  "Foydalanuvchilarga limit qo'shish",
-  "Umumiy statistika",
+export let admin_keyboard = [
+  ["Foydalanuvchilar",
+  "Hamma foydalanuchilarga xabar yuborish"],
+  ["Bugungi statistika",
+  "Foydalanuvchilarga limit qo'shish"],
+  ["Umumiy statistika"],
 ];
 scene.enter(async (ctx: any) => {
   const user_id = ctx.from?.id;
@@ -77,7 +76,7 @@ scene.enter(async (ctx: any) => {
   } else if (enable === "two") {
     const text = "Assalomu alaykum Admin xush kelibsiz";
 
-    ctx.telegram.sendMessage(user_id, text, keyboards(keyboard2));
+    ctx.telegram.sendMessage(user_id, text, keyboards(admin_keyboard));
     return ctx.scene.enter("admin");
   } else if (enable === "three") {
     ctx.telegram.sendMessage(

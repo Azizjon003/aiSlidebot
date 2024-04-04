@@ -100,10 +100,10 @@ scene.hears("Balans", async (ctx: any) => {
 
   const text = `Balansingiz: ${
     wallet.balance
-  }\nSiz olishingiz mumkin bo'lgan slidelar soni: ${Math.floor(
+  }\nSiz olishingiz mumkin bo'lgan taqdimotlar soni: ${Math.floor(
     wallet.balance / Number(priceSlide?.price)
-  )}
-  \n To'lov qilish imkoniyati yaqinda qo'shiladi`;
+  )} ta
+  \n Ko'proq taqdimotlar yaratish uchun balansni to'ldiring`;
   const inlineKeyboard = [
     {
       text: "Balansni to'ldirish",
@@ -113,8 +113,15 @@ scene.hears("Balans", async (ctx: any) => {
 
   // ctx.reply(text);
   ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+  // return ctx.scene.enter("balans");
+});
 
-  ctx.scene.enter("balans");
+scene.action(/^balance:(.+)$/, async (ctx:any) => {
+  try {
+    await ctx.scene.enter("balans");
+  } catch (error) {
+    await ctx.reply("Something went wrong!");
+  }
 });
 scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
   const user_id = ctx.from?.id;
