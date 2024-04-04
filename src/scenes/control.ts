@@ -18,7 +18,6 @@ scene.hears("Yangi Taqdimot", async (ctx: any) => {
   const user_id = ctx.from?.id;
 
   const result = chunkArrayInline(countArray, 3);
-
   const text = `🧮 Slaydlar soni nechta bo'lsin?`;
 
   ctx.reply(text, {
