@@ -398,7 +398,7 @@ enum modelLang {
 export let createPlansDescriptionLanguage = async (
   name: string,
   lang: string,
-  languege: string,
+  language: string,
   model: modelLang = modelLang.gpt3
 ) => {
   let models = {
@@ -406,10 +406,10 @@ export let createPlansDescriptionLanguage = async (
     "gpt-4": "gpt-4-turbo-preview",
   };
 
-  console.log(models[model], "model");
   const queryJson = {
+    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All data must be in ${language}. The title must contain the theme name for the slide section in ${language}. ${lang}Content should contain relevant information about this topic. The return value should be in JSON format.finish_reason should not exceed 4096 tokens.Please strictly follow the rules given in json_structure.Don't make any mistakes.`,
     // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
-    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each topic should be in ${languege} language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in ${languege}. In the title, the name of the topic for the slide section should be in ${languege}. ${lang}Content should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
+    // input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each topic should be in ${languege} language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in ${languege}. In the title, the name of the topic for the slide section should be in ${languege}. ${lang}Content should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
     output_format: "json",
     json_structure: {
       slide: {
@@ -444,9 +444,9 @@ export let createPlansDescriptionLanguage = async (
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models[model],
+    model: models["gpt-3"],
     // model: "gpt-3.5-turbo-0125",
-    max_tokens: 800,
+    max_tokens: 1000,
     response_format: {
       type: "json_object",
     },
@@ -471,9 +471,9 @@ export let createPlansDescriptionLanguage = async (
         },
       ],
       // model: "gpt-3.5-turbo-0125",
-      model: models[model],
+      model: models["gpt-3"],
       // model: "gpt-4-turbo-preview",
-      max_tokens: 800,
+      max_tokens: 1000,
       response_format: {
         type: "json_object",
       },
@@ -483,7 +483,7 @@ export let createPlansDescriptionLanguage = async (
     ).slide.content;
   }
 
-  console.log(description);
+  // console.log(description);
 
   return {
     name: "Qon tomir kasalliklari ",
