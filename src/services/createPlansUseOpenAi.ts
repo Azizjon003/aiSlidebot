@@ -8,6 +8,8 @@ const openai = new OpenAI({
   apiKey: key,
 });
 
+const djJson = require("dirty-json");
+
 // export let createPlans = async (name: string, pages: number) => {
 //   const queryJson = {
 //     input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {{uz}}, {{eng}} in Uzbek and English. The end result should look like this. List of discussion questions. Return as JSON.`,
@@ -325,14 +327,15 @@ export let createPlansLanguage = async (
   language: string
 ) => {
   const queryJson = {
-    input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {{${lang}}}, {{eng}} in ${language} and English. The end result should look like this. List of discussion questions. Return as JSON.`,
+    input_text: `Create a ${pages} layout for the theme. Create 20 to 30 words for each plan. ${name}. Each plan must have ${language} and {{${lang}}}, {{eng}} in English. The end result should be like this. List of discussion questions. Return as JSON. Do not contain data that violates the JSON format. Plans should only contain words.`,
+    // input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {${lang}}, {eng} in ${language} and English. The end result should look like this. List of discussion questions. Return as JSON.`,
     output_format: "json",
     json_structure: {
       slides: {
         plans: [
           {
-            [lang]: `{{${lang}}}`,
-            eng: "{{eng}}",
+            [lang]: `{${lang}}`,
+            eng: "{eng}",
           },
         ],
       },
@@ -383,7 +386,10 @@ export let createPlansLanguage = async (
   }
 
   let plansText = plans.map((plan: any) => {
-    return `${plan[lang]} && ${plan.eng}`.replace(/\d+/g, "");
+    return `${djJson.parse(plan[lang])} && ${djJson.parse(plan.eng)}`.replace(
+      /\d+/g,
+      ""
+    );
   });
 
   console.log(plansText);
@@ -407,7 +413,7 @@ export let createPlansDescriptionLanguage = async (
   };
 
   const queryJson = {
-    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All data must be in ${language}. The title must contain the theme name for the slide section in ${language}. ${lang}Content should contain relevant information about this topic. The return value should be in JSON format.finish_reason should not exceed 4096 tokens.Please strictly follow the rules given in json_structure.Don't make any mistakes.`,
+    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All data must be in ${language}. The title must contain the topic name for the slide section in ${language}. ${lang}Content should contain relevant information on this topic. The return value must be in JSON format. finish_reason cannot exceed 4096 tokens. Strictly follow the rules given in json_structure. Make no mistake. Do not forget that Content consists of 4 elements. It is required to have 4 elements in the Content part, not less. It is required to have 4 elements`,
     // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,
     // input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each topic should be in ${languege} language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All information must be in ${languege}. In the title, the name of the topic for the slide section should be in ${languege}. ${lang}Content should have the necessary information on this topic. The return value must be in JSON format.finish_reason should not exceed 4096 tokens.`,
     output_format: "json",

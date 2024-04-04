@@ -2,6 +2,7 @@ import { Scenes } from "telegraf";
 import enabled from "../utils/enabled";
 import prisma from "../../prisma/prisma";
 import fs from "fs";
+const drJson = require("dirty-json");
 import {
   chunkArrayInline,
   createInlineKeyboard,
@@ -31,6 +32,10 @@ export const languages = [
   {
     text: "🇺🇸 English",
     callback_data: "eng",
+  },
+  {
+    text: "🇫🇷 French",
+    callback_data: "fr",
   },
 ];
 const scene = new Scenes.BaseScene("slidesCount");
@@ -84,7 +89,7 @@ scene.action(/\d+$/, async (ctx: any) => {
     },
   });
   const text = `Kerakli tilni tanlang`;
-  const keyboard = chunkArrayInline(languages, 3);
+  const keyboard = chunkArrayInline(languages, 2);
 
   // const text = `Taqdimot muvzusini kiriting:
 
@@ -408,6 +413,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       path: filePath,
     };
 
+    console.log(data);
+
     const slide = await createPresentation(data, chat.lang);
 
     const datas = fs.readFileSync(filePath);
@@ -415,10 +422,10 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       user?.telegram_id,
       {
         source: datas,
-        filename: `${chat.name}.pptx`,
+        filename: `${drJson(chat.name)}.pptx`,
       },
       {
-        caption: `📌 ${chat.name} taqdimoti tayyor`,
+        caption: `📌 ${drJson.parse(chat.name)} taqdimoti tayyor`,
         parse_mode: "HTML",
       }
     );
@@ -443,6 +450,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
 
     return await ctx.scene.enter("start");
   } catch (error) {
+    console.log(error);
     const user_id = ctx.from?.id;
     ctx.telegram.sendMessage(
       user_id,
