@@ -108,7 +108,14 @@ bot.on("successful_payment", async (ctx: any) => {
 // });
 bot.start((ctx: any) => ctx.scene.enter("start"));
 
-bot.catch((err: any, ctx: any) => {
+bot.catch((err: any, ctx) => {
+  const userId = ctx?.from?.id;
+  if (userId) {
+    bot.telegram.sendMessage(
+      userId,
+      "Xatolik yuz berdi. Iltimos qayta urinib ko'ring/start buyrug'ini bosib qayta urunib ko'ring"
+    );
+  }
   console.log(err);
   console.log(`Ooops, encountered an error for ${ctx}`, err);
 });

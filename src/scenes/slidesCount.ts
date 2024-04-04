@@ -324,121 +324,129 @@ scene.action("reject", async (ctx: any) => {
 export default scene;
 
 const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
-  const plans = await createPlansLanguage(
-    String(chat.name),
-    chat.pageCount,
-    chat.lang,
-    chat.language
-  );
+  try {
+    const plans = await createPlansLanguage(
+      String(chat.name),
+      chat.pageCount,
+      chat.lang,
+      chat.language
+    );
 
-  console.log(plans);
-  for (let plan of plans) {
-    await ctx.telegram.sendChatAction(user.telegram_id, "typing");
-    await prisma.plan.create({
-      data: {
-        chat_id: chat.id,
-        name: plan,
-      },
-    });
-  }
-
-  let plan = await prisma.plan.findMany({
-    where: {
-      chat_id: chat.id,
-    },
-  });
-  for (let [index, p] of plan.entries()) {
-    let txt = `📌${index + 1}. ${p.name.split("&&")[0]}\n`;
-
-    let description: any;
-    try {
+    console.log(plans);
+    for (let plan of plans) {
       await ctx.telegram.sendChatAction(user.telegram_id, "typing");
-      description = await createPlansDescriptionLanguage(
-        p.name,
-        chat.lang,
-        chat.language,
-        user?.model?.name
-      );
-    } catch (error) {
-      console.log(error);
+      await prisma.plan.create({
+        data: {
+          chat_id: chat.id,
+          name: plan,
+        },
+      });
     }
 
-    await prisma.description.create({
-      data: {
-        plan_id: p.id,
-        name: p.name,
-        content: description.content,
+    let plan = await prisma.plan.findMany({
+      where: {
         chat_id: chat.id,
       },
     });
+    for (let [index, p] of plan.entries()) {
+      let txt = `📌${index + 1}. ${p.name.split("&&")[0]}\n`;
 
-    console.log(description.content);
-    await ctx.telegram.sendChatAction(user.telegram_id, "typing");
-    txt += contentToString(description.content, chat.lang);
-    // txt += `\n\n ${description.content}`;
-    await ctx.telegram.sendMessage(user.telegram_id, txt, {
-      parse_mode: "HTML",
-    });
-    await ctx.telegram.sendChatAction(user.telegram_id, "typing");
-  }
+      let description: any;
+      try {
+        await ctx.telegram.sendChatAction(user.telegram_id, "typing");
+        description = await createPlansDescriptionLanguage(
+          p.name,
+          chat.lang,
+          chat.language,
+          user?.model?.name
+        );
+      } catch (error) {
+        console.log(error);
+      }
 
-  await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
+      await prisma.description.create({
+        data: {
+          plan_id: p.id,
+          name: p.name,
+          content: description.content,
+          chat_id: chat.id,
+        },
+      });
 
-  const description = await prisma.description.findMany({
-    where: {
-      chat_id: chat.id,
-    },
-    include: {
-      plan: true,
-    },
-  });
-
-  let body = description;
-
-  const title = {
-    name: chat.name,
-    author: user?.name,
-  };
-
-  const filePath = path.join(__dirname, "../../output.pptx");
-  const data = {
-    title,
-    body,
-    path: filePath,
-  };
-
-  const slide = await createPresentation(data, chat.lang);
-
-  const datas = fs.readFileSync(filePath);
-  await ctx.telegram.sendDocument(
-    user?.telegram_id,
-    {
-      source: datas,
-      filename: `${chat.name}.pptx`,
-    },
-    {
-      caption: `📌 ${chat.name} taqdimoti tayyor`,
-      parse_mode: "HTML",
+      console.log(description.content);
+      await ctx.telegram.sendChatAction(user.telegram_id, "typing");
+      txt += contentToString(description.content, chat.lang);
+      // txt += `\n\n ${description.content}`;
+      await ctx.telegram.sendMessage(user.telegram_id, txt, {
+        parse_mode: "HTML",
+      });
+      await ctx.telegram.sendChatAction(user.telegram_id, "typing");
     }
-  );
 
-  const slidePrice = await prisma.plansSlides.findFirst({
-    orderBy: {
-      created_at: "desc",
-    },
-  });
-  await prisma.wallet.update({
-    where: {
-      id: user?.wallet?.id,
-    },
-    data: {
-      balance: {
-        decrement: Number(
-          user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
-        ),
+    await ctx.reply("Sizning taqdimotlaringiz tayyor. Endi faylni yuboraman");
+
+    const description = await prisma.description.findMany({
+      where: {
+        chat_id: chat.id,
       },
-    },
-  });
+      include: {
+        plan: true,
+      },
+    });
 
-  return await ctx.scene.enter("start");
+    let body = description;
+
+    const title = {
+      name: chat.name,
+      author: user?.name,
+    };
+
+    const filePath = path.join(__dirname, "../../output.pptx");
+    const data = {
+      title,
+      body,
+      path: filePath,
+    };
+
+    const slide = await createPresentation(data, chat.lang);
+
+    const datas = fs.readFileSync(filePath);
+    await ctx.telegram.sendDocument(
+      user?.telegram_id,
+      {
+        source: datas,
+        filename: `${chat.name}.pptx`,
+      },
+      {
+        caption: `📌 ${chat.name} taqdimoti tayyor`,
+        parse_mode: "HTML",
+      }
+    );
+
+    const slidePrice = await prisma.plansSlides.findFirst({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    await prisma.wallet.update({
+      where: {
+        id: user?.wallet?.id,
+      },
+      data: {
+        balance: {
+          decrement: Number(
+            user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
+          ),
+        },
+      },
+    });
+
+    return await ctx.scene.enter("start");
+  } catch (error) {
+    const user_id = ctx.from?.id;
+    ctx.telegram.sendMessage(
+      user_id,
+      "Xatolik yuz berdi. Iltimos qayta urinib ko'ring /start buyrug'i bilan urunib ko'ring"
+    );
+  }
 };
