@@ -9,7 +9,7 @@ scene.hears("/start", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
 
-scene.hears("Foydalanuvchilar", async (ctx: any) => {
+scene.hears("/users", async (ctx: any) => {
   const users = await prisma.user.findMany();
   let text = "Foydalanuvchilar";
   // users.forEach(async (user, index) => {

@@ -46,12 +46,6 @@ scene.action(
 );
 
 scene.hears("Bosh menyu", async (ctx: any) => {
-  const message_id = ctx.update.message.message_id;
-  try {
-    await ctx.deleteMessage(message_id - 1);
-  } catch (error) {
-    console.error("Xabar o'chirishda xatolik yuz berdi:", error);
-  }
   return await ctx.scene.enter("start");
 });
 

@@ -9,7 +9,7 @@ export let keyboard = [
   ["Do'stlarimni taklif qilish"],
 ];
 export let admin_keyboard = [
-  ["Foydalanuvchilar", "Hamma foydalanuchilarga xabar yuborish"],
+  ["Hamma foydalanuchilarga xabar yuborish"],
   ["Bugungi statistika", "Foydalanuvchilarga limit qo'shish"],
   ["Umumiy statistika"],
 ];
