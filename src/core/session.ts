@@ -6,9 +6,7 @@ const store = Redis({
 });
 // const sessionStorage = ;
 const { session: memorySession } = require("telegraf");
-const session = memorySession({
-  store: store,
-});
+const session = memorySession({});
 
 // const session = new RedisSession({
 //   store: {
