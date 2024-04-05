@@ -1,7 +1,7 @@
 import { PrismaClientRustPanicError } from "@prisma/client/runtime/library";
 import prisma from "../../prisma/prisma";
 
-export const getBalance = async (id: string, price: number = 2000) => {
+export const getBalance = async (id: string, price: number = 4000) => {
   let wallet = await prisma.wallet.findFirst({
     where: {
       user_id: id,
