@@ -91,8 +91,7 @@ async function processPayment(ctx: any, tgId: any, amount: any) {
     title: `Magic Slide bot uchun balansni to'ldirish`,
     description: `Siz hisobingizni to\'ldirayotgan mablag' ${amount}, ~${Math.floor(
       amount / 2000
-    )} ta taqdimot uchun to'g'ri keladi.
-     Siz to'ldirgan mablag'ni qaytarib olish imkoni yo'q. To'ldirish tugmasini bosing va to'lovni amalga oshiring. `,
+    )} ta taqdimot uchun to'g'ri keladi.To'ldirish tugmasini bosing va to'lovni amalga oshiring.`,
     payload: `id:${newRequest.id}`,
     provider_token: process.env.PROVIDER_TOKEN,
     currency: "UZS",
