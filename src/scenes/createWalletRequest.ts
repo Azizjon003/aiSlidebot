@@ -55,6 +55,22 @@ scene.hears(/^[0-9]+$/, async (ctx) => {
 
   await processPayment(ctx, ctx.from.id, amount);
 });
+scene.hears("Bosh menyu", async (ctx: any) => {
+  try {
+    let message_id = ctx.update.message.message_id;
+    await ctx.deleteMessage(message_id - 1);
+    await ctx.deleteMessage(message_id);
+  } catch (error) {
+    console.error("Failed to delete message:", error);
+  }
+  return await ctx.scene.enter("start");
+});
+
+scene.on("message", async (ctx: any) => {
+  ctx.reply(
+    "Bu buyruqni tushunmadim 😔. /start buyrug'ini bosib qaytadan boshlang"
+  );
+});
 
 async function processPayment(ctx: any, tgId: any, amount: any) {
   const user = await prisma.user.findFirst({

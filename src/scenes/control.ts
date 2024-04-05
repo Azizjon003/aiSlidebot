@@ -62,6 +62,13 @@ scene.hears("Balans", async (ctx: any) => {
     });
   }
 
+  await ctx.reply(`Balansingiz: ${wallet.balance}`, {
+    reply_markup: {
+      keyboard: [["Bosh menyu"]],
+      resize_keyboard: true,
+    },
+  });
+
   const text = `Balansingiz: ${
     wallet.balance
   }\nSiz olishingiz mumkin bo'lgan taqdimotlar soni: ${Math.floor(

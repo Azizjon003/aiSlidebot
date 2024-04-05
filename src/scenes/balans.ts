@@ -26,6 +26,7 @@ scene.action(
       return ctx.reply("Bu foydalanuchi mavjud emas");
     }
     await ctx.deleteMessage();
+
     const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:\nMinimal summa 2000 so'm mumkin`;
     const inlineKeyboard = Markup.inlineKeyboard([
       [
@@ -43,6 +44,16 @@ scene.action(
     return await ctx.scene.enter("createWalletRequest");
   }
 );
+
+scene.hears("Bosh menyu", async (ctx: any) => {
+  const message_id = ctx.update.message.message_id;
+  try {
+    await ctx.deleteMessage(message_id - 1);
+  } catch (error) {
+    console.error("Xabar o'chirishda xatolik yuz berdi:", error);
+  }
+  return await ctx.scene.enter("start");
+});
 
 scene.on("message", async (ctx: any) => {
   ctx.reply(
