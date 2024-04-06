@@ -13,9 +13,9 @@ const scene = new Scenes.BaseScene("control");
 scene.hears("/start", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
-export const countArray = inlineKeyboardNumbers(5, 12);
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
   const user_id = ctx.from?.id;
+  const countArray = await inlineKeyboardNumbers(5, 12, user_id);
 
   const result = chunkArrayInline(countArray, 3);
   let txt = `⌛️`;
@@ -102,14 +102,21 @@ scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
       isActive: true,
     },
   });
-  const text = `Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
-  https://t.me/Magic_slides_bot?start=${user_id}
-  \n
-  Har bir taklif qilingan do'stingiz uchun 1000 so'm bonus oling
-  \n
-  Siz taklif qilgan do'stingizlar soni: ${friends}
-  `;
+  // const text = `Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
+  // https://t.me/Magic_slides_bot?start=${user_id}
+  // \n
+  // Har bir taklif qilingan do'stingiz uchun 1000 so'm bonus oling
+  // \n
+  // Siz taklif qilgan do'stingizlar soni: ${friends}
+  // `;
 
+  const text = `1 daqiqada hech qanday toʻlovlarsiz slayd tayyorlatishni istaysizmi?
+
+  ▪️ Oʻzbekistonda ilk bor 1 daqiqada mutlaqo tekinga slayd tayyorlab beruvchi bot yaratildi.
+  
+  ▪️ Hoziroq start bosing, foydalaning, baholaringiz doimo 5 boʻlsin😉
+  
+  ▫️ Linkni bossangiz kifoya:https://t.me/Magic_slides_bot?start=${user_id}`;
   ctx.reply(text);
 });
 

@@ -21,8 +21,9 @@ import {
   createSlideWithAnimationDarkMode,
 } from "../services/createSlide.service";
 import { contentToString } from "../utils/functions";
-import { countArray } from "./control";
+// import { countArray } from "./control";
 import { inlineKeyboard } from "telegraf/typings/markup";
+import { inlineKeyboardNumbers } from "../lib/helper";
 export const languages = [
   {
     text: "🇺🇿 O'zbekcha",
@@ -248,6 +249,8 @@ scene.on("message", async (ctx: any) => {
 
 scene.action("changeSlides", async (ctx: any) => {
   const user_id = ctx.from?.id;
+
+  const countArray = await inlineKeyboardNumbers(5, 12, user_id);
   const user = await prisma.user.findFirst({
     where: {
       telegram_id: String(user_id),
@@ -257,7 +260,7 @@ scene.action("changeSlides", async (ctx: any) => {
   if (!user) return ctx.reply("Foydalanuvchi topilmadi");
   ctx.answerCbQuery();
 
-  const result = chunkArrayInline(countArray, 3);
+  const result = await chunkArrayInline(countArray, 3);
   const text = `🧮 Slaydlar sonini qaytadan tanlang`;
   ctx.editMessageText(text, {
     reply_markup: {
@@ -343,7 +346,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       String(chat.name),
       chat.pageCount,
       chat.lang,
-      chat.language
+      chat.language,
+      chat?.pageCount || 5
     );
 
     console.log(plans);

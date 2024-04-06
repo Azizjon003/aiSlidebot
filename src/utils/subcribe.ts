@@ -5,7 +5,6 @@ export let subcribeFunk = async (ctx: any, next: any) => {
   const data = String(ctx?.callbackQuery?.data);
   const action = ctx.message?.text?.split(" ")[0];
 
-  console.log("Enter");
   const id = String(ctx.from.id);
   let invitedUser: any;
 
@@ -48,7 +47,11 @@ export let subcribeFunk = async (ctx: any, next: any) => {
   }
   const chatType = ctx.chat?.type;
   console.log(chatType);
-  if (chatType === "channel") {
+  if (
+    chatType === "channel" ||
+    chatType === "supergroup" ||
+    chatType === "group"
+  ) {
     return next();
   }
   if (data?.includes("checkSubscribing")) {

@@ -83,7 +83,7 @@ bot.on("pre_checkout_query", async (ctx: any) => {
   }
 
   await bot.telegram.sendMessage(
-    "6322528596",
+    "-1002103794627",
     `Foydalanuvchi ${user.name} so'rovni precheckout ga o'tkazdi ${
       amount * 100
     } `
@@ -195,7 +195,7 @@ bot.on("successful_payment", async (ctx: any) => {
   //   parseInt(String(amountId.message_id)) || ctx.message.message_id - 1
   // );
   await bot.telegram.sendMessage(
-    "6322528596",
+    "-1002103794627",
     `Foydalanuvchi ${user.name} so'rovni to'lov qabul qilindi o'tkazdi ${
       amount * 100
     } `

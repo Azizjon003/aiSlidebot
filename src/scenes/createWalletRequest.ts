@@ -102,7 +102,7 @@ async function processPayment(ctx: any, tgId: any, amount: any) {
     });
 
     ctx.telegram.sendMessage(
-      "6322528596",
+      "-1002103794627",
       `Foydalanuvchi ${user.name} quyidagi summani to'lamoqchi bo'ldi ${
         amount * 100
       } `
