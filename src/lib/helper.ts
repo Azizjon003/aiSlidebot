@@ -25,8 +25,6 @@ export const inlineKeyboardNumbers = async (
 
   if (user?.walletRequest[0]?.status === "APPROVED") {
     endNumber = 18;
-  } else if (user?.wallet?.balance === 2000) {
-    endNumber = 6;
   } else if (Number(user?.wallet?.balance) > 2000) {
     endNumber = 12;
   }
