@@ -34,7 +34,7 @@ export const inlineKeyboardNumbers = async (
     } else {
       endNumber = 18;
     }
-  } else if (Number(user?.wallet?.balance) > 2000) {
+  } else if (Number(user?.wallet?.balance) > 0) {
     endNumber = 10;
   }
   for (let i = startNumber; i <= endNumber; i++) {
