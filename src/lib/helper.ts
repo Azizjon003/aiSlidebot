@@ -24,9 +24,18 @@ export const inlineKeyboardNumbers = async (
   console.log("user", user);
 
   if (user?.walletRequest[0]?.status === "APPROVED") {
-    endNumber = 18;
+    let umumiySumma = 0;
+
+    user?.walletRequest.map((item) => {
+      umumiySumma += item.amount;
+    });
+    if (umumiySumma < Number(user?.wallet?.balance)) {
+      endNumber = 10;
+    } else {
+      endNumber = 18;
+    }
   } else if (Number(user?.wallet?.balance) > 2000) {
-    endNumber = 12;
+    endNumber = 10;
   }
   for (let i = startNumber; i <= endNumber; i++) {
     array.push({
