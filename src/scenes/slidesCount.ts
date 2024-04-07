@@ -24,6 +24,7 @@ import { contentToString } from "../utils/functions";
 // import { countArray } from "./control";
 import { inlineKeyboard } from "telegraf/typings/markup";
 import { inlineKeyboardNumbers } from "../lib/helper";
+import xss from "xss";
 export const languages = [
   {
     text: "🇺🇿 O'zbekcha",
@@ -430,15 +431,16 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
 
     const slide = await createPresentation(data, chat.lang);
 
+    let newDate = new Date().getTime();
     const datas = fs.readFileSync(filePath);
     await ctx.telegram.sendDocument(
       user?.telegram_id,
       {
         source: datas,
-        filename: `${drJson.parse(chat.name)}.pptx`,
+        filename: `${newDate}.pptx`,
       },
       {
-        caption: `📌 ${drJson.parse(chat.name)} taqdimoti tayyor`,
+        caption: `📌 Taqditmotingiz tayyor`,
         parse_mode: "HTML",
       }
     );
@@ -478,10 +480,10 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       user?.telegram_id,
       {
         source: dataDark,
-        filename: `${drJson.parse(chat.name)}-dark.pptx`,
+        filename: `${newDate}-dark.pptx`,
       },
       {
-        caption: `📌 ${drJson.parse(chat.name)} taqdimoti tayyor`,
+        caption: `📌 Taqdimotingiz tayyor`,
         parse_mode: "HTML",
       }
     );
