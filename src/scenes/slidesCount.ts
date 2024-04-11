@@ -226,6 +226,12 @@ scene.on("message", async (ctx: any) => {
             callback_data: "changeAuthor",
           },
         ],
+        [
+          {
+            text: "Tekshirgan ustozni o'zgartirish",
+            callback_data: "changeChecked",
+          },
+        ],
       ],
     },
     parse_mode: "HTML",
@@ -287,6 +293,16 @@ scene.action("changeSlides", async (ctx: any) => {
   return await ctx.scene.enter("editSlidesCount");
 });
 
+scene.action("changeChecked", async (ctx: any) => {
+  ctx.answerCbQuery();
+  ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
+  ctx.reply("Tekshiradigan ustozning ism familyasini kiriting: ");
+  ctx.session.user = {
+    action: "changeChecked",
+    chat_id: ctx.session.user?.chat_id,
+  };
+  return await ctx.scene.enter("changeChecked");
+});
 scene.action("changeAuthor", async (ctx: any) => {
   ctx.answerCbQuery();
   ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
@@ -425,6 +441,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       title,
       body,
       path: filePath,
+      changeAuthor: chat?.checkUser,
     };
 
     console.log(data);
@@ -468,6 +485,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       title,
       body,
       paths: filePaths,
+      changeAuthor: chat?.checkUser,
     };
 
     const slideDark = await createSlideWithAnimationDarkMode(

@@ -87,6 +87,12 @@ scene.action(/\d+/, async (ctx: any) => {
             callback_data: "changeAuthor",
           },
         ],
+        [
+          {
+            text: "Tekshirgan ustozni o'zgartirish",
+            callback_data: "changeChecked",
+          },
+        ],
       ],
     },
     parse_mode: "HTML",

@@ -27,7 +27,17 @@ scene.action(
     }
     await ctx.deleteMessage();
 
+    let txt = `Karta orqali to'lov qilmoqchi bo'lmasangiz \n
+    <b>Karta raqam</b>: <code>8600 3129 7257 8377</code>
+    <b>Kimni nomida</b>: Aliqulov Azizjon
+    karta raqamlariga to'lov qilib chekni adminga yuboring
+    Adminlarning kontaktlari: @magic_slide_admin @aliqulov_azizjon`;
     const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:\nMinimal summa 2000 so'm mumkin`;
+
+    ctx.reply(txt, {
+      parse_mode: "HTML",
+    });
+
     const inlineKeyboard = Markup.inlineKeyboard([
       [
         Markup.button.callback("2000 so'm", "pay_2000"),

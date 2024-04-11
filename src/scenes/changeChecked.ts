@@ -1,15 +1,16 @@
-import { Scenes } from "telegraf";
-import enabled from "../utils/enabled";
+import { Scenes, Markup } from "telegraf";
 import prisma from "../../prisma/prisma";
-import { keyboards } from "../utils/keyboards";
-const scene = new Scenes.BaseScene("changeAuthor");
 import xss from "xss";
+
+const scene = new Scenes.BaseScene("changeChecked");
+
 scene.hears("/start", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
 
 scene.on("message", async (ctx: any) => {
-  let text = xss(ctx.message.text);
+  const id = ctx.from.id;
+  let text = xss(ctx.message?.text);
   const user_id = ctx.from?.id;
 
   const user = await prisma.user.findFirst({
@@ -31,12 +32,16 @@ scene.on("message", async (ctx: any) => {
 
   if (!chat) return ctx.reply("Chat topilmadi");
 
-  const users = await prisma.user.update({
+  if (text === "/start") {
+    return await ctx.scene.enter("start");
+  }
+
+  const chatUpdate = await prisma.chat.update({
     where: {
-      id: user.id,
+      id: chat.id,
     },
     data: {
-      name: text,
+      checkUser: text,
     },
   });
 
@@ -44,11 +49,11 @@ scene.on("message", async (ctx: any) => {
 
   let txt = `🏙 Taqdimot haqida:
 
-  ➡️ Muallif: ${users?.name}
+  ➡️ Muallif: ${user?.name}
   🖊 Til: 🇺🇿 (O'zbekcha)
-  🧮 Slaydlar: <i>${chat.pageCount}</i> ta
+  🧮 Slaydlar: <i>${chatUpdate.pageCount}</i> ta
   
-  📌 Mavzu: <b>${chat?.name}</b>
+  📌 Mavzu: <b>${chatUpdate?.name}</b>
   
   Eslatma: Avval, taqdimot matnini birin ketin yuboraman. So'ngra taqdimot faylini tayyorlayman. Iltimos, shoshilmang.`;
 

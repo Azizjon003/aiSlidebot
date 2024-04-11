@@ -43,6 +43,7 @@ model Chat {
   description Description[]
   language String?
   lang     String?
+  checkUser String?
   model_id String?
   model   gptModel? @relation(fields: [model_id], references: [id])
   created_at DateTime @default(now())

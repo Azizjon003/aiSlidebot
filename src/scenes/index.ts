@@ -9,6 +9,7 @@ import sendMesssage from "./message";
 import changeAuthor from "./changeAuthor";
 import addLanguage from "./addLanguage";
 import createWalletRequest from "./createWalletRequest";
+import changeChecked from "./changeChecked";
 const stage = new Scenes.Stage([
   start,
   balans,
@@ -20,6 +21,7 @@ const stage = new Scenes.Stage([
   changeAuthor,
   addLanguage,
   createWalletRequest,
+  changeChecked,
 ]);
 
 export default stage;

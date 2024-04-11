@@ -13,7 +13,7 @@ export async function createPresentation(
   data: any,
   lang: string
 ): Promise<void> {
-  let { title, body, path } = data;
+  let { title, body, path, changeAuthor } = data;
   let pres = new PptxGenJS();
   let slide = pres.addSlide();
   let imageName = body[0].name.split("&&")[1];
@@ -40,15 +40,27 @@ export async function createPresentation(
     bold: true,
   });
 
-  slide.addText(`By: ${title.author}`, {
+  slide.addText(`Bajardi: ${title.author}`, {
     x: "5%",
     y: "65%",
     w: "50%",
-    h: "20%",
+    h: "15%",
     fontSize: 14,
     fontFace: "Playfair Display",
     italic: true,
   });
+
+  if (changeAuthor) {
+    slide.addText(`Tekshirdi: ${changeAuthor}`, {
+      x: "5%",
+      y: "75%",
+      w: "50%",
+      h: "15%",
+      fontSize: 14,
+      fontFace: "Playfair Display",
+      italic: true,
+    });
+  }
 
   // Slaydga sarlavha qo'shish
   // slide.addText(title.name, {
@@ -707,7 +719,7 @@ export const createSlideWithAnimationDarkMode = async (
   data: any,
   lang: string
 ) => {
-  let { title, body, paths } = data;
+  let { title, body, paths, changeAuthor } = data;
   let pres = new PptxGenJS();
   pres.theme = { bodyFontFace: "Playfair Display" };
   let slide = pres.addSlide();
@@ -732,24 +744,36 @@ export const createSlideWithAnimationDarkMode = async (
     x: "45%",
     y: "25%",
     w: "50%",
-    h: "20%",
+    h: "15%",
     fontSize: 24,
     fontFace: "Playfair Display",
     bold: true,
     color: "f0f0f0",
   });
 
-  slide.addText(`By: ${title.author}`, {
+  slide.addText(`Bajardi: ${title.author}`, {
     x: "45%",
     y: "55%",
     w: "50%",
-    h: "20%",
+    h: "15%",
     fontSize: 14,
     fontFace: "Playfair Display",
     italic: true,
     color: "f0f0f0",
   });
 
+  if (changeAuthor) {
+    slide.addText(`Tekshirdi: ${changeAuthor}`, {
+      x: "45%",
+      y: "65%",
+      w: "50%",
+      h: "15%",
+      fontSize: 14,
+      fontFace: "Playfair Display",
+      italic: true,
+      color: "f0f0f0",
+    });
+  }
   let plans = body.map((item: any, index: number) => {
     return `${index + 1}. ${item.name.split("&&")[0]}`;
   });
