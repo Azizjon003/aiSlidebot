@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -29,6 +23,7 @@ model User {
   model_id     String?
   model        gptModel? @relation(fields: [model_id], references: [id])
   walletRequest walletRequest[]
+  webUser      webUser?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -123,4 +118,26 @@ model gptModel {
   name    String
   chats   Chat[]
   users   User[]
+}
+
+
+model webUser {
+  id     String @id @default(cuid())
+  name   String
+  email  String?
+  user_id String @unique
+  user   User @relation(fields: [user_id], references: [id])
+  session session[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+
+model session {
+  id       String  @id @default(uuid())
+  user_id  String @unique
+  user     webUser @relation(fields: [user_id], references: [id])
+  token    String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }

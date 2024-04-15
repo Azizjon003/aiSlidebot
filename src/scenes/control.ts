@@ -1,4 +1,4 @@
-import { Scenes } from "telegraf";
+import { Markup, Scenes } from "telegraf";
 import enabled from "../utils/enabled";
 import prisma from "../../prisma/prisma";
 import {
@@ -8,6 +8,7 @@ import {
 } from "../utils/keyboards";
 import { getBalance } from "../utils/isBalance";
 import { inlineKeyboardNumbers } from "../lib/helper";
+import { generateToken } from "../services/jwt.service";
 const scene = new Scenes.BaseScene("control");
 
 scene.hears("/start", async (ctx: any) => {
@@ -85,6 +86,64 @@ scene.hears("Balans", async (ctx: any) => {
   // ctx.reply(text);
   ctx.reply(text, createInlineKeyboard(inlineKeyboard));
   return await ctx.scene.enter("balans");
+});
+
+scene.hears("Web sahifaga o'tish", async (ctx: any) => {
+  const user = await prisma.user.findFirst({
+    where: {
+      telegram_id: String(ctx.from.id),
+    },
+  });
+  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+  const text = `Web sahifaga o'tish uchun quyidagi havola orqali kirishingiz mumkin\n`;
+  let webUser = await prisma.webUser.findFirst({
+    where: {
+      user_id: user.id,
+    },
+  });
+  if (!webUser) {
+    webUser = await prisma.webUser.create({
+      data: {
+        user_id: user.id,
+        name: String(user.username),
+      },
+    });
+  }
+
+  let session = await prisma.session.findFirst({
+    where: {
+      user_id: webUser.id,
+    },
+  });
+  if (!session) {
+    session = await prisma.session.create({
+      data: {
+        user_id: webUser.id,
+      },
+    });
+  } else {
+    await prisma.session.delete({
+      where: {
+        id: session.id,
+      },
+    });
+
+    session = await prisma.session.create({
+      data: {
+        user_id: webUser.id,
+      },
+    });
+  }
+
+  const token = await generateToken({
+    session_id: session.id,
+  });
+
+  const url = `https://magicslide.uz/?token=${token}`;
+
+  await ctx.reply(text, {
+    ...Markup.inlineKeyboard([Markup.button.url("Web sahifaga o'tish", url)]),
+  });
 });
 
 scene.action(/^balance:(.+)$/, async (ctx: any) => {
