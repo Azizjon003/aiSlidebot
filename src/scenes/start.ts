@@ -6,8 +6,9 @@ const scene = new Scenes.BaseScene("start");
 
 export let keyboard = [
   ["Yangi Taqdimot", "Balans"],
-  ["Do'stlarimni taklif qilish", "Web sahifaga o'tish"],
+  ["Do'stlarimni taklif qilish"],
 ];
+//"Web sahifaga o'tish"
 export let admin_keyboard = [
   ["Hamma foydalanuchilarga xabar yuborish"],
   ["Bugungi statistika", "Foydalanuvchilarga limit qo'shish"],

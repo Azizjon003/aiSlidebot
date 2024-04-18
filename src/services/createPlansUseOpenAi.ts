@@ -325,8 +325,15 @@ export let createPlansLanguage = async (
   pages: number,
   lang: string,
   language: string,
-  pagesCount: number
+  pagesCount: number,
+  model: modelLang = modelLang.gpt3
 ) => {
+  let models = {
+    "gpt-3": "gpt-3.5-turbo-0125",
+    "gpt-4": "gpt-4-turbo-preview",
+  };
+  console.log(models[model]);
+
   const queryJson = {
     input_text: `Create a ${pages} layout for the theme. Create 20 to 30 words for each plan. ${name}. Each plan must have ${language} and {{${lang}}}, {{eng}} in English. The end result should be like this. List of discussion questions. Return as JSON. Do not contain data that violates the JSON format. Plans should only contain words.`,
     // input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {${lang}}, {eng} in ${language} and English. The end result should look like this. List of discussion questions. Return as JSON.`,
@@ -350,7 +357,8 @@ export let createPlansLanguage = async (
         content: JSON.stringify(queryJson),
       },
     ],
-    model: "gpt-4-turbo-preview",
+    // model: "gpt-4-turbo-preview",
+    model: models[model],
     // model: "gpt-3.5-turbo-0125",
     max_tokens: pagesCount < 6 ? 800 : pagesCount < 12 ? 1200 : 1600,
     response_format: {
@@ -374,8 +382,9 @@ export let createPlansLanguage = async (
       ],
       // model: "gpt-3.5-turbo-1106",
       // model: "gpt-3.5-turbo-0125",
+      model: models[model],
       // model: "gpt-3.5-turbo-16k-0613",
-      model: "gpt-4-turbo-preview",
+      // model: "gpt-4-turbo-preview",
       max_tokens: pagesCount < 6 ? 800 : pagesCount < 12 ? 1200 : 1600,
       response_format: {
         type: "json_object",

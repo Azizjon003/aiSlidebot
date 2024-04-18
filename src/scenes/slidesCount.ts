@@ -174,7 +174,7 @@ scene.on("message", async (ctx: any) => {
   });
 
   if (
-    Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 4000) >
+    Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 2000) >
     Number(user?.wallet?.balance)
   ) {
     ctx.reply(
@@ -364,7 +364,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       chat.pageCount,
       chat.lang,
       chat.language,
-      chat?.pageCount || 5
+      chat?.pageCount || 5,
+      user?.model?.name || "gpt-3"
     );
 
     console.log(plans);
@@ -474,7 +475,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       data: {
         balance: {
           decrement: Number(
-            user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
+            user?.model?.name === "gpt-3" ? slidePrice?.price : 2000
           ),
         },
       },
