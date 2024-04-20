@@ -332,23 +332,40 @@ export let createPlansLanguage = async (
     "gpt-3": "gpt-3.5-turbo-0125",
     "gpt-4": "gpt-4-turbo-preview",
   };
-  console.log(models[model]);
+  console.log(models[model], pages);
 
-  const queryJson = {
-    input_text: `Create a ${pages} layout for the theme. Create 20 to 30 words for each plan. ${name}. Each plan must have ${language} and {{${lang}}}, {{eng}} in English. The end result should be like this. List of discussion questions. Return as JSON. Do not contain data that violates the JSON format. Plans should only contain words.`,
-    // input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {${lang}}, {eng} in ${language} and English. The end result should look like this. List of discussion questions. Return as JSON.`,
+  // const queryJson = {
+  //   input_text: `Create a ${pages} layout for the theme. Create 20 to 30 words for each plan. ${name}. Each plan must have ${language} and {{${lang}}}, {{eng}} in English. The end result should be like this. List of discussion questions. Return as JSON. Do not contain data that violates the JSON format. Plans should only contain words.`,
+  //   // input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {${lang}}, {eng} in ${language} and English. The end result should look like this. List of discussion questions. Return as JSON.`,
+  //   output_format: "json",
+  //   json_structure: {
+  //     slides: {
+  //       plans: [
+  //         {
+  //           [lang]: `{{${lang}}}`,
+  //           eng: "{{eng}}",
+  //         },
+  //       ],
+  //     },
+  //   },
+  // };
+  let queryJson = {
+    input_text: `Create a layout with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.`,
     output_format: "json",
     json_structure: {
       slides: {
         plans: [
-          {
-            [lang]: `{{${lang}}}`,
-            eng: "{{eng}}",
-          },
+          ...Array.from({ length: pages }, () => {
+            return {
+              [lang]: `{{${lang}_content}}`,
+              eng: "{{english_content}}",
+            };
+          }),
         ],
       },
     },
   };
+
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       { role: "user", content: name },
@@ -360,7 +377,7 @@ export let createPlansLanguage = async (
     // model: "gpt-4-turbo-preview",
     model: models[model],
     // model: "gpt-3.5-turbo-0125",
-    max_tokens: pagesCount < 6 ? 800 : pagesCount < 12 ? 1200 : 1600,
+    max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
     response_format: {
       type: "json_object",
     },
@@ -385,7 +402,7 @@ export let createPlansLanguage = async (
       model: models[model],
       // model: "gpt-3.5-turbo-16k-0613",
       // model: "gpt-4-turbo-preview",
-      max_tokens: pagesCount < 6 ? 800 : pagesCount < 12 ? 1200 : 1600,
+      max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
       response_format: {
         type: "json_object",
       },
@@ -395,6 +412,50 @@ export let createPlansLanguage = async (
     plans = JSON.parse(content).slides.plans;
   }
 
+  let leth = plans.length;
+
+  console.log(plans.length, "plans length-1");
+  if (leth < pages) {
+    let queryJsons = {
+      input_text: `Create a layout with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.`,
+      output_format: "json",
+      json_structure: {
+        slides: {
+          plans: [
+            ...Array.from({ length: pages + 1 }, () => {
+              return {
+                [lang]: `{{${lang}_content}}`,
+                eng: "{{english_content}}",
+              };
+            }),
+          ],
+        },
+      },
+    };
+    const chatCompletion = await openai.chat.completions.create({
+      messages: [
+        // { role: "user", content: name },
+        {
+          role: "user",
+          content: JSON.stringify(queryJsons),
+        },
+      ],
+      // model: "gpt-3.5-turbo-1106",
+      // model: "gpt-3.5-turbo-0125",
+      model: models[model],
+      // model: "gpt-3.5-turbo-16k-0613",
+      // model: "gpt-4-turbo-preview",
+      max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
+      response_format: {
+        type: "json_object",
+      },
+    });
+
+    const content = chatCompletion.choices[0].message.content || "";
+    plans = JSON.parse(content).slides.plans;
+  }
+
+  console.log(plans.length, "plans length");
   let plansText = plans.map((plan: any) => {
     return `${xss(plan[lang])} && ${xss(plan.eng)}`.replace(/\d+/g, "");
   });
@@ -403,6 +464,7 @@ export let createPlansLanguage = async (
 
   return plansText;
 };
+
 enum modelLang {
   gpt3 = "gpt-3",
   gpt4 = "gpt-4",
@@ -448,6 +510,7 @@ export let createPlansDescriptionLanguage = async (
       },
     },
   };
+
   const chatCompletion = await openai.chat.completions.create({
     messages: [
       { role: "user", content: name },
@@ -503,3 +566,50 @@ export let createPlansDescriptionLanguage = async (
     content: description,
   };
 };
+
+const test = async () => {
+  // const plans = await createPlansLanguage(
+  //   "Qon tomir kasalliklari",
+  //   18,
+  //   "uz",
+  //   "uzbek",
+  //   18,
+  //   modelLang.gpt3
+  // );
+  const plans = [
+    "Qon tomir kasalligining asosiy sabablarini tushuntirish && Identifying the main causes of hemophilia",
+    "Qon tomir kasalliklarining turli turlari && Different types of hemophilia",
+    "Qon tomir kasalligining xossaliklari va belgilari && Symptoms and signs of hemophilia",
+    "Qon tomir kasalligining xossalik davri va dardlari && Disease duration and its treatments",
+    "Qon tomir kasalligini oldini olish usullari && Methods of preventing hemophilia",
+    "Qon tomir kasalligining ravishlari va mudofaalari && Therapies and treatments for hemophilia",
+    "Qon tomir kasalligini taniganida qanday qilib amal qilish kerak && What to do when diagnosed with hemophilia",
+    "Qon tomir kasalligini surish, urg'ochilari va nazariyasi && Heritage, risks, and genetics of hemophilia",
+    "Qon tomir kasalligi bilan yashash && Living with hemophilia",
+    "Qon tomir kasalliklari davriylikdagi o'zgarishlar && Changes in hemophilia dynamics",
+    "Qon tomir kasalligining shifokorligi va davolash usullari && Doctoring and treatment methods for hemophilia",
+    "Qon tomir kasalliklarining profilaktikasi && Prophylaxis for hemophilia",
+    "Qon tomir kasalligining o'zgarib turish texnologiyasi && Changing hemophilia technology",
+    "Qon tomir kasalligini chetlatish va aniqlash && Exclusion and detection of hemophilia",
+    "Qon tomir kasalliklari tajribalariga asoslangan darslar && Lessons from experiences of hemophilia",
+    "Qon tomir kasalliklari davlat dasturlari va ko'ngilocharliligidagi mustahkamlash && State programs and strengthening of support for hemophilia",
+    "Qon tomir kasalligida klinika va asbobiy bosqichlar && Clinical and instrumental stages in hemophilia",
+    "Qon tomir kasalligi yoki tomir kasalligini tushunish && Hemophilia or recognizing hemophilia",
+    "Qon tomir kasalligini o'qimaymiz && Don't underestimate hemophilia",
+  ];
+
+  console.log(plans);
+
+  for (let i = 0; i < plans.length; i++) {
+    let plan = plans[i].split("&&")[1];
+    const plansDescription = await createPlansDescriptionLanguage(
+      plan,
+      "uz",
+      "uzbek",
+      modelLang.gpt3
+    );
+    console.log(plansDescription);
+  }
+};
+
+// test();
