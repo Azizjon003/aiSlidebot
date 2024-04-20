@@ -101,12 +101,12 @@ async function processPayment(ctx: any, tgId: any, amount: any) {
       data: { message_id: String(res.message_id) },
     });
 
-    ctx.telegram.sendMessage(
-      "-1002103794627",
-      `Foydalanuvchi ${user.name} quyidagi summani to'lamoqchi bo'ldi ${
-        amount * 100
-      } `
-    );
+    // ctx.telegram.sendMessage(
+    //   "-1002103794627",
+    //   `Foydalanuvchi ${user.name} quyidagi summani to'lamoqchi bo'ldi ${
+    //     amount * 100
+    //   } `
+    // );
   } catch (error) {
     ctx.telegram.sendMessage(
       ctx.from.id,
