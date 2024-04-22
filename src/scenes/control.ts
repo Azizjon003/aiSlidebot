@@ -139,7 +139,7 @@ scene.hears("Web sahifaga o'tish", async (ctx: any) => {
     session_id: session.id,
   });
 
-  const url = `https://magicslide.uz/?token=${token}`;
+  const url = `https://api.magicslide.uz/api/v1/auth/authorization?token=${token}`;
 
   await ctx.reply(text, {
     ...Markup.inlineKeyboard([Markup.button.url("Web sahifaga o'tish", url)]),
