@@ -84,7 +84,7 @@ bot.on("pre_checkout_query", async (ctx: any) => {
 
   await bot.telegram.sendMessage(
     "-1002103794627",
-    `Foydalanuvchi ${user.name} so'rovni precheckout ga o'tkazdi ${amount} `
+    `Foydalanuvchi ${user.name} userId ${user.telegram_id} so'rovni precheckout ga o'tkazdi ${amount} `
   );
   return ctx.answerPreCheckoutQuery(true);
 });
@@ -194,7 +194,7 @@ bot.on("successful_payment", async (ctx: any) => {
   // );
   await bot.telegram.sendMessage(
     "-1002103794627",
-    `Foydalanuvchi ${user.name} so'rovni to'lov qabul qilindi o'tkazdi ${amount} `
+    `Foydalanuvchi ${user.name} userId ${user.telegram_id}  so'rovni to'lov qildi ${amount} `
   );
   return await ctx.scene.enter("start");
 });

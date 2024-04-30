@@ -113,7 +113,7 @@ async def generate_ppt(answer, template):
         slide.placeholders[1].text = content
         content_shape = slide.placeholders[1]
         content_text_frame = content_shape.text_frame
-        set_font_size_for_all_paragraphs(content_text_frame, 20)
+        set_font_size_for_all_paragraphs(content_text_frame, 15)
        
 
     async def create_title_and_content_and_image_slide(title, content, image_query):

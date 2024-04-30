@@ -29,6 +29,11 @@ import {
   generateSlides,
   handlePythonScript,
 } from "../services/createSlideTemplatesWithPython";
+import { sleep } from "openai/core";
+import {
+  generateFormattedStringFromData,
+  handlePythonScriptDocx,
+} from "../services/createDocTemplatesWithPython";
 export const languages = [
   {
     text: "🇺🇿 O'zbekcha",
@@ -529,27 +534,64 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       template: "Explore",
     };
 
-    const stringDatas = generateSlides(chatData, "Explore", chat.lang);
+    let templates = ["Explore", "Academic", "Organic", "Luminous"];
 
-    const handlePy = await handlePythonScript(stringDatas);
-
-    const pyPath = path.join(__dirname, "../../output2.pptx");
-
-    const dataExplore = fs.readFileSync(pyPath);
-    await ctx.telegram.sendDocument(
+    await ctx.telegram.sendMessage(
       user?.telegram_id,
+      `Shoshmay turing sizga yana sovg'alarimiz bor 😉.
+      Sekinroq javob qaytaraman 🚀`
+    );
+
+    for (let template of templates) {
+      const stringDatas = generateSlides(chatData, template, chat.lang);
+
+      const handlePy = await handlePythonScript(stringDatas);
+
+      const pyPath = path.join(__dirname, "../../output2.pptx");
+
+      const dataExplore = fs.readFileSync(pyPath);
+      await ctx.telegram.sendDocument(
+        user?.telegram_id,
+        {
+          source: dataExplore,
+          filename: `${newDate}-${template}.pptx`,
+        },
+        {
+          caption: `📌 Taqdimotingiz tayyor`,
+          parse_mode: "HTML",
+        }
+      );
+
+      await sleep(1000);
+    }
+
+    await ctx.telegram.sendMessage(
+      user.telegram_id,
+      "Word fayl ham yuboraman 📄.\nOzgina kutib turasangiz word fayl tayyor"
+    );
+
+    const stringDocx = generateFormattedStringFromData(chatData, chat.lang);
+    const wordPath = path.join(__dirname, "../../output2.docx");
+
+    const handlePy = await handlePythonScriptDocx(stringDocx);
+
+    const wordData = fs.readFileSync(wordPath);
+
+    await ctx.telegram.sendDocument(
+      user.telegram_id,
       {
-        source: dataExplore,
-        filename: `${newDate}-explore.pptx`,
+        source: wordData,
+        filename: `${newDate}.docx`,
       },
       {
-        caption: `📌 Taqdimotingiz tayyor`,
+        caption: `📌 Taqdimotingizning word shakli tayyor`,
         parse_mode: "HTML",
       }
     );
+
     await ctx.telegram.sendMessage(
       user?.telegram_id,
-      "Bosh menyuga o'tih uchun pastdagi tugmani bosing",
+      "Bosh menyuga o'tish uchun pastdagi tugmani bosing",
       {
         reply_markup: {
           keyboards: [["Bosh menyu"]],

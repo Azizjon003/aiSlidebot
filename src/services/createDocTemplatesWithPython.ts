@@ -1,4 +1,4 @@
-export function generateFormattedStringFromData(data: any) {
+export function generateFormattedStringFromData(data: any, lang: string) {
   let resultString = "";
 
   // Har bir 'plans' elementini ko'rib chiqamiz
@@ -15,7 +15,7 @@ export function generateFormattedStringFromData(data: any) {
           resultString += `[HEADING]${content.title}[/HEADING]\n`;
         }
         if (content.uzContent) {
-          resultString += `[CONTENT]${content.uzContent}[/CONTENT]\n`;
+          resultString += `[CONTENT]${content[`${lang}Content`]}[/CONTENT]\n`;
         }
         // Agar rasm haqida ma'lumot bo'lsa (bu yerda keyingi ishlarni qo'shishingiz mumkin)
         // Misol uchun:

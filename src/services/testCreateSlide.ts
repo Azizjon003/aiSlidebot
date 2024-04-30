@@ -1119,7 +1119,7 @@ const test = async () => {
   });
   console.log(chatData);
   // generateSlides(chatData, "Explore");
-  const stringDatas = generateFormattedStringFromData(chatData);
+  const stringDatas = generateFormattedStringFromData(chatData, "uz");
 
   console.log(stringDatas);
 

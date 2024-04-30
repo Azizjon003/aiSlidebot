@@ -29,7 +29,9 @@ scene.hears("Yangi Taqdimot", async (ctx: any) => {
   });
 
   await ctx.deleteMessage(res.message_id);
-  const text = `🧮 Slaydlar soni nechta bo'lsin?`;
+  const text = `🧮 Slaydlar soni nechta bo'lsin?
+  To'lov qilganingizdan so'ng taqdimot soni 18 tagacha oshirishingiz mumkin bo'ladi
+  `;
 
   await ctx.reply(text, {
     reply_markup: {

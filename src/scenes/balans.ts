@@ -27,11 +27,14 @@ scene.action(
     }
     await ctx.deleteMessage();
 
-    let txt = `Karta orqali to'lov qilmoqchi bo'lmasangiz \n
+    let txt = `Karta orqali to'lov qilmoqchi bo'lsangiz \n
     <b>Karta raqam</b>: <code>8600 3129 7257 8377</code>
     <b>Kimni nomida</b>: Aliqulov Azizjon
     karta raqamlariga to'lov qilib chekni adminga yuboring
-    Adminlarning kontaktlari: @magic_slide_admin @aliqulov_azizjon`;
+    Adminlarning kontaktlari: @magic_slide_admin @aliqulov_azizjon
+    
+    Bitta taqdimot narxi 2000 so'm.Bunda siz 18 sahifali taqdimot tayyorlay olishingiz mumkin bo'ladi
+    `;
     const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:\nMinimal summa 2000 so'm mumkin`;
 
     ctx.reply(txt, {
