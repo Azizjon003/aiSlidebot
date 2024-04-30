@@ -25,6 +25,10 @@ import { contentToString } from "../utils/functions";
 import { inlineKeyboard } from "telegraf/typings/markup";
 import { inlineKeyboardNumbers } from "../lib/helper";
 import xss from "xss";
+import {
+  generateSlides,
+  handlePythonScript,
+} from "../services/createSlideTemplatesWithPython";
 export const languages = [
   {
     text: "🇺🇿 O'zbekcha",
@@ -507,6 +511,42 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       }
     );
 
+    const chatData = await prisma.chat.findFirst({
+      where: {
+        id: chat.id,
+      },
+      include: {
+        plans: {
+          include: {
+            description: true,
+          },
+        },
+      },
+    });
+
+    const pythonData = {
+      data: chatData,
+      template: "Explore",
+    };
+
+    const stringDatas = generateSlides(chatData, "Explore", chat.lang);
+
+    const handlePy = await handlePythonScript(stringDatas);
+
+    const pyPath = path.join(__dirname, "../../output2.pptx");
+
+    const dataExplore = fs.readFileSync(pyPath);
+    await ctx.telegram.sendDocument(
+      user?.telegram_id,
+      {
+        source: dataExplore,
+        filename: `${newDate}-explore.pptx`,
+      },
+      {
+        caption: `📌 Taqdimotingiz tayyor`,
+        parse_mode: "HTML",
+      }
+    );
     await ctx.telegram.sendMessage(
       user?.telegram_id,
       "Bosh menyuga o'tih uchun pastdagi tugmani bosing",

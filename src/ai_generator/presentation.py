@@ -67,7 +67,7 @@ Do not include any additional information in your response and stick to the form
 
 
 async def generate_ppt(answer, template):
-    template = os.path.join("bot", "ai_generator", "presentation_templates", f"{template}.pptx")
+    template = os.path.join("src", "ai_generator", "presentation_templates", f"{template}.pptx")
     print(template,"template")
     root = Presentation(template)
 
@@ -94,30 +94,33 @@ async def generate_ppt(answer, template):
         slide = root.slides.add_slide(layout)
         slide.shapes.title.text = title
         slide.placeholders[1].text = subtitle
+        slide.shapes.title.text_frame.paragraphs[0].font.size = Pt(30)
 
     async def create_section_header_slide(title):
         layout = root.slide_layouts[2]
         slide = root.slides.add_slide(layout)
         slide.shapes.title.text = title
-
+        slide.shapes.title.text_frame.paragraphs[0].font.size = Pt(25)
+    def set_font_size_for_all_paragraphs(text_frame, font_size_pt):
+        for paragraph in text_frame.paragraphs:
+            for run in paragraph.runs:
+                run.font.size = Pt(font_size_pt)
     async def create_title_and_content_slide(title, content):
         layout = root.slide_layouts[1]
         slide = root.slides.add_slide(layout)
-        slide.shapes.title.text_frame.paragraphs[0].font.size = Pt(32)
         slide.shapes.title.text = title
+        slide.shapes.title.text_frame.paragraphs[0].font.size = Pt(25)
         slide.placeholders[1].text = content
         content_shape = slide.placeholders[1]
         content_text_frame = content_shape.text_frame
-        content_text_frame.paragraphs[0].font.size = Pt(20)
-        content_text_frame.paragraphs[1].font.size = Pt(20)
-        content_text_frame.paragraphs[2].font.size = Pt(20)
-        content_text_frame.paragraphs[3].font.size = Pt(20)
+        set_font_size_for_all_paragraphs(content_text_frame, 20)
        
 
     async def create_title_and_content_and_image_slide(title, content, image_query):
         layout = root.slide_layouts[8]
         slide = root.slides.add_slide(layout)
         slide.shapes.title.text = title
+        slide.shapes.title.text_frame.paragraphs[0].font.size = Pt(22)
         slide.placeholders[2].text = content
         content_shape = slide.placeholders[2]
         content_text_frame = content_shape.text_frame
@@ -182,7 +185,7 @@ async def generate_ppt(answer, template):
     pptx_title = f"{await find_title()}.pptx"
     # print(f"done {pptx_title}")
 
-    with open("output.pptx", "wb") as f:
+    with open("output2.pptx", "wb") as f:
         f.write(pptx_bytes)
     print(f"Presentation saved as output.pptx")
     return pptx_bytes, pptx_title

@@ -1,5 +1,10 @@
 import path from "path";
 import PptxGenJS from "pptxgenjs";
+import prisma from "../../prisma/prisma";
+import {
+  generateSlides,
+  handlePythonScript,
+} from "./createSlideTemplatesWithPython";
 
 function roundReact(): void {
   let pres = new PptxGenJS();
@@ -1093,4 +1098,26 @@ const createAnimationSlide = async () => {
     });
 };
 
-createAnimationSlide();
+// createAnimationSlide();
+
+const test = async () => {
+  const chatData = await prisma.chat.findFirst({
+    where: {
+      id: "1de5a27a-5ad6-4654-949e-a8520181a238",
+    },
+    include: {
+      plans: {
+        include: {
+          description: true,
+        },
+      },
+    },
+  });
+  // console.log(chatData);
+  // generateSlides(chatData, "Explore");
+  const stringDatas = generateSlides(chatData, "Explore", "uz");
+
+  const handlePy = await handlePythonScript(stringDatas);
+};
+
+test();

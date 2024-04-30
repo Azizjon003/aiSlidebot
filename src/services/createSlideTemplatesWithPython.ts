@@ -1,12 +1,13 @@
-function generateSlides(data: any, template: string) {
+export function generateSlides(data: any, template: string, lang: string) {
   let slides = "";
 
-  slides += `[L_TS] [TITLE]${data.name}[/TITLE]\n`; // Using the name of the course as the title of the presentation
+  console.log(data.name, "datas nimadirlar");
+  slides += `[L_TS]\n [TITLE]${data.name}[/TITLE] [SLIDEBREAK]\n`; // Using the name of the course as the title of the presentation
   data.plans.forEach((plan: any, index: number) => {
     const slideTypeTag = (index + 1) % 2 == 0 ? "[L_IS]" : "[L_CS]"; // Image slide for the third plan
     slides += `${slideTypeTag}\n`;
 
-    slides += `[TITLE]${plan.name}[/TITLE]\n`; // Using plan name as the slide title
+    slides += `[TITLE]${plan.name.split("&&")[0]}[/TITLE]\n`; // Using plan name as the slide title
 
     console.log(plan.name);
     plan.description.forEach((desc: any) => {
@@ -17,12 +18,16 @@ function generateSlides(data: any, template: string) {
       desc.content.forEach((content: any, i: number) => {
         if ((index + 1) % 2 == 0) {
           if (i <= 1) {
-            slides += `[CONTENT]• ${content.title} - ${content.uzContent}\n[/CONTENT]`;
+            slides += `[CONTENT]• ${content.title} - ${
+              content[`${lang}Content`]
+            }\n[/CONTENT]`;
           } else {
             slides += "";
           }
         } else {
-          slides += `[CONTENT]• ${content.title} - ${content.uzContent}\n[/CONTENT]`; // Adding content as bullet points
+          slides += `[CONTENT]• ${content.title} - ${
+            content[`${lang}Content`]
+          }\n[/CONTENT]`; // Adding content as bullet points
         }
       });
     });
@@ -49,7 +54,7 @@ function runPythonScript(inputData: string) {
   return new Promise((resolve, reject) => {
     // Python skriptini boshlash
     const pythonProcess = spawn("python3", [
-      path.join(__dirname, "/stc/ai_generator/presentation.py"),
+      path.join(__dirname, "../ai_generator/presentation.py"),
     ]);
 
     let outputData = "";
@@ -61,7 +66,7 @@ function runPythonScript(inputData: string) {
 
     // Python skripti natijasini qabul qilish
     pythonProcess.stdout.on("data", (data: any) => {
-      outputData += data.toString();
+      // outputData += data.toString();
     });
 
     // Xatolarni qabul qilish
@@ -83,7 +88,7 @@ function runPythonScript(inputData: string) {
   });
 }
 
-async function handlePythonScript(input: any) {
+export async function handlePythonScript(input: any) {
   try {
     const result = await runPythonScript(input);
     console.log("Python Script Output:", result);
