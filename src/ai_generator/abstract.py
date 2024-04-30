@@ -86,6 +86,20 @@ async def generate_docx(answer):
     doc.save(buffer)
     docx_bytes = buffer.getvalue()
     docx_title = f"{await find_title(reply_array)}.docx"
+    with open("output2.docx", "wb") as f:
+        f.write(docx_bytes)
+    print(f"Presentation saved as output.docx")
     print(f"done {docx_title}")
 
     return docx_bytes, docx_title
+
+import sys
+import asyncio
+
+async def test():
+    text = sys.stdin.read()
+    output, error = await generate_docx(text)
+    print(output, error,"Salom")
+
+if __name__ == "__main__":
+    asyncio.run(test())

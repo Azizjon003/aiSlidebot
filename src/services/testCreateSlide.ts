@@ -5,6 +5,10 @@ import {
   generateSlides,
   handlePythonScript,
 } from "./createSlideTemplatesWithPython";
+import {
+  generateFormattedStringFromData,
+  handlePythonScriptDocx,
+} from "./createDocTemplatesWithPython";
 
 function roundReact(): void {
   let pres = new PptxGenJS();
@@ -1113,11 +1117,15 @@ const test = async () => {
       },
     },
   });
-  // console.log(chatData);
+  console.log(chatData);
   // generateSlides(chatData, "Explore");
-  const stringDatas = generateSlides(chatData, "Explore", "uz");
+  const stringDatas = generateFormattedStringFromData(chatData);
 
-  const handlePy = await handlePythonScript(stringDatas);
+  console.log(stringDatas);
+
+  const handlePy = await handlePythonScriptDocx(stringDatas);
+
+  // const handlePy = await handlePythonScript(stringDatas);
 };
 
 test();
