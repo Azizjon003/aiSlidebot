@@ -529,11 +529,6 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       },
     });
 
-    const pythonData = {
-      data: chatData,
-      template: "Explore",
-    };
-
     let templates = ["Explore", "Academic", "Organic", "Luminous"];
 
     await ctx.telegram.sendMessage(
