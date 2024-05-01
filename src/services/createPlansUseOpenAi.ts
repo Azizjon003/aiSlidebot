@@ -493,11 +493,12 @@ export let createPlansDescriptionLanguage = async (
 
   const queryJson = {
     input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All data must be in ${language}. The title must contain the topic name for the slide section in ${language}. ${lang}Content should contain relevant information on this topic. The return value must be in JSON format. finish_reason cannot exceed 4096 tokens. Strictly follow the rules given in json_structure. Make no mistake. Do not forget that Content consists of 4 elements. It is required to have 4 elements in the Content part, not less. It is required to have 4 elements
-    Elaborate on the Content, provide as much information as possible.
+    Elaborate on the content, provide as much information as possible.
 
     Pay attention to the language of presentation - ${language}.
     In the content section, give important information about the language and content. Pay attention to the ${language} when writing the information, then you can't make a mistake.The titles in the content section should not be the same. The titles should be different.
     Do not use interrogative sentences in the title part. Do not use interrogative sentences in the content part either.
+    In the content section, give information in a suitable position for the title. Let it be the classification of the title. Follow this rule strictly
     Each image should be described in general by a set of keywords, such as "Mount Everest Sunset" or "Niagara Falls Rainbow".
     Do not reply as if you are talking about the slideshow itself. (ex. "Include pictures here about...")
     Do not include any special characters (?, !, ., :, ) in the Title.
