@@ -66,7 +66,7 @@ Do not include any additional information in your response and stick to the form
     return message
 
 
-async def generate_ppt(answer, template):
+async def generate_ppt(answer, template,time):
     template = os.path.join("src", "ai_generator", "presentation_templates", f"{template}.pptx")
     print(template,"template")
     root = Presentation(template)
@@ -185,7 +185,7 @@ async def generate_ppt(answer, template):
     pptx_title = f"{await find_title()}.pptx"
     # print(f"done {pptx_title}")
 
-    with open("output2.pptx", "wb") as f:
+    with open(f"output2{time}.pptx", "wb") as f:
         f.write(pptx_bytes)
     print(f"Presentation saved as output.pptx")
     return pptx_bytes, pptx_title
@@ -197,10 +197,11 @@ import asyncio
 
 async def test():
     text = sys.stdin.read()
-    templates = (text.split("{{")[1]).strip()
+    templates = (text.split("{{")[1]).strip().split("_")[0]
+    timestamp = (text.split("{{")[1]).strip().split("_")[1]
     txt =(text.split("{{")[0]).strip()
     
-    output, error = await generate_ppt(txt, templates)
+    output, error = await generate_ppt(txt, templates,timestamp)
     print(output, error,"Salom")
 
 if __name__ == "__main__":

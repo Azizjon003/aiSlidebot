@@ -537,12 +537,16 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       Sekinroq javob qaytaraman 🚀`
     );
 
+    let pyPath = path.join(__dirname, `../../output2${user.telegram_id}.pptx`);
     for (let template of templates) {
-      const stringDatas = generateSlides(chatData, template, chat.lang);
+      const stringDatas = generateSlides(chatData, template, user.telegram_id);
 
       const handlePy = await handlePythonScript(stringDatas);
 
-      const pyPath = path.join(__dirname, "../../output2.pptx");
+      // const pyPath = path.join(
+      //   __dirname,
+      //   `../../output2${user.telegram_id}.pptx`
+      // );
 
       const dataExplore = fs.readFileSync(pyPath);
       await ctx.telegram.sendDocument(
@@ -560,13 +564,20 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       await sleep(1000);
     }
 
+    await fs.unlinkSync(pyPath);
     await ctx.telegram.sendMessage(
       user.telegram_id,
       "Word fayl ham yuboraman 📄.\nOzgina kutib turasangiz word fayl tayyor"
     );
 
-    const stringDocx = generateFormattedStringFromData(chatData, chat.lang);
-    const wordPath = path.join(__dirname, "../../output2.docx");
+    const stringDocx = generateFormattedStringFromData(
+      chatData,
+      user.telegram_id
+    );
+    const wordPath = path.join(
+      __dirname,
+      `../../output2${user.telegram_id}.docx`
+    );
 
     const handlePy = await handlePythonScriptDocx(stringDocx);
 
@@ -583,6 +594,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
         parse_mode: "HTML",
       }
     );
+
+    await fs.unlinkSync(wordPath);
 
     await ctx.telegram.sendMessage(
       user?.telegram_id,

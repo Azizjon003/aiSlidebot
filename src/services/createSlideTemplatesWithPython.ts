@@ -1,4 +1,4 @@
-export function generateSlides(data: any, template: string, lang: string) {
+export function generateSlides(data: any, template: string, time: string) {
   let slides = "";
 
   console.log(data.name, "datas nimadirlar");
@@ -44,7 +44,7 @@ export function generateSlides(data: any, template: string, lang: string) {
   slides += `[TITLE]Thank you for your attention![/TITLE]\n`;
   slides += `[SLIDEBREAK]\n`;
 
-  slides += `{{ ${template}`;
+  slides += `{{ ${template}_${time}`;
   return slides;
 }
 import { spawn } from "child_process";

@@ -1,4 +1,4 @@
-export function generateFormattedStringFromData(data: any, lang: string) {
+export function generateFormattedStringFromData(data: any, time: string) {
   let resultString = "";
 
   // Har bir 'plans' elementini ko'rib chiqamiz
@@ -27,6 +27,7 @@ export function generateFormattedStringFromData(data: any, lang: string) {
     });
   });
 
+  resultString += `{{ ${time}`;
   return resultString;
 }
 import { spawn } from "child_process";

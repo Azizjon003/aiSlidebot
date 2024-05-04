@@ -46,7 +46,7 @@ Do not include any additional information in your response and stick to the form
     return message
 
 
-async def generate_docx(answer):
+async def generate_docx(answer,time):
     doc = Document()
 
     async def split_tags(reply):
@@ -86,7 +86,7 @@ async def generate_docx(answer):
     doc.save(buffer)
     docx_bytes = buffer.getvalue()
     docx_title = f"{await find_title(reply_array)}.docx"
-    with open("output2.docx", "wb") as f:
+    with open(f"output2{time}.docx", "wb") as f:
         f.write(docx_bytes)
     print(f"Presentation saved as output.docx")
     print(f"done {docx_title}")
@@ -98,7 +98,9 @@ import asyncio
 
 async def test():
     text = sys.stdin.read()
-    output, error = await generate_docx(text)
+    txt =(text.split("{{")[0]).strip()
+    templates = (text.split("{{")[1]).strip()
+    output, error = await generate_docx(txt,templates)
     print(output, error,"Salom")
 
 if __name__ == "__main__":
