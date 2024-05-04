@@ -135,7 +135,7 @@ export async function createPresentation(
             valign: "top",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: 3.5,
             y: 1.8,
             w: 6,
@@ -160,7 +160,7 @@ export async function createPresentation(
             valign: "top",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: 3.5,
             y: 2.7,
             w: 6,
@@ -185,7 +185,7 @@ export async function createPresentation(
             valign: "top",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: 3.5,
             y: 3.5,
             w: 6,
@@ -220,7 +220,7 @@ export async function createPresentation(
             bold: true,
           });
 
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: "10%",
             y: "60%",
             w: "20%",
@@ -254,7 +254,7 @@ export async function createPresentation(
 
           // // Doira ichiga matn qo'shish
           // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          // slide.addText(`\n${slidesSubData[`content`]}`, {
           //   x: 0.3,
           //   y: 1.3,
           //   w: 4,
@@ -288,7 +288,7 @@ export async function createPresentation(
             bold: true,
           });
 
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: "40%",
             y: "60%",
             w: "20%",
@@ -323,7 +323,7 @@ export async function createPresentation(
 
           // // Doira ichiga matn qo'shish
           // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          // slide.addText(`\n${slidesSubData[`content`]}`, {
           //   x: 5.7,
           //   y: 1.3,
           //   w: 4,
@@ -357,7 +357,7 @@ export async function createPresentation(
             bold: true,
           });
 
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: "70%",
             y: "60%",
             w: "20%",
@@ -391,7 +391,7 @@ export async function createPresentation(
 
           // // Doira ichiga matn qo'shish
           // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          // slide.addText(`\n${slidesSubData[`content`]}`, {
           //   x: 5.7,
           //   y: 3.3,
           //   w: 4,
@@ -431,7 +431,7 @@ export async function createPresentation(
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: 0.3,
             y: 1.3,
             w: 4,
@@ -468,7 +468,7 @@ export async function createPresentation(
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: 5.7,
             y: 1.3,
             w: 4,
@@ -505,7 +505,7 @@ export async function createPresentation(
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: 5.7,
             y: 3.3,
             w: 4,
@@ -543,7 +543,7 @@ export async function createPresentation(
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: 0.3,
             y: 3.3,
             w: 4,
@@ -583,7 +583,7 @@ export async function createPresentation(
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: 0.3,
             y: 1.3,
             w: 4,
@@ -620,7 +620,7 @@ export async function createPresentation(
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: 5.7,
             y: 1.3,
             w: 4,
@@ -656,7 +656,7 @@ export async function createPresentation(
           });
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(` \n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(` \n${slidesSubData[`content`]}`, {
             x: 5.7,
             y: 3.3,
             w: 4,
@@ -694,7 +694,7 @@ export async function createPresentation(
             align: "left",
             valign: "top",
           });
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: 0.3,
             y: 3.3,
             w: 4,
@@ -838,7 +838,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "5%",
             y: "15%",
             w: "90%",
@@ -877,7 +877,7 @@ export const createSlideWithAnimationDarkMode = async (
             align: "left",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "5%",
             y: "35%",
             w: "90%",
@@ -916,7 +916,7 @@ export const createSlideWithAnimationDarkMode = async (
             align: "left",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "5%",
             y: "57%",
             w: "90%",
@@ -955,7 +955,7 @@ export const createSlideWithAnimationDarkMode = async (
             align: "left",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "5%",
             y: "80%",
             w: "90%",
@@ -980,7 +980,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
           });
 
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "5%",
             y: "15%",
             w: "90%",
@@ -1004,7 +1004,7 @@ export const createSlideWithAnimationDarkMode = async (
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: 0.3,
             y: 2,
             w: 4,
@@ -1029,7 +1029,7 @@ export const createSlideWithAnimationDarkMode = async (
 
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: 5.7,
             y: 2,
             w: 4,
@@ -1053,7 +1053,7 @@ export const createSlideWithAnimationDarkMode = async (
           });
           // Doira ichiga matn qo'shish
           // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: 5.7,
             y: 4,
             w: 4,
@@ -1114,7 +1114,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
             align: "center",
           });
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "5%",
             y: "50%",
             w: "25%",
@@ -1135,7 +1135,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
             align: "center",
           });
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "35%",
             y: "50%",
             w: "25%",
@@ -1156,7 +1156,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
             align: "center",
           });
-          slide.addText(slidesSubData[`${lang}Content`], {
+          slide.addText(slidesSubData[`content`], {
             x: "65%",
             y: "50%",
             w: "25%",
@@ -1204,7 +1204,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
           });
 
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: "40%",
             y: "60%",
             w: "20%",
@@ -1237,7 +1237,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
           });
 
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: "10%",
             y: "60%",
             w: "20%",
@@ -1272,7 +1272,7 @@ export const createSlideWithAnimationDarkMode = async (
 
           // // Doira ichiga matn qo'shish
           // // E'tibor bering: Matnning joylashuvi va o'lchami doirani hisobga olgan holda moslashtirilgan
-          // slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          // slide.addText(`\n${slidesSubData[`content`]}`, {
           //   x: 0.3,
           //   y: 1.3,
           //   w: 4,
@@ -1307,7 +1307,7 @@ export const createSlideWithAnimationDarkMode = async (
             color: "f0f0f0",
           });
 
-          slide.addText(`\n${slidesSubData[`${lang}Content`]}`, {
+          slide.addText(`\n${slidesSubData[`content`]}`, {
             x: "70%",
             y: "60%",
             w: "20%",

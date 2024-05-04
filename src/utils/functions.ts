@@ -45,7 +45,7 @@ export const contentToString = (content: any, lang: string) => {
   for (let txt of content) {
     console.log(txt[`${lang}Content`]);
     let description = `<b>${txt?.title}</b>\n
-    <i>${txt[`${lang}Content`]}</i>\n
+    <i>${txt[`content`]}</i>\n
     `;
     text += description;
   }

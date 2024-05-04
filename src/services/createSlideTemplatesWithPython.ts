@@ -19,14 +19,14 @@ export function generateSlides(data: any, template: string, lang: string) {
         if ((index + 1) % 2 == 0) {
           if (i <= 1) {
             slides += `[CONTENT]• ${content.title} - ${
-              content[`${lang}Content`]
+              content[`content`]
             }\n[/CONTENT]`;
           } else {
             slides += "";
           }
         } else {
           slides += `[CONTENT]• ${content.title} - ${
-            content[`${lang}Content`]
+            content[`content`]
           }\n[/CONTENT]`; // Adding content as bullet points
         }
       });

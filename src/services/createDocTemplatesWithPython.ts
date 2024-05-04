@@ -6,6 +6,8 @@ export function generateFormattedStringFromData(data: any, lang: string) {
     // Har bir 'description' elementini ko'rib chiqamiz
     plan.description.forEach((desc: any) => {
       // Agar 'TITLE' mavjud bo'lsa, uni qo'shamiz
+
+      console.log(desc, "desc", desc[0].content);
       if (desc.name) {
         resultString += `[TITLE]${desc.name.split("&&")[0]}[/TITLE]\n`;
       }
@@ -14,8 +16,8 @@ export function generateFormattedStringFromData(data: any, lang: string) {
         if (content.title) {
           resultString += `[HEADING]${content.title}[/HEADING]\n`;
         }
-        if (content.uzContent) {
-          resultString += `[CONTENT]${content[`${lang}Content`]}[/CONTENT]\n`;
+        if (content.content) {
+          resultString += `[CONTENT]${content[`content`]}[/CONTENT]\n`;
         }
         // Agar rasm haqida ma'lumot bo'lsa (bu yerda keyingi ishlarni qo'shishingiz mumkin)
         // Misol uchun:

@@ -420,7 +420,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
 
       console.log(description.content);
       await ctx.telegram.sendChatAction(user.telegram_id, "typing");
-      txt += contentToString(description.content, chat.lang);
+      txt += contentToString(description.content, chat.lang); // contentToString(description.content, chat.lang);
       // txt += `\n\n ${description.content}`;
       await ctx.telegram.sendMessage(user.telegram_id, txt, {
         parse_mode: "HTML",

@@ -333,7 +333,9 @@ export let createPlansLanguage = async (
     "gpt-4": "gpt-4-turbo-preview",
   };
   console.log(models["gpt-3"], pages);
-
+  if (lang == "eng") {
+    lang = "english";
+  }
   // const queryJson = {
   //   input_text: `Create a ${pages} layout for the theme. Create 20 to 30 words for each plan. ${name}. Each plan must have ${language} and {{${lang}}}, {{eng}} in English. The end result should be like this. List of discussion questions. Return as JSON. Do not contain data that violates the JSON format. Plans should only contain words.`,
   //   // input_text: `Create ${pages} layout for topic. Create 20 to 30 words for each plan. ${name}. Each plan must have {${lang}}, {eng} in ${language} and English. The end result should look like this. List of discussion questions. Return as JSON.`,
@@ -425,6 +427,8 @@ export let createPlansLanguage = async (
       input_text: `Create a layout with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.
       
       Pay attention to the language of presentation - ${language}.
+      Each image should be described in general by a set of keywords, such as "Mount Everest Sunset" or "Niagara Falls Rainbow".
+      Do not reply as if you are talking about the slideshow itself. (ex. "Include pictures here about...")
       Do not include any special characters (?, !, ., :, ) in the Title.
       Do not include any additional information in your response and stick to the format
       `,
@@ -452,7 +456,7 @@ export let createPlansLanguage = async (
       ],
       // model: "gpt-3.5-turbo-1106",
       // model: "gpt-3.5-turbo-0125",
-      model: models[model],
+      model: models["gpt-3"],
       // model: "gpt-3.5-turbo-16k-0613",
       // model: "gpt-4-turbo-preview",
       max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
@@ -467,7 +471,9 @@ export let createPlansLanguage = async (
 
   console.log(plans.length, "plans length");
   let plansText = plans.map((plan: any) => {
-    return `${xss(plan[lang])} && ${xss(plan.eng)}`.replace(/\d+/g, "");
+    return `${xss(plan[lang])} && ${xss(
+      plan[lang == "english" ? "english" : "eng"]
+    )}`.replace(/\d+/g, "");
   });
 
   console.log(plansText);
@@ -492,7 +498,7 @@ export let createPlansDescriptionLanguage = async (
   };
 
   const queryJson = {
-    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All data must be in ${language}. The title must contain the topic name for the slide section in ${language}. ${lang}Content should contain relevant information on this topic. The return value must be in JSON format. finish_reason cannot exceed 4096 tokens. Strictly follow the rules given in json_structure. Make no mistake. Do not forget that Content consists of 4 elements. It is required to have 4 elements in the Content part, not less. It is required to have 4 elements
+    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All data must be in ${language}. The title must contain the topic name for the slide section in ${language}. content should contain relevant information on this topic. The return value must be in JSON format. finish_reason cannot exceed 4096 tokens. Strictly follow the rules given in json_structure. Make no mistake. Do not forget that Content consists of 4 elements. It is required to have 4 elements in the Content part, not less. It is required to have 4 elements
     Elaborate on the content, provide as much information as possible.
 
     Pay attention to the language of presentation - ${language}.
@@ -513,19 +519,19 @@ export let createPlansDescriptionLanguage = async (
         content: [
           {
             title: "{{title}}",
-            [`${lang}Content`]: `{{${lang}Content}}`,
+            [`content`]: `{{${lang}Content}}`,
           },
           {
             title: "{{title}}",
-            [`${lang}Content`]: `{{${lang}Content}}`,
+            [`content`]: `{{${lang}Content}}`,
           },
           {
             title: "{{title}}",
-            [`${lang}Content`]: `{{${lang}Content}}`,
+            [`content`]: `{{${lang}Content}}`,
           },
           {
             title: "{{title}}",
-            [`${lang}Content`]: `{{${lang}Content}}`,
+            [`content`]: `{{${lang}Content}}`,
           },
         ],
       },
@@ -555,29 +561,45 @@ export let createPlansDescriptionLanguage = async (
       chatCompletion.choices[0].message.content ?? ""
     ).slide.content;
   } catch (error) {
-    const chatCompletion = await openai.chat.completions.create({
-      messages: [
-        { role: "user", content: name },
-        {
-          role: "system",
-          content: JSON.stringify(queryJson),
+    try {
+      const chatCompletion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "user",
+            content: JSON.stringify(queryJson),
+          },
+        ],
+        // model: "gpt-3.5-turbo-0125",
+        model: models["gpt-3"],
+        // model: "gpt-4-turbo-preview",
+        max_tokens: 1200,
+        response_format: {
+          type: "json_object",
         },
-        {
-          role: "system",
-          content: "please JSON format based on the given structure.",
+      });
+      description = await JSON.parse(
+        chatCompletion.choices[0].message.content ?? ""
+      ).slide.content;
+    } catch (error) {
+      const chatCompletion = await openai.chat.completions.create({
+        messages: [
+          {
+            role: "user",
+            content: JSON.stringify(queryJson),
+          },
+        ],
+        // model: "gpt-3.5-turbo-0125",
+        model: models["gpt-3"],
+        // model: "gpt-4-turbo-preview",
+        max_tokens: 1500,
+        response_format: {
+          type: "json_object",
         },
-      ],
-      // model: "gpt-3.5-turbo-0125",
-      model: models["gpt-3"],
-      // model: "gpt-4-turbo-preview",
-      max_tokens: 1000,
-      response_format: {
-        type: "json_object",
-      },
-    });
-    description = await JSON.parse(
-      chatCompletion.choices[0].message.content ?? ""
-    ).slide.content;
+      });
+      description = await JSON.parse(
+        chatCompletion.choices[0].message.content ?? ""
+      ).slide.content;
+    }
   }
 
   // console.log(description);
