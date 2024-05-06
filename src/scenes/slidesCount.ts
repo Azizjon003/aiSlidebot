@@ -187,7 +187,7 @@ scene.on("message", async (ctx: any) => {
     Number(user?.wallet?.balance)
   ) {
     ctx.reply(
-      `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm`
+      `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin`
     );
     return await ctx.scene.enter("start");
   }
