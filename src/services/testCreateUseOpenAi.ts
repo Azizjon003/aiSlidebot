@@ -1,6 +1,7 @@
 import PPTXGenJS from "pptxgenjs";
 import OpenAI from "openai";
 import { create } from "domain";
+import { createPlansLanguage } from "./createPlansUseOpenAi";
 require("dotenv").config();
 const key = process.env["OPEN_AI_KEY"] || "";
 const openai = new OpenAI({
@@ -148,8 +149,22 @@ export async function createPlansDescription(name: string) {
 
 // createPlans("Qon tomir kasalliklari", 15);
 
-createPlansDescription(
-  "Qon tomirlarining asosiy kasalliklarini qanday aniqlaymiz? && How can we identify the main diseases of blood clots?"
-);
+// createPlansDescription(
+//   "Qon tomirlarining asosiy kasalliklarini qanday aniqlaymiz? && How can we identify the main diseases of blood clots?"
+// );
 
 // createPlansDescriptionLanguage("Vascular diseases", "eng", "English");
+
+const test = async () => {
+  const plans = await createPlansLanguage(
+    "Optik tolali kabellar",
+    12,
+    "uz",
+    "Uzbek",
+    12
+  );
+
+  console.log(plans);
+};
+
+test();

@@ -352,10 +352,9 @@ export let createPlansLanguage = async (
   //   },
   // };
   let queryJson = {
-    input_text: `Create a layout with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.
+    input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate educational plans for the given topic. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.
     Pay attention to the language of presentation - ${language}.
-    Each image should be described in general by a set of keywords, such as "Mount Everest Sunset" or "Niagara Falls Rainbow".
-    Do not reply as if you are talking about the slideshow itself. (ex. "Include pictures here about...")
+     Do not mix other topics
     Do not include any special characters (?, !, ., :, ) in the Title.
     Do not include any additional information in your response and stick to the format`,
     output_format: "json",
@@ -427,8 +426,6 @@ export let createPlansLanguage = async (
       input_text: `Create a layout with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.
       
       Pay attention to the language of presentation - ${language}.
-      Each image should be described in general by a set of keywords, such as "Mount Everest Sunset" or "Niagara Falls Rainbow".
-      Do not reply as if you are talking about the slideshow itself. (ex. "Include pictures here about...")
       Do not include any special characters (?, !, ., :, ) in the Title.
       Do not include any additional information in your response and stick to the format
       `,
