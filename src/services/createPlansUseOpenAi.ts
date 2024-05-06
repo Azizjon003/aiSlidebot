@@ -352,9 +352,10 @@ export let createPlansLanguage = async (
   //   },
   // };
   let queryJson = {
-    input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate educational plans for the given topic. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.
+    input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate professional plans for the given topic. Each page should have plans with descriptions of 30 to 40 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
     Pay attention to the language of presentation - ${language}.
-     Do not mix other topics
+    Do not mix other topics
+    Plans for the given topic should be in good content.  Do not reply as if you are talking about the plans itself. (ex. "Include pictures here about...")
     Do not include any special characters (?, !, ., :, ) in the Title.
     Do not include any additional information in your response and stick to the format`,
     output_format: "json",
@@ -423,10 +424,10 @@ export let createPlansLanguage = async (
   console.log(plans.length, "plans length-1");
   if (leth < pages) {
     let queryJsons = {
-      input_text: `Create a layout with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 20 to 30 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. The final output should include a list of discussion questions and return as JSON. Ensure that the data is formatted correctly and that the plans contain only textual information.
-      
+      input_text: `Create a plans with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 30 to 40 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
       Pay attention to the language of presentation - ${language}.
-      Do not include any special characters (?, !, ., :, ) in the Title.
+      Plans for the given topic should be in good content.  Do not reply as if you are talking about the plans itself. (ex. "Include pictures here about...")
+      Do not include any special characters (?, !, ., :, ) in the plans.
       Do not include any additional information in your response and stick to the format
       `,
       output_format: "json",
@@ -495,16 +496,25 @@ export let createPlansDescriptionLanguage = async (
   };
 
   const queryJson = {
-    input_text: `Provide the necessary information on the topic. Create 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. All data must be in ${language}. The title must contain the topic name for the slide section in ${language}. content should contain relevant information on this topic. The return value must be in JSON format. finish_reason cannot exceed 4096 tokens. Strictly follow the rules given in json_structure. Make no mistake. Do not forget that Content consists of 4 elements. It is required to have 4 elements in the Content part, not less. It is required to have 4 elements
+    input_text: `Provide the necessary information on the topic. Create content 20 to 40 words for your topic. ${name}. {{${lang}}} for each theme must be in ${language}. The end result should be like this. List of discussion questions.
+     Return as JSON based on the given structure. Please do not deviate from the given structure.
+      All data must be in ${language}. The title must contain the topic name for the slide section in ${language}. 
+      content should contain relevant information on this topic. 
+      The return value must be in JSON format. 
+      Strictly follow the rules given in json_structure.
+      Make no mistake.
+      Do not forget that content consists of 4 elements. 
+      It is required to have 4 elements in the content part, not less.
+      It is required to have 4 elements
     Elaborate on the content, provide as much information as possible.
-
+    Write important information about the topic in the title and content parts. Make this information very sure.
     Pay attention to the language of presentation - ${language}.
-    In the content section, give important information about the language and content. Pay attention to the ${language} when writing the information, then you can't make a mistake.The titles in the content section should not be the same. The titles should be different.
-    Do not use interrogative sentences in the title part. Do not use interrogative sentences in the content part either.
-    In the content section, give information in a suitable position for the title. Let it be the classification of the title. Follow this rule strictly
-    Each image should be described in general by a set of keywords, such as "Mount Everest Sunset" or "Niagara Falls Rainbow".
-    Do not reply as if you are talking about the slideshow itself. (ex. "Include pictures here about...")
-    Do not include any special characters (?, !, ., :, ) in the Title.
+    In the content section, give important information about the language and content.
+     Pay attention to the ${language} when writing the information, then you can't make a mistake.
+    The titles in the content section should not be the same. The titles should be different.
+    Do not use interrogative sentences in the title and content part. Do not use interrogative sentences in the content part either.
+    In the content section, give information in a suitable position for the content. Let it be the classification of the content. Follow this rule strictly
+    Do not include any special characters (?, !, ., :, ) in the content.
     Do not include any additional information in your response and stick to the format
     `,
     // input_text: `Provide the necessary information on the topic. Create 50 to 60 words for your topic. ${name}. {{uz}} for each topic should be in Uzbek language. The end result should be like this. List of discussion questions. Return as JSON based on the given structure. Please do not deviate from the given structure. Every information should be in Uzbek language. In Title, the name of the topic for the part of the slide should be in Uzbek. And in UzContent, there should be the necessary information for this topic. The return value should be in JSON format`,

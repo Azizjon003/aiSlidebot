@@ -1,7 +1,10 @@
 import PPTXGenJS from "pptxgenjs";
 import OpenAI from "openai";
 import { create } from "domain";
-import { createPlansLanguage } from "./createPlansUseOpenAi";
+import {
+  createPlansDescriptionLanguage,
+  createPlansLanguage,
+} from "./createPlansUseOpenAi";
 require("dotenv").config();
 const key = process.env["OPEN_AI_KEY"] || "";
 const openai = new OpenAI({
@@ -156,15 +159,22 @@ export async function createPlansDescription(name: string) {
 // createPlansDescriptionLanguage("Vascular diseases", "eng", "English");
 
 const test = async () => {
-  const plans = await createPlansLanguage(
-    "Optik tolali kabellar",
-    12,
+  // const plans = await createPlansLanguage(
+  //   "Optik tolali kabellar",
+  //   12,
+  //   "uz",
+  //   "Uzbek",
+  //   12
+  // );
+  // console.log(plans);
+
+  const description = await createPlansDescriptionLanguage(
+    "Optik tolali kabellar qurilishi kimyoviy nazorat ashuriida qanday ishlaydi? && How does the construction of optical fiber cables work in chemical quality control?",
     "uz",
-    "Uzbek",
-    12
+    "Uzbek"
   );
 
-  console.log(plans);
+  console.log(description);
 };
 
-test();
+// test();
