@@ -1107,7 +1107,7 @@ const createAnimationSlide = async () => {
 const test = async () => {
   const chatData = await prisma.chat.findFirst({
     where: {
-      id: "1de5a27a-5ad6-4654-949e-a8520181a238",
+      id: "c57bd97e-f748-4323-b167-1a125a399eb8",
     },
     include: {
       plans: {
@@ -1119,11 +1119,14 @@ const test = async () => {
   });
   console.log(chatData);
   // generateSlides(chatData, "Explore");
-  const stringDatas = generateFormattedStringFromData(chatData, "uz");
+  // const stringDatas = generateFormattedStringFromData(chatData, "uz");
 
-  console.log(stringDatas);
+  // console.log(stringDatas);
 
-  const handlePy = await handlePythonScriptDocx(stringDatas);
+  // const handlePy = await handlePythonScriptDocx(stringDatas);
+  const stringDatas = generateSlides(chatData, "Organic", "161651651");
+
+  const handlePy = await handlePythonScript(stringDatas);
 
   // const handlePy = await handlePythonScript(stringDatas);
 };
