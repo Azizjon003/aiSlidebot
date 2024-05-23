@@ -531,87 +531,87 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
 
     let templates = ["Explore", "Academic", "Organic", "Luminous"];
 
+    await ctx.telegram.sendMessage(
+      user?.telegram_id,
+      `Shoshmay turing sizga yana sovg'alarimiz bor 😉.
+      Sekinroq javob qaytaraman 🚀`
+    );
+
     // await ctx.telegram.sendMessage(
     //   user?.telegram_id,
-    //   `Shoshmay turing sizga yana sovg'alarimiz bor 😉.
-    //   Sekinroq javob qaytaraman 🚀`
+    //   "Keyingi 5 ta taqdimot turlarini yaratishda xatolikka duch keldik.Yaqin kunlarda tuzatamiz.Bizni to'g'ri tushunganingiz uchun raxmat"
     // );
+
+    let pyPath = path.join(__dirname, `../../output2${user.telegram_id}.pptx`);
+    for (let template of templates) {
+      const stringDatas = generateSlides(chatData, template, user.telegram_id);
+
+      const handlePy = await handlePythonScript(stringDatas);
+
+      // const pyPath = path.join(
+      //   __dirname,
+      //   `../../output2${user.telegram_id}.pptx`
+      // );
+
+      const dataExplore = fs.readFileSync(pyPath);
+      await ctx.telegram.sendDocument(
+        user?.telegram_id,
+        {
+          source: dataExplore,
+          filename: `${newDate}-${template}.pptx`,
+        },
+        {
+          caption: `📌 Taqdimotingiz tayyor`,
+          parse_mode: "HTML",
+        }
+      );
+
+      await sleep(1000);
+    }
+
+    await fs.unlinkSync(pyPath);
+    await ctx.telegram.sendMessage(
+      user.telegram_id,
+      "Word fayl ham yuboraman 📄.\nOzgina kutib turasangiz word fayl tayyor"
+    );
+
+    const stringDocx = generateFormattedStringFromData(
+      chatData,
+      user.telegram_id
+    );
+    const wordPath = path.join(
+      __dirname,
+      `../../output2${user.telegram_id}.docx`
+    );
+
+    const handlePy = await handlePythonScriptDocx(stringDocx);
+
+    const wordData = fs.readFileSync(wordPath);
+
+    await ctx.telegram.sendDocument(
+      user.telegram_id,
+      {
+        source: wordData,
+        filename: `${newDate}.docx`,
+      },
+      {
+        caption: `📌 Taqdimotingizning word shakli tayyor`,
+        parse_mode: "HTML",
+      }
+    );
+
+    await fs.unlinkSync(wordPath);
 
     await ctx.telegram.sendMessage(
       user?.telegram_id,
-      "Keyingi 5 ta taqdimot turlarini yaratishda xatolikka duch keldik.Yaqin kunlarda tuzatamiz.Bizni to'g'ri tushunganingiz uchun raxmat"
+      "Bosh menyuga o'tish uchun pastdagi tugmani bosing",
+      {
+        reply_markup: {
+          keyboards: [["Bosh menyu"]],
+        },
+        resize_keyboard: true,
+      }
     );
-
-    // let pyPath = path.join(__dirname, `../../output2${user.telegram_id}.pptx`);
-    // for (let template of templates) {
-    //   const stringDatas = generateSlides(chatData, template, user.telegram_id);
-
-    //   const handlePy = await handlePythonScript(stringDatas);
-
-    //   // const pyPath = path.join(
-    //   //   __dirname,
-    //   //   `../../output2${user.telegram_id}.pptx`
-    //   // );
-
-    //   const dataExplore = fs.readFileSync(pyPath);
-    //   await ctx.telegram.sendDocument(
-    //     user?.telegram_id,
-    //     {
-    //       source: dataExplore,
-    //       filename: `${newDate}-${template}.pptx`,
-    //     },
-    //     {
-    //       caption: `📌 Taqdimotingiz tayyor`,
-    //       parse_mode: "HTML",
-    //     }
-    //   );
-
-    //   await sleep(1000);
-    // }
-
-    // await fs.unlinkSync(pyPath);
-    // await ctx.telegram.sendMessage(
-    //   user.telegram_id,
-    //   "Word fayl ham yuboraman 📄.\nOzgina kutib turasangiz word fayl tayyor"
-    // );
-
-    // const stringDocx = generateFormattedStringFromData(
-    //   chatData,
-    //   user.telegram_id
-    // );
-    // const wordPath = path.join(
-    //   __dirname,
-    //   `../../output2${user.telegram_id}.docx`
-    // );
-
-    // const handlePy = await handlePythonScriptDocx(stringDocx);
-
-    // const wordData = fs.readFileSync(wordPath);
-
-    // await ctx.telegram.sendDocument(
-    //   user.telegram_id,
-    //   {
-    //     source: wordData,
-    //     filename: `${newDate}.docx`,
-    //   },
-    //   {
-    //     caption: `📌 Taqdimotingizning word shakli tayyor`,
-    //     parse_mode: "HTML",
-    //   }
-    // );
-
-    // await fs.unlinkSync(wordPath);
-
-    // await ctx.telegram.sendMessage(
-    //   user?.telegram_id,
-    //   "Bosh menyuga o'tish uchun pastdagi tugmani bosing",
-    //   {
-    //     reply_markup: {
-    //       keyboards: [["Bosh menyu"]],
-    //     },
-    //     resize_keyboard: true,
-    //   }
-    // );
     return await ctx.scene.enter("start");
   } catch (error) {
     console.log(error);
