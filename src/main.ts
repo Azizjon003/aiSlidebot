@@ -14,8 +14,13 @@ const middleware: Middleware<Context | SceneContext> = (ctx: any, next) => {
   ctx?.session ?? (ctx.session = {});
 };
 bot.use(subcribeFunk);
+
 bot.use(stage.middleware());
 
+bot.use((ctx: any, next) => {
+  console.log("next", ctx?.session);
+  return next();
+});
 bot.on("pre_checkout_query", async (ctx: any) => {
   const user_id = ctx.from.id;
   console.log(ctx.update);
@@ -205,6 +210,13 @@ bot.on("successful_payment", async (ctx: any) => {
 bot.start(async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
+
+bot.hears(
+  ["Yangi Taqdimot", "Balans", "Do'stlarimni taklif qilish", "Bosh menyu"],
+  async (ctx: any) => {
+    ctx.reply("Nomalum buyruq.Qayta /start buyrug'ini bosing");
+  }
+);
 
 bot.catch((err: any, ctx) => {
   const userId = ctx?.from?.id;
