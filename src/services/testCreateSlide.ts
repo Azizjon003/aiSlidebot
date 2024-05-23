@@ -1108,6 +1108,7 @@ const test = async () => {
   const chatData = await prisma.chat.findFirst({
     where: {
       id: "c57bd97e-f748-4323-b167-1a125a399eb8",
+      // id: "00385b3f-2a38-475b-956f-678ca74a8c6c",
     },
     include: {
       plans: {
