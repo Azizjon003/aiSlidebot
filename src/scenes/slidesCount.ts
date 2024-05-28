@@ -379,7 +379,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
 
     console.log(plans);
     for (let plan of plans) {
-      await ctx.telegram.sendChatAction(user.telegram_id, "typing");
+      // await ctx.telegram.sendChatAction(user.telegram_id, "typing");
       await prisma.plan.create({
         data: {
           chat_id: chat.id,
@@ -393,6 +393,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
         chat_id: chat.id,
       },
     });
+
     for (let [index, p] of plan.entries()) {
       let txt = `📌${index + 1}. ${p.name.split("&&")[0]}\n`;
 
