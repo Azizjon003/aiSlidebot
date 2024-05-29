@@ -9,7 +9,7 @@ scene.hears("/start", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
 
-scene.action(["eng", "ru", "uz", "fr"], async (ctx: any) => {
+scene.action(["eng", "ru", "uz", "fr", "de"], async (ctx: any) => {
   // Update the type of ctx
   ctx.answerCbQuery();
   ctx.deleteMessage();
@@ -78,6 +78,16 @@ scene.action(["eng", "ru", "uz", "fr"], async (ctx: any) => {
       data: {
         language: "French",
         lang: "fr",
+      },
+    });
+  } else if (lang === "de") {
+    await prisma.chat.update({
+      where: {
+        id: chat.id,
+      },
+      data: {
+        language: "German",
+        lang: "de",
       },
     });
   }

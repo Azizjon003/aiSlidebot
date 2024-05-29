@@ -51,6 +51,11 @@ export const languages = [
     text: "🇫🇷 French",
     callback_data: "fr",
   },
+
+  {
+    text: "🇩🇪 Deutsch",
+    callback_data: "de",
+  },
 ];
 const scene = new Scenes.BaseScene("slidesCount");
 
