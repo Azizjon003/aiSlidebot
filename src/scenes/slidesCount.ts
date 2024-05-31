@@ -349,7 +349,7 @@ scene.action("confirm", async (ctx: any) => {
     },
   });
 
-  prisma.user.update({
+  await prisma.user.update({
     where: {
       id: user?.id,
     },

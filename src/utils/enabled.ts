@@ -34,6 +34,7 @@ const enabled = async (id: string, name: string): Promise<enabledEnum> => {
       //   },
       // });
       if (user.working) {
+        console.log("working");
         return enabledEnum.four;
       }
       return enabledEnum.one;
