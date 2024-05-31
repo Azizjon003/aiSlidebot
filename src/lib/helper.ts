@@ -36,41 +36,41 @@ export const inlineKeyboardNumbers = async (
 
     if (umumiySumma < Number(user?.wallet?.balance)) {
       endNumber = 12;
-      await prisma.user.update({
-        where: {
-          id: user?.id,
-        },
-        data: {
-          model_id: gptModel3?.id,
-        },
-      });
+      // await prisma.user.update({
+      //   where: {
+      //     id: user?.id,
+      //   },
+      //   data: {
+      //     model_id: gptModel3?.id,
+      //   },
+      // });
     } else {
-      const gptModel = await prisma.gptModel.findFirst({
-        where: {
-          name: "gpt-4",
-        },
-      });
+      // const gptModel = await prisma.gptModel.findFirst({
+      //   where: {
+      //     name: "gpt-4",
+      //   },
+      // });
 
-      await prisma.user.update({
-        where: {
-          id: user?.id,
-        },
-        data: {
-          model_id: gptModel?.id,
-        },
-      });
+      // await prisma.user.update({
+      //   where: {
+      //     id: user?.id,
+      //   },
+      //   data: {
+      //     model_id: gptModel?.id,
+      //   },
+      // });
       endNumber = 18;
     }
   } else if (Number(user?.wallet?.balance) > 0) {
     endNumber = 12;
-    await prisma.user.update({
-      where: {
-        id: user?.id,
-      },
-      data: {
-        model_id: gptModel3?.id,
-      },
-    });
+    // await prisma.user.update({
+    //   where: {
+    //     id: user?.id,
+    //   },
+    //   data: {
+    //     model_id: gptModel3?.id,
+    //   },
+    // });
   }
   for (let i = startNumber; i <= endNumber; i++) {
     array.push({

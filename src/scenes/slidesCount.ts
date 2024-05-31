@@ -188,11 +188,11 @@ scene.on("message", async (ctx: any) => {
   });
 
   if (
-    Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 2000) >
+    Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 4000) >
     Number(user?.wallet?.balance)
   ) {
     ctx.reply(
-      `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin`
+      `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm yoki 4000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin`
     );
     return await ctx.scene.enter("start");
   }
@@ -348,6 +348,15 @@ scene.action("confirm", async (ctx: any) => {
       model: true,
     },
   });
+
+  prisma.user.update({
+    where: {
+      id: user?.id,
+    },
+    data: {
+      working: true,
+    },
+  });
   await ctx.telegram.sendChatAction(user?.telegram_id, "typing");
 
   const chat = await prisma.chat.findFirst({
@@ -379,7 +388,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       chat.lang,
       chat.language,
       chat?.pageCount || 5,
-      user?.model?.name || "gpt-3"
+      user?.model?.name
     );
 
     console.log(plans);
@@ -490,9 +499,17 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       data: {
         balance: {
           decrement: Number(
-            user?.model?.name === "gpt-3" ? slidePrice?.price : 2000
+            user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
           ),
         },
+      },
+    });
+    await prisma.user.update({
+      where: {
+        id: user?.id,
+      },
+      data: {
+        working: false,
       },
     });
 

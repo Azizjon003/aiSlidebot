@@ -218,13 +218,21 @@ bot.hears(
   }
 );
 
-bot.catch((err: any, ctx) => {
+bot.catch(async (err: any, ctx) => {
   const userId = ctx?.from?.id;
   if (userId) {
-    bot.telegram.sendMessage(
+    await bot.telegram.sendMessage(
       userId,
       "Xatolik yuz berdi. Iltimos qayta urinib ko'ring\n /start buyrug'ini bosib qayta urunib ko'ring"
     );
+    await prisma.user.updateMany({
+      where: {
+        telegram_id: String(userId),
+      },
+      data: {
+        working: false,
+      },
+    });
   }
   console.log(err);
   console.log(`Ooops, encountered an error for ${ctx}`, err);

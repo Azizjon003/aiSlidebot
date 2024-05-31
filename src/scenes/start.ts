@@ -7,6 +7,7 @@ const scene = new Scenes.BaseScene("start");
 export let keyboard = [
   ["Yangi Taqdimot", "Balans"],
   ["Do'stlarimni taklif qilish"],
+  ["AI modelni tanlash"],
   // ["Web sahifaga o'tish"],
 ];
 //"Web sahifaga o'tish"
@@ -88,6 +89,12 @@ scene.enter(async (ctx: any) => {
     ctx.telegram.sendMessage(
       user_id,
       "Assalomu alaykum.Kechirasiz siz admin tomonidan bloklangansiz"
+    );
+    return;
+  } else if (enable === "four") {
+    ctx.telegram.sendMessage(
+      user_id,
+      "Assalomu alaykum.Kechirasiz siz taqdimot tayyorlayapsiz.Taqdimot tugagandan so'ng boshqa amallar bajarishingiz mumkin bo'ladi"
     );
     return;
   }

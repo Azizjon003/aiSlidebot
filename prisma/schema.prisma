@@ -21,6 +21,7 @@ model User {
   chat         Chat[]
   wallet       wallet?
   model_id     String?
+  working      Boolean @default(false)
   model        gptModel? @relation(fields: [model_id], references: [id])
   walletRequest walletRequest[]
   webUser      webUser?
