@@ -552,7 +552,14 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       },
     });
 
-    let templates = ["Explore", "Academic", "Organic", "Luminous"];
+    let templates = [
+      "Explore",
+      "Academic",
+      "Organic",
+      "Luminous",
+      "Floral",
+      "Snowflake",
+    ];
 
     await ctx.telegram.sendMessage(
       user?.telegram_id,
