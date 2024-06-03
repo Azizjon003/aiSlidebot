@@ -225,15 +225,13 @@ bot.catch(async (err: any, ctx) => {
       userId,
       "Xatolik yuz berdi. Iltimos qayta urinib ko'ring\n /start buyrug'ini bosib qayta urunib ko'ring"
     );
-    await prisma.user.updateMany({
-      where: {
-        telegram_id: String(userId),
-      },
-      data: {
-        working: false,
-      },
-    });
   }
+
+  await prisma.user.updateMany({
+    data: {
+      working: false,
+    },
+  });
   console.log(err);
   console.log(`Ooops, encountered an error for ${ctx}`, err);
 });
