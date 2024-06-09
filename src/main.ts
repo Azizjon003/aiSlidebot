@@ -237,9 +237,14 @@ bot.catch(async (err: any, ctx) => {
 });
 botStart(bot);
 https: process.on("unhandledRejection", (reason, promise) => {
-  console.error("Ushlanmagan rad etilgan va'da:", promise, "Sabab:");
+  console.error(
+    "Ushlanmagan rad etilgan va'da:",
+    promise,
+    "Sabab:",
+    new Date()
+  );
 });
 
 process.on("uncaughtException", (error) => {
-  console.error("Ushlanmagan istisno:", error);
+  console.error("Ushlanmagan istisno:", error, "Sabab:", new Date());
 });
