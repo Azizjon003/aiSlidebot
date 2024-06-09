@@ -227,24 +227,15 @@ bot.catch(async (err: any, ctx) => {
     );
   }
 
-  await prisma.user.updateMany({
-    data: {
-      working: false,
-    },
-  });
   console.log(err);
   console.log(`Ooops, encountered an error for ${ctx}`, err);
 });
 botStart(bot);
-https: process.on("unhandledRejection", (reason, promise) => {
-  console.error(
-    "Ushlanmagan rad etilgan va'da:",
-    promise,
-    "Sabab:",
-    new Date()
-  );
-});
 
 process.on("uncaughtException", (error) => {
-  console.error("Ushlanmagan istisno:", error, "Sabab:", new Date());
+  console.log("Ushlanmagan istisno:", error, "Sabab:", new Date());
+});
+
+process.on("unhandledRejection", (reason, promise) => {
+  console.log("Ushlanmagan rad etilgan va'da:", promise, "Sabab:", new Date());
 });
