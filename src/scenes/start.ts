@@ -65,7 +65,7 @@ scene.enter(async (ctx: any) => {
     );
   }
 
-  if (enable === "one") {
+  if (enable === "one" || enable === "four") {
     ctx.telegram.sendMessage(
       user_id,
       `Assalomu alaykum!\nYangi Taqdimot tugmasini bosib taqdimot yaratishni boshlashingiz mumkin!\nTakliflar
@@ -91,13 +91,14 @@ scene.enter(async (ctx: any) => {
       "Assalomu alaykum.Kechirasiz siz admin tomonidan bloklangansiz"
     );
     return;
-  } else if (enable === "four") {
-    ctx.telegram.sendMessage(
-      user_id,
-      "Assalomu alaykum.Kechirasiz siz taqdimot tayyorlayapsiz.Taqdimot tugagandan so'ng boshqa amallar bajarishingiz mumkin bo'ladi"
-    );
-    return;
   }
+  // } else if (enable === "four") {
+  //   // ctx.telegram.sendMessage(
+  //   //   user_id,
+  //   //   "Assalomu alaykum.Kechirasiz siz taqdimot tayyorlayapsiz.Taqdimot tugagandan so'ng boshqa amallar bajarishingiz mumkin bo'ladi"
+  //   // );
+  //   // return;
+  // }
 });
 
 export default scene;
