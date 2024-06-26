@@ -5,10 +5,10 @@ import { keyboards } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("start");
 
 export let keyboard = [
-  ["Yangi Taqdimot", "Balans"],
-  ["Do'stlarimni taklif qilish"],
-  ["AI modelni tanlash"],
-  // ["Web sahifaga o'tish"],
+  // ["Yangi Taqdimot", "Balans"],
+  // ["Do'stlarimni taklif qilish"],
+  // ["AI modelni tanlash"],
+  ["Web sahifaga o'tish"],
 ];
 //"Web sahifaga o'tish"
 export let admin_keyboard = [
