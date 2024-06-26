@@ -13,7 +13,7 @@ bot.use(session);
 const middleware: Middleware<Context | SceneContext> = (ctx: any, next) => {
   ctx?.session ?? (ctx.session = {});
 };
-bot.use(subcribeFunk);
+// bot.use(subcribeFunk);
 
 bot.use(stage.middleware());
 
