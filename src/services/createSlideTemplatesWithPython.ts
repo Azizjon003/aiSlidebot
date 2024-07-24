@@ -1,7 +1,7 @@
 export function generateSlides(data: any, template: string, time: string) {
   let slides = "";
 
-  console.log(data.name, "datas nimadirlar");
+  console.log(data?.name, "datas nimadirlar");
   slides += `[L_TS]\n [TITLE]${data.name}[/TITLE] [SLIDEBREAK]\n`; // Using the name of the course as the title of the presentation
   data.plans.forEach((plan: any, index: number) => {
     const slideTypeTag = (index + 1) % 2 == 0 ? "[L_IS]" : "[L_CS]"; // Image slide for the third plan
