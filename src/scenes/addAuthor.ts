@@ -427,6 +427,11 @@ export const createPresentationAsync = async (
         parse_mode: "HTML",
       }
     );
+
+    await ctx.telegram.sendMessage(
+      user?.telegram_id,
+      "Botimizning foydasi  tekkan bo'lsa do'stlaringizni taklif qiling bizga katta yordam bergan bo'lasiz"
+    );
     return await ctx.scene.enter("start");
   } catch (error) {
     console.log(error);
