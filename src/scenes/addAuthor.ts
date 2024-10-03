@@ -428,6 +428,31 @@ export const createPresentationAsync = async (
       }
     );
 
+    const slidePrice = await prisma.plansSlides.findFirst({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    await prisma.wallet.update({
+      where: {
+        id: user?.wallet?.id,
+      },
+      data: {
+        balance: {
+          decrement: Number(
+            user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
+          ),
+        },
+      },
+    });
+    await prisma.user.update({
+      where: {
+        id: user?.id,
+      },
+      data: {
+        working: false,
+      },
+    });
     await ctx.telegram.sendMessage(
       user?.telegram_id,
       "Botimizning foydasi  tekkan bo'lsa do'stlaringizni taklif qiling bizga katta yordam bergan bo'lasiz"
