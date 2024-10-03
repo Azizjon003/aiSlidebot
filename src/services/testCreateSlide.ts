@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import PptxGenJS from "pptxgenjs";
 import prisma from "../../prisma/prisma";
@@ -5,10 +6,6 @@ import {
   generateSlides,
   handlePythonScript,
 } from "./createSlideTemplatesWithPython";
-import {
-  generateFormattedStringFromData,
-  handlePythonScriptDocx,
-} from "./createDocTemplatesWithPython";
 
 function roundReact(): void {
   let pres = new PptxGenJS();
@@ -1107,7 +1104,7 @@ const createAnimationSlide = async () => {
 const test = async () => {
   const chatData = await prisma.chat.findFirst({
     where: {
-      // id: "c57bd97e-f748-4323-b167-1a125a399eb8",
+      id: "0018022d-b540-4330-8c33-0cbbc1491977",
       // id: "00385b3f-2a38-475b-956f-678ca74a8c6c",
     },
     include: {
@@ -1119,6 +1116,7 @@ const test = async () => {
     },
   });
   console.log(chatData);
+  fs.writeFileSync("chatData.json", JSON.stringify(chatData));
   // generateSlides(chatData, "Explore");
   // const stringDatas = generateFormattedStringFromData(chatData, "uz");
 

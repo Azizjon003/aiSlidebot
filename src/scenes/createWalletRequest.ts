@@ -1,6 +1,6 @@
-import { Scenes, Markup } from "telegraf";
-import prisma from "../../prisma/prisma";
 import { walletRequestStatus } from "@prisma/client";
+import { Scenes } from "telegraf";
+import prisma from "../../prisma/prisma";
 
 const scene = new Scenes.BaseScene("createWalletRequest");
 
@@ -10,12 +10,16 @@ scene.hears("/start", async (ctx: any) => {
 });
 
 scene.action(/pay_(2000|5000|10000)/, async (ctx: any) => {
-  console.log("pay_(2000|5000|10000|other) function");
-  await ctx.deleteMessage();
-  const amount = parseInt(ctx.match[1]);
-  await processPayment(ctx, ctx.from.id, amount);
+  try {
+    console.log("pay_(2000|5000|10000|other) function");
+    await ctx.deleteMessage();
+    const amount = parseInt(ctx.match[1]);
+    await processPayment(ctx, ctx.from.id, amount);
 
-  return await ctx.scene.enter("control");
+    return await ctx.scene.enter("control");
+  } catch (error) {
+    console.error("Failed to process payment:", error);
+  }
 });
 scene.action("pay_other", async (ctx: any) => {
   await ctx.deleteMessage();
@@ -47,17 +51,21 @@ scene.action("main_menu", async (ctx: any) => {
 });
 
 scene.hears(/^[0-9]+$/, async (ctx: any) => {
-  const amount = Number(ctx.message.text);
-  if (amount < 2000) {
-    return ctx.reply("Minimal summa 2000 so'm");
-  }
-  if (amount > 100000) {
-    return ctx.reply("Maksimal summa 100000 so'm");
-  }
+  try {
+    const amount = Number(ctx.message.text);
+    if (amount < 2000) {
+      return ctx.reply("Minimal summa 2000 so'm");
+    }
+    if (amount > 100000) {
+      return ctx.reply("Maksimal summa 100000 so'm");
+    }
 
-  await processPayment(ctx, ctx.from.id, amount);
+    await processPayment(ctx, ctx.from.id, amount);
 
-  return await ctx.scene.enter("control");
+    return await ctx.scene.enter("control");
+  } catch (error) {
+    console.error("Failed to process payment:", error);
+  }
 });
 scene.hears("Bosh menyu", async (ctx: any) => {
   return await ctx.scene.enter("start");
@@ -93,6 +101,9 @@ async function processPayment(ctx: any, tgId: any, amount: any) {
       payload: `id:${newRequest.id}`,
       provider_token: process.env.PROVIDER_TOKEN,
       currency: "UZS",
+      photo_url:
+        "https://s3.timeweb.cloud/729e17de-andasoft-buckets/magicslide/7899.png",
+      // "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Paymeuz_logo.png/2560px-Paymeuz_logo.png",
       prices: [{ label: "Balans", amount: amount * 100 }],
     });
 
@@ -108,6 +119,7 @@ async function processPayment(ctx: any, tgId: any, amount: any) {
     //   } `
     // );
   } catch (error) {
+    console.error("Error processing payment:", error);
     ctx.telegram.sendMessage(
       ctx.from.id,
       "Xatolik sodir bo'ldi qayta kiriting /start ni bosing"

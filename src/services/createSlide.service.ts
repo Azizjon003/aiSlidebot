@@ -1,7 +1,7 @@
+import path from "path";
 import PptxGenJS from "pptxgenjs";
 import prisma from "../../prisma/prisma";
 import { searchImages } from "./searchImages.service";
-import path from "path";
 
 /**
  * PowerPoint prezentatsiyasini yaratish funksiyasi.

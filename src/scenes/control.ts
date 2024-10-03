@@ -15,79 +15,98 @@ scene.hears("/start", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
-  const user_id = ctx.from?.id;
-  const countArray = await inlineKeyboardNumbers(5, 12, user_id);
+  try {
+    const user_id = ctx.from?.id;
+    const countArray = await inlineKeyboardNumbers(5, 12, user_id);
 
-  const result = chunkArrayInline(countArray, 3);
-  let txt = `⌛️`;
+    const result = chunkArrayInline(countArray, 3);
+    let txt = `⌛️`;
 
-  let res = await ctx.reply(txt, {
-    reply_markup: {
-      keyboard: [["Bosh menyu"]],
-      resize_keyboard: true,
-    },
-  });
+    let res = await ctx.reply(txt, {
+      reply_markup: {
+        keyboard: [["Bosh menyu"]],
+        resize_keyboard: true,
+      },
+    });
 
-  await ctx.deleteMessage(res.message_id);
-  const text = `🧮 Slaydlar soni nechta bo'lsin?
+    await ctx.deleteMessage(res.message_id);
+    const text = `🧮 Slaydlar soni nechta bo'lsin?
   To'lov qilganingizdan so'ng taqdimot soni 18 tagacha oshirishingiz mumkin bo'ladi
   `;
 
-  await ctx.reply(text, {
-    reply_markup: {
-      inline_keyboard: result,
-    },
-  });
-  return await ctx.scene.enter("slidesCount");
+    await ctx.reply(text, {
+      reply_markup: {
+        inline_keyboard: result,
+      },
+    });
+    return await ctx.scene.enter("slidesCount");
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 scene.hears("Balans", async (ctx: any) => {
-  const user_id = ctx.from.id;
-  const user = await prisma.user.findFirst({
-    where: {
-      telegram_id: String(user_id),
-    },
-  });
-
-  if (!user) return ctx.reply("Bu foydalanuchi mavjud emas");
-
-  const wallet = await getBalance(user.id);
-  let priceSlide = await prisma.plansSlides.findFirst({
-    orderBy: {
-      created_at: "desc",
-    },
-  });
-  if (!priceSlide) {
-    priceSlide = await prisma.plansSlides.create({
-      data: {
-        price: 2000,
+  try {
+    const user_id = ctx.from.id;
+    const user = await prisma.user.findFirst({
+      where: {
+        telegram_id: String(user_id),
       },
     });
-  }
 
-  await ctx.reply(`Balansingiz: ${wallet.balance}`, {
-    reply_markup: {
-      keyboard: [["Bosh menyu"]],
-      resize_keyboard: true,
-    },
-  });
+    if (!user) return ctx.reply("Bu foydalanuchi mavjud emas");
 
-  const text = `Balansingiz: ${
-    wallet.balance
-  }\nSiz olishingiz mumkin bo'lgan taqdimotlar soni: ${Math.floor(
-    wallet.balance / Number(priceSlide?.price)
-  )} ta
+    const wallet = await getBalance(user.id);
+    let priceSlide = await prisma.plansSlides.findFirst({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    if (!priceSlide) {
+      priceSlide = await prisma.plansSlides.create({
+        data: {
+          price: 2000,
+        },
+      });
+    }
+
+    await ctx.reply(`Balansingiz: ${wallet.balance}`, {
+      reply_markup: {
+        keyboard: [["Bosh menyu"]],
+        resize_keyboard: true,
+      },
+    });
+
+    const text = `Balansingiz: ${
+      wallet.balance
+    }\nSiz olishingiz mumkin bo'lgan taqdimotlar soni: ${Math.floor(
+      wallet.balance / Number(priceSlide?.price)
+    )} ta
   \n Ko'proq taqdimotlar yaratish uchun balansni to'ldiring`;
-  const inlineKeyboard = [
-    {
-      text: "Balansni to'ldirish",
-      callbackData: `balance:${user?.id}`,
-    },
-  ];
+    const inlineKeyboard = [
+      {
+        text: "Balansni to'ldirish",
+        callbackData: `balance:${user?.id}`,
+      },
+    ];
 
-  // ctx.reply(text);
-  ctx.reply(text, createInlineKeyboard(inlineKeyboard));
-  return await ctx.scene.enter("balans");
+    // ctx.reply(text);
+    ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+    return await ctx.scene.enter("balans");
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
+});
+scene.hears("Mustaqil ish", async (ctx: any) => {
+  try {
+    const user_id = ctx.from?.id;
+    const user_name = ctx.from?.first_name || ctx.from?.username;
+
+    ctx.reply("Mavzuni to'liq, bexato va tushunarli xolatda yuboring:");
+    return await ctx.scene.enter("independentWork");
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
 });
 
 scene.hears("Web sahifaga o'tish", async (ctx: any) => {
@@ -156,148 +175,164 @@ scene.action(/^balance:(.+)$/, async (ctx: any) => {
   }
 });
 scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
-  const user_id = ctx.from?.id;
-  const friends = await prisma.invitedUsers.count({
-    where: {
-      invited_user_id: String(user_id),
-      isActive: true,
-    },
-  });
-  // const text = `Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
-  // https://t.me/Magic_slides_bot?start=${user_id}
-  // \n
-  // Har bir taklif qilingan do'stingiz uchun 1000 so'm bonus oling
-  // \n
-  // Siz taklif qilgan do'stingizlar soni: ${friends}
-  // `;
+  try {
+    const user_id = ctx.from?.id;
+    const friends = await prisma.invitedUsers.count({
+      where: {
+        invited_user_id: String(user_id),
+        isActive: true,
+      },
+    });
+    // const text = `Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
+    // https://t.me/Magic_slides_bot?start=${user_id}
+    // \n
+    // Har bir taklif qilingan do'stingiz uchun 1000 so'm bonus oling
+    // \n
+    // Siz taklif qilgan do'stingizlar soni: ${friends}
+    // `;
 
-  const text = `1 daqiqada hech qanday toʻlovlarsiz slayd tayyorlatishni istaysizmi?
+    const text = `1 daqiqada hech qanday toʻlovlarsiz slayd tayyorlatishni istaysizmi?
 
   ▪️ Oʻzbekistonda ilk bor 1 daqiqada mutlaqo tekinga slayd tayyorlab beruvchi bot yaratildi.
   
   ▪️ Hoziroq start bosing, foydalaning, baholaringiz doimo 5 boʻlsin😉
   
   ▫️ Linkni bossangiz kifoya:https://t.me/Magic_slides_bot?start=${user_id}`;
-  ctx.reply(text);
+    ctx.reply(text);
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
 });
 
 scene.hears("AI modelni tanlash", async (ctx: any) => {
-  const user_id = ctx.from?.id;
+  try {
+    const user_id = ctx.from?.id;
 
-  let user = await prisma.user.findFirst({
-    where: {
-      telegram_id: String(user_id),
-    },
-    include: {
-      model: true,
-    },
-  });
-  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
-
-  if (!user?.model_id) {
-    const models = await prisma.gptModel.findFirst({
+    let user = await prisma.user.findFirst({
       where: {
-        name: "gpt-3",
+        telegram_id: String(user_id),
       },
-    });
-    user = await prisma.user.update({
-      where: {
-        id: user.id,
-      },
-      data: {
-        model_id: models?.id,
-      },
-
       include: {
         model: true,
       },
     });
-    // return ctx.reply("Sizda AI modeli mavjud");
-  }
+    if (!user) return ctx.reply("Foydalanuvchi topilmadi");
 
-  const text = `Sizning tanlangan modelingiz: ${user?.model?.name}\nPastdagi kerakli modellardan tanlab shu model bilan taqdimot tayyorlashingiz mumkin.Narxlari quyidagicha \n GPT-3: 2000 so'm \n GPT-4: 4000 so'm`;
-  const inlineKeyboard = [
-    {
-      text: "GPT-3",
-      callbackData: "gpt-3",
-    },
-    {
-      text: "GPT-4",
-      callbackData: "gpt-4",
-    },
-  ];
-  ctx.reply(text, createInlineKeyboard(inlineKeyboard));
-  // ctx.reply(text);
+    if (!user?.model_id) {
+      const models = await prisma.gptModel.findFirst({
+        where: {
+          name: "gpt-3",
+        },
+      });
+      user = await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+        data: {
+          model_id: models?.id,
+        },
+
+        include: {
+          model: true,
+        },
+      });
+      // return ctx.reply("Sizda AI modeli mavjud");
+    }
+
+    const text = `Sizning tanlangan modelingiz: ${user?.model?.name}\nPastdagi kerakli modellardan tanlab shu model bilan taqdimot tayyorlashingiz mumkin.Narxlari quyidagicha \n GPT-3: 2000 so'm \n GPT-4: 4000 so'm`;
+    const inlineKeyboard = [
+      {
+        text: "GPT-3",
+        callbackData: "gpt-3",
+      },
+      {
+        text: "GPT-4",
+        callbackData: "gpt-4",
+      },
+    ];
+    ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+    // ctx.reply(text);
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
 });
 
 scene.action("gpt-3", async (ctx: any) => {
-  ctx.answerCbQuery();
-  ctx.deleteMessage();
-  const user_id = ctx.from?.id;
-  const user = await prisma.user.findFirst({
-    where: {
-      telegram_id: String(user_id),
-    },
-    include: {
-      model: true,
-    },
-  });
-  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+  try {
+    ctx.answerCbQuery();
+    ctx.deleteMessage();
+    const user_id = ctx.from?.id;
+    const user = await prisma.user.findFirst({
+      where: {
+        telegram_id: String(user_id),
+      },
+      include: {
+        model: true,
+      },
+    });
+    if (!user) return ctx.reply("Foydalanuvchi topilmadi");
 
-  const model = await prisma.gptModel.findFirst({
-    where: {
-      name: "gpt-3",
-    },
-  });
+    const model = await prisma.gptModel.findFirst({
+      where: {
+        name: "gpt-3",
+      },
+    });
 
-  if (!model) return ctx.reply("Model topilmadi");
+    if (!model) return ctx.reply("Model topilmadi");
 
-  await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      model_id: model.id,
-    },
-  });
-  const text = `Siz tanlagan model: ${model.name}`;
-  ctx.reply(text);
-  return await ctx.scene.enter("start");
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        model_id: model.id,
+      },
+    });
+    const text = `Siz tanlagan model: ${model.name}`;
+    ctx.reply(text);
+    return await ctx.scene.enter("start");
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
 });
 
 scene.action("gpt-4", async (ctx: any) => {
-  ctx.answerCbQuery();
-  ctx.deleteMessage();
-  const user_id = ctx.from?.id;
-  const user = await prisma.user.findFirst({
-    where: {
-      telegram_id: String(user_id),
-    },
-    include: {
-      model: true,
-    },
-  });
-  if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+  try {
+    ctx.answerCbQuery();
+    ctx.deleteMessage();
+    const user_id = ctx.from?.id;
+    const user = await prisma.user.findFirst({
+      where: {
+        telegram_id: String(user_id),
+      },
+      include: {
+        model: true,
+      },
+    });
+    if (!user) return ctx.reply("Foydalanuvchi topilmadi");
 
-  const model = await prisma.gptModel.findFirst({
-    where: {
-      name: "gpt-4",
-    },
-  });
+    const model = await prisma.gptModel.findFirst({
+      where: {
+        name: "gpt-4",
+      },
+    });
 
-  if (!model) return ctx.reply("Model topilmadi");
+    if (!model) return ctx.reply("Model topilmadi");
 
-  await prisma.user.update({
-    where: {
-      id: user.id,
-    },
-    data: {
-      model_id: model.id,
-    },
-  });
-  const text = `Siz tanlagan model: ${model.name}`;
-  ctx.reply(text);
-  ctx.scene.enter("start");
+    await prisma.user.update({
+      where: {
+        id: user.id,
+      },
+      data: {
+        model_id: model.id,
+      },
+    });
+    const text = `Siz tanlagan model: ${model.name}`;
+    ctx.reply(text);
+    ctx.scene.enter("start");
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
 });
 
 export default scene;

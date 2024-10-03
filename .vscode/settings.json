@@ -1,0 +1,9 @@
+{
+  "cSpell.enableFiletypes": ["typescript", "javascript"],
+  "editor.codeActionsOnSave": [
+    "source.removeUnusedImports",
+    "source.addMissingImports",
+    "source.sortImports",
+    "source.fixAll"
+  ]
+}

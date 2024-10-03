@@ -1,15 +1,18 @@
 const { Scenes } = require("telegraf");
-import start from "./start";
-import balans from "./balans";
-import control from "./control";
-import slidesCount from "./slidesCount";
-import editSlides from "./editSlides";
-import admin from "./admin";
-import sendMesssage from "./message";
-import changeAuthor from "./changeAuthor";
+import addAuthor from "./addAuthor";
 import addLanguage from "./addLanguage";
-import createWalletRequest from "./createWalletRequest";
+import addUniversity from "./addUniversity";
+import admin from "./admin";
+import balans from "./balans";
+import changeAuthor from "./changeAuthor";
 import changeChecked from "./changeChecked";
+import control from "./control";
+import createWalletRequest from "./createWalletRequest";
+import editSlides from "./editSlides";
+import indepententWork from "./independentWork";
+import sendMesssage from "./message";
+import slidesCount from "./slidesCount";
+import start from "./start";
 const stage = new Scenes.Stage([
   start,
   balans,
@@ -22,6 +25,9 @@ const stage = new Scenes.Stage([
   addLanguage,
   createWalletRequest,
   changeChecked,
+  indepententWork,
+  addUniversity,
+  addAuthor,
 ]);
 
 export default stage;

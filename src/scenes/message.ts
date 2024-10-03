@@ -1,9 +1,6 @@
 import { Scenes } from "telegraf";
-import enabled from "../utils/enabled";
-import prisma from "../../prisma/prisma";
-import { keyboards } from "../utils/keyboards";
-import { sleep } from "openai/core";
 import xss from "xss";
+import prisma from "../../prisma/prisma";
 const scene = new Scenes.BaseScene("sendMessage");
 
 scene.hears("/start", async (ctx: any) => {

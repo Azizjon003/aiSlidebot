@@ -1,10 +1,6 @@
-import PPTXGenJS from "pptxgenjs";
 import OpenAI from "openai";
-import { create } from "domain";
-import {
-  createPlansDescriptionLanguage,
-  createPlansLanguage,
-} from "./createPlansUseOpenAi";
+import PPTXGenJS from "pptxgenjs";
+import { createPlansDescriptionLanguage } from "./createPlansUseOpenAi";
 require("dotenv").config();
 const key = process.env["OPEN_AI_KEY"] || "";
 const openai = new OpenAI({

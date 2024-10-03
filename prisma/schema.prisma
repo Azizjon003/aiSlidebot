@@ -41,6 +41,9 @@ model Chat {
   lang     String?
   checkUser String?
   model_id String?
+  type     String?
+  scool    String?
+  author  String?
   model   gptModel? @relation(fields: [model_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt

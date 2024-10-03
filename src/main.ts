@@ -1,12 +1,12 @@
 require("dotenv").config();
 import { Context, Middleware } from "telegraf";
+import { SceneContext } from "telegraf/typings/scenes";
+import prisma from "../prisma/prisma";
 import bot from "./core/bot";
 import session from "./core/session";
-import botStart from "./utils/startBot";
 import stage from "./scenes/index";
-import { SceneContext } from "telegraf/typings/scenes";
+import botStart from "./utils/startBot";
 import { subcribeFunk } from "./utils/subcribe";
-import prisma from "../prisma/prisma";
 
 bot.use(session);
 

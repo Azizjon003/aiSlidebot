@@ -1,12 +1,12 @@
 import { Scenes } from "telegraf";
-import enabled from "../utils/enabled";
 import prisma from "../../prisma/prisma";
+import enabled from "../utils/enabled";
 import { keyboards } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("start");
 
 export let keyboard = [
-  ["Yangi Taqdimot", "Balans"],
-  ["Do'stlarimni taklif qilish"],
+  ["Yangi Taqdimot", "Mustaqil ish"],
+  ["Balans", "Do'stlarimni taklif qilish"],
   ["AI modelni tanlash"],
   // ["Web sahifaga o'tish"],
 ];
