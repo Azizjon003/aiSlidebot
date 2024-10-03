@@ -420,7 +420,7 @@ export const createPresentationAsync = async (
       user?.telegram_id,
       {
         source: dataExplore,
-        filename: `${id}-${chat.name?.replace(" ", "")}.docx`,
+        filename: `${id}.docx`,
       },
       {
         caption: `📌 Mustaqil ishingiz tayyor`,
