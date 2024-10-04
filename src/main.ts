@@ -245,12 +245,13 @@ bot.catch(async (err: any, ctx) => {
   }
 });
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 bot.on("my_chat_member", async (ctx: any) => {
   try {
     console.log(ctx.update);
     const userId = ctx?.from?.id;
     const status = ctx.update.my_chat_member.new_chat_member.status;
-
+    await sleep(1000);
     await ctx.telegram.sendMessage(
       -4594205360,
       `
