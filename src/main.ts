@@ -244,6 +244,22 @@ bot.catch(async (err: any, ctx) => {
     console.log(error);
   }
 });
+
+bot.on("my_chat_member", async (ctx: any) => {
+  try {
+    console.log(ctx.update);
+    const userId = ctx?.from?.id;
+    const status = ctx.update.my_chat_member.new_chat_member.status;
+
+    await ctx.telegram.sendMessage(
+      -4594205360,
+      `
+      Foydalanuvchi ${userId} . Statusi #${status}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
+});
 botStart(bot);
 
 process.on("uncaughtException", (error) => {

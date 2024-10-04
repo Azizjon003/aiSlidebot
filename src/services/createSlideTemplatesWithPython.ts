@@ -2,7 +2,20 @@ export function generateSlides(data: any, template: string, time: string) {
   let slides = "";
 
   console.log(data?.name, "datas nimadirlar");
-  slides += `[L_TS]\n [TITLE]${data.name}[/TITLE] [SLIDEBREAK]\n`; // Using the name of the course as the title of the presentation
+  slides += `[L_TS]\n [TITLE]${data.name}[/TITLE] [AUTHOR]${data.author}[/AUTHOR] [SLIDEBREAK]\n`; // Using the name of the course and author as the title of the presentation
+
+  data.plans.forEach((plan: any, index: number) => {
+    const slideTypeTag = "[L_PN]"; // Image slide for the third plan
+    slides += `${slideTypeTag}\n`;
+
+    slides += `[TITLE]${index + 1}.${plan.name.split("&&")[0]}[/TITLE]\n`; // Using plan name as the slide title
+
+    console.log(plan.name);
+
+    slides += `[SLIDEBREAK]\n`;
+  });
+  // slides += `[L_TS]\n [TITLE]${data.name}[/TITLE] [SLIDEBREAK]\n`; // Using the name of the course as the title of the presentation
+
   data.plans.forEach((plan: any, index: number) => {
     const slideTypeTag = (index + 1) % 2 == 0 ? "[L_IS]" : "[L_CS]"; // Image slide for the third plan
     slides += `${slideTypeTag}\n`;

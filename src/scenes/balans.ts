@@ -65,6 +65,38 @@ scene.action(
   }
 );
 
+scene.action("free", async (ctx: any) => {
+  try {
+    const user_id = ctx.from?.id;
+    const friends = await prisma.invitedUsers.count({
+      where: {
+        invited_user_id: String(user_id),
+        isActive: true,
+      },
+    });
+    // const text = `Do'stlaringizni taklif qilish uchun quyidagi havolani ulashing\n
+    // https://t.me/Magic_slides_bot?start=${user_id}
+    // \n
+    // Har bir taklif qilingan do'stingiz uchun 1000 so'm bonus oling
+    // \n
+    // Siz taklif qilgan do'stingizlar soni: ${friends}
+    // `;
+
+    const text = `1 daqiqada hech qanday toʻlovlarsiz slayd yoki mustaqil ish  tayyorlatishni istaysizmi?
+
+  ▪️ Oʻzbekistonda ilk bor 1 daqiqada mutlaqo tekinga slayd yoki mustaqil ish tayyorlab beruvchi bot yaratildi.
+  
+  ▪️ Hoziroq start bosing, foydalaning, baholaringiz doimo 5 boʻlsin😉
+   
+  ▪️ Do'stlaringizga ulashishingiz mumkin 2 ta do'stingiz qo'shilsa 1 ta taqdimot yoki mustaqil ish bepul bo'ladi😉
+  
+  ▫️ Linkni bossangiz kifoya:https://t.me/Magic_slides_bot?start=${user_id}`;
+    ctx.reply(text);
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
+});
+
 scene.hears("Bosh menyu", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });

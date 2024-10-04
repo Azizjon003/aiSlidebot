@@ -1,14 +1,9 @@
 import { Markup, Scenes } from "telegraf";
-import enabled from "../utils/enabled";
 import prisma from "../../prisma/prisma";
-import {
-  chunkArrayInline,
-  createInlineKeyboard,
-  keyboards,
-} from "../utils/keyboards";
-import { getBalance } from "../utils/isBalance";
 import { inlineKeyboardNumbers } from "../lib/helper";
 import { generateToken } from "../services/jwt.service";
+import { getBalance } from "../utils/isBalance";
+import { chunkArrayInline, createInlineKeyboard } from "../utils/keyboards";
 const scene = new Scenes.BaseScene("control");
 
 scene.hears("/start", async (ctx: any) => {
@@ -87,6 +82,10 @@ scene.hears("Balans", async (ctx: any) => {
       {
         text: "Balansni to'ldirish",
         callbackData: `balance:${user?.id}`,
+      },
+      {
+        text: "Bepul taqdimot tayyorlash",
+        callbackData: "free",
       },
     ];
 
@@ -191,13 +190,16 @@ scene.hears("Do'stlarimni taklif qilish", async (ctx: any) => {
     // Siz taklif qilgan do'stingizlar soni: ${friends}
     // `;
 
-    const text = `1 daqiqada hech qanday toʻlovlarsiz slayd tayyorlatishni istaysizmi?
+    const text = `1 daqiqada hech qanday toʻlovlarsiz slayd yoki mustaqil ish  tayyorlatishni istaysizmi?
 
-  ▪️ Oʻzbekistonda ilk bor 1 daqiqada mutlaqo tekinga slayd tayyorlab beruvchi bot yaratildi.
-  
-  ▪️ Hoziroq start bosing, foydalaning, baholaringiz doimo 5 boʻlsin😉
-  
-  ▫️ Linkni bossangiz kifoya:https://t.me/Magic_slides_bot?start=${user_id}`;
+    ▪️ Oʻzbekistonda ilk bor 1 daqiqada mutlaqo tekinga slayd yoki mustaqil ish tayyorlab beruvchi bot yaratildi.
+    
+    ▪️ Hoziroq start bosing, foydalaning, baholaringiz doimo 5 boʻlsin😉
+     
+    ▪️ Do'stlaringizga ulashishingiz mumkin 2 ta do'stingiz qo'shilsa 1 ta taqdimot yoki mustaqil ish bepul bo'ladi😉
+    
+    ▫️ Linkni bossangiz kifoya:https://t.me/Magic_slides_bot?start=${user_id}`;
+
     ctx.reply(text);
   } catch (error) {
     console.log(error, "xatolik");

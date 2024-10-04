@@ -582,7 +582,14 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
 
     let pyPath = path.join(__dirname, `../../output2${user.telegram_id}.pptx`);
     for (let template of templates) {
-      const stringDatas = generateSlides(chatData, template, user.telegram_id);
+      const stringDatas = generateSlides(
+        {
+          ...chatData,
+          author: user.name,
+        },
+        template,
+        user.telegram_id
+      );
 
       const handlePy = await handlePythonScript(stringDatas);
 
