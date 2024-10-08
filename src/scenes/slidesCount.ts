@@ -8,6 +8,7 @@ import {
 } from "../services/createPlansUseOpenAi";
 import {
   createPresentation,
+  createSlideEducationTemplate,
   createSlideWithAnimationDarkMode,
 } from "../services/createSlide.service";
 import { contentToString } from "../utils/functions";
@@ -469,7 +470,10 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       author: user?.name,
     };
 
-    const filePath = path.join(__dirname, "../../output.pptx");
+    const filePath = path.join(
+      __dirname,
+      `../../${user?.telegram_id}output.pptx`
+    );
     const data = {
       title,
       body,
@@ -490,7 +494,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
         filename: `${newDate}.pptx`,
       },
       {
-        caption: `📌 Taqditmotingiz tayyor`,
+        caption: `📌 Birinchi dizayndagi taqdimot`,
         parse_mode: "HTML",
       }
     );
@@ -507,7 +511,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       data: {
         balance: {
           decrement: Number(
-            user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
+            user?.model?.name === "gpt-3" ? slidePrice?.price : 2000
           ),
         },
       },
@@ -521,7 +525,10 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       },
     });
 
-    const filePaths = path.join(__dirname, "../../output.pptx");
+    const filePaths = path.join(
+      __dirname,
+      `../../${user?.telegram_id}output.pptx`
+    );
     const darkModeData = {
       title,
       body,
@@ -535,6 +542,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     );
 
     const dataDark = fs.readFileSync(filePaths);
+
     await ctx.telegram.sendDocument(
       user?.telegram_id,
       {
@@ -542,7 +550,36 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
         filename: `${newDate}-dark.pptx`,
       },
       {
-        caption: `📌 Taqdimotingiz tayyor`,
+        caption: `📌 Ikkinchi dizayndagi taqdimot`,
+        parse_mode: "HTML",
+      }
+    );
+    const filePathNew = path.join(
+      __dirname,
+      `../../${user?.telegram_id}output-education.pptx`
+    );
+    const educationSlideData = {
+      title,
+      body,
+      paths: filePathNew,
+      changeAuthor: chat?.checkUser,
+    };
+
+    const slideEducation = await createSlideEducationTemplate(
+      educationSlideData
+    );
+    await sleep(500);
+
+    const dataDarkEducation = fs.readFileSync(filePathNew);
+
+    await ctx.telegram.sendDocument(
+      user?.telegram_id,
+      {
+        source: dataDarkEducation,
+        filename: `${newDate}-education.pptx`,
+      },
+      {
+        caption: `📌 3- dizayndagi taqdimot`,
         parse_mode: "HTML",
       }
     );
@@ -564,15 +601,14 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       "Explore",
       "Academic",
       "Organic",
-      "Luminous",
+      // "Luminous",
       "Floral",
-      "Snowflake",
+      // "Snowflake",
     ];
 
     await ctx.telegram.sendMessage(
       user?.telegram_id,
-      `Shoshmay turing sizga yana sovg'alarimiz bor 😉.
-      Sekinroq javob qaytaraman 🚀`
+      `Yana bir nechta shablonlarimiz bor kutib turing iltimos 🥹`
     );
 
     // await ctx.telegram.sendMessage(

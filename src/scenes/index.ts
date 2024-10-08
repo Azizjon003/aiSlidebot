@@ -9,6 +9,7 @@ import changeChecked from "./changeChecked";
 import control from "./control";
 import createWalletRequest from "./createWalletRequest";
 import editSlides from "./editSlides";
+import feadback from "./feadback";
 import indepententWork from "./independentWork";
 import sendMesssage from "./message";
 import slidesCount from "./slidesCount";
@@ -28,6 +29,7 @@ const stage = new Scenes.Stage([
   indepententWork,
   addUniversity,
   addAuthor,
+  feadback,
 ]);
 
 export default stage;

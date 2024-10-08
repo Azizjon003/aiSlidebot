@@ -7,7 +7,7 @@ const scene = new Scenes.BaseScene("start");
 export let keyboard = [
   ["Yangi Taqdimot", "Mustaqil ish"],
   ["Balans", "Do'stlarimni taklif qilish"],
-  ["AI modelni tanlash"],
+  ["AI modelni tanlash", "Fikr bildirish"],
   // ["Web sahifaga o'tish"],
 ];
 //"Web sahifaga o'tish"

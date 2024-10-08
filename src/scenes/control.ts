@@ -12,7 +12,31 @@ scene.hears("/start", async (ctx: any) => {
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
   try {
     const user_id = ctx.from?.id;
-    const countArray = await inlineKeyboardNumbers(5, 12, user_id);
+    const user = await prisma.user.findFirst({
+      where: {
+        telegram_id: String(user_id),
+      },
+      include: {
+        model: true,
+        wallet: true,
+      },
+    });
+    const slidePrice = await prisma.plansSlides.findFirst({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    if (
+      Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 2000) >
+      Number(user?.wallet?.balance)
+    ) {
+      ctx.reply(
+        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm yoki 4000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin`
+      );
+      return await ctx.scene.enter("start");
+    }
+
+    const countArray = await inlineKeyboardNumbers(5, 10, user_id);
 
     const result = chunkArrayInline(countArray, 3);
     let txt = `⌛️`;
@@ -26,7 +50,9 @@ scene.hears("Yangi Taqdimot", async (ctx: any) => {
 
     await ctx.deleteMessage(res.message_id);
     const text = `🧮 Slaydlar soni nechta bo'lsin?
-  To'lov qilganingizdan so'ng taqdimot soni 18 tagacha oshirishingiz mumkin bo'ladi
+    \n\n
+  To'lov qilganingizdan so'ng taqdimot soni 18 tagacha oshirishingiz mumkin bo'ladi.
+  To'lov qilgan  foydalanuvchilar uchun botimiz yanada aqlliroq javob beradi.
   `;
 
     await ctx.reply(text, {
@@ -241,19 +267,19 @@ scene.hears("AI modelni tanlash", async (ctx: any) => {
       // return ctx.reply("Sizda AI modeli mavjud");
     }
 
-    const text = `Sizning tanlangan modelingiz: ${user?.model?.name}\nPastdagi kerakli modellardan tanlab shu model bilan taqdimot tayyorlashingiz mumkin.Narxlari quyidagicha \n GPT-3: 2000 so'm \n GPT-4: 4000 so'm`;
-    const inlineKeyboard = [
-      {
-        text: "GPT-3",
-        callbackData: "gpt-3",
-      },
-      {
-        text: "GPT-4",
-        callbackData: "gpt-4",
-      },
-    ];
-    ctx.reply(text, createInlineKeyboard(inlineKeyboard));
-    // ctx.reply(text);
+    const text = `Sizning tanlangan modelingiz: ${user?.model?.name}\n`;
+    // const inlineKeyboard = [
+    //   {
+    //     text: "GPT-3",
+    //     callbackData: "gpt-3",
+    //   },
+    //   {
+    //     text: "GPT-4",
+    //     callbackData: "gpt-4",
+    //   },
+    // ];
+    // ctx.reply(text, createInlineKeyboard(inlineKeyboard));
+    ctx.reply(text);
   } catch (error) {
     console.log(error, "xatolik");
   }
@@ -337,4 +363,15 @@ scene.action("gpt-4", async (ctx: any) => {
   }
 });
 
+scene.hears("Fikr bildirish", async (ctx: any) => {
+  try {
+    const user_id = ctx.from?.id;
+    const user_name = ctx.from?.first_name || ctx.from?.username;
+
+    ctx.reply("Fikringizni yozing fikringiz biz uchun muhim:");
+    return await ctx.scene.enter("feedback");
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
+});
 export default scene;

@@ -1104,7 +1104,7 @@ const createAnimationSlide = async () => {
 const test = async () => {
   const chatData = await prisma.chat.findFirst({
     where: {
-      id: "0018022d-b540-4330-8c33-0cbbc1491977",
+      id: "29d7bb27-1c17-480e-be8d-6889bccb745d",
       // id: "00385b3f-2a38-475b-956f-678ca74a8c6c",
     },
     include: {
@@ -1116,7 +1116,7 @@ const test = async () => {
     },
   });
   console.log(chatData);
-  fs.writeFileSync("chatData.json", JSON.stringify(chatData));
+  // fs.writeFileSync("chatData.json", JSON.stringify(chatData));
   // generateSlides(chatData, "Explore");
   // const stringDatas = generateFormattedStringFromData(chatData, "uz");
 

@@ -45,20 +45,20 @@ export const inlineKeyboardNumbers = async (
       //   },
       // });
     } else {
-      // const gptModel = await prisma.gptModel.findFirst({
-      //   where: {
-      //     name: "gpt-4",
-      //   },
-      // });
+      const gptModel = await prisma.gptModel.findFirst({
+        where: {
+          name: "gpt-4",
+        },
+      });
 
-      // await prisma.user.update({
-      //   where: {
-      //     id: user?.id,
-      //   },
-      //   data: {
-      //     model_id: gptModel?.id,
-      //   },
-      // });
+      await prisma.user.update({
+        where: {
+          id: user?.id,
+        },
+        data: {
+          model_id: gptModel?.id,
+        },
+      });
       endNumber = 18;
     }
   } else if (Number(user?.wallet?.balance) > 0) {
