@@ -143,7 +143,7 @@ scene.action(/\d+$/, async (ctx: any) => {
     });
 
     if (
-      Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 4000) >
+      Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 2000) >
       Number(user?.wallet?.balance)
     ) {
       ctx.reply(
@@ -440,7 +440,7 @@ export const createPresentationAsync = async (
       data: {
         balance: {
           decrement: Number(
-            user?.model?.name === "gpt-3" ? slidePrice?.price : 4000
+            user?.model?.name === "gpt-3" ? slidePrice?.price : 2000
           ),
         },
       },
