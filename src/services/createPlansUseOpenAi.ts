@@ -349,7 +349,7 @@ export let createPlansLanguageReferat = async (
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models[model],
+    model: models["gpt-3"],
     // model: "gpt-3.5-turbo-0125",
 
     max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
@@ -685,7 +685,7 @@ Do not include any additional information outside of the specified format. Stick
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models[model],
+    model: models["gpt-3"],
     // model: "gpt-3.5-turbo-0125",
     max_tokens: 2000,
     response_format: {
