@@ -273,7 +273,7 @@ export let createPlansLanguage = async (
     }
   }
 
-  let leth = plans.length;
+  let leth = plans?.length;
 
   console.log(plans.length, "plans length-1");
   if (leth < pages) {
