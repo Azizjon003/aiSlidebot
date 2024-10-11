@@ -223,6 +223,10 @@ export let createPlansLanguage = async (
   let plans;
   try {
     plans = JSON.parse(content).slides.plans;
+
+    if (!plans) {
+      plans = JSON.parse(content)?.slides[0].plans;
+    }
   } catch (error) {
     const chatCompletion = await openai.chat.completions.create({
       messages: [
@@ -270,6 +274,10 @@ export let createPlansLanguage = async (
       console.log(chatCompletion.choices[0].message.content);
       const content = chatCompletion.choices[0].message.content || "";
       plans = JSON.parse(content).slides.plans;
+
+      if (!plans) {
+        plans = JSON.parse(content)?.slides[0].plans;
+      }
     }
   }
 
@@ -320,9 +328,12 @@ export let createPlansLanguage = async (
 
     const content = chatCompletion.choices[0].message.content || "";
     plans = JSON.parse(content).slides.plans;
+    if (!plans) {
+      plans = JSON.parse(content)?.slides[0].plans;
+    }
   }
 
-  console.log(plans.length, "plans length");
+  console.log(plans?.length, "plans length");
   let plansText = plans.map((plan: any) => {
     return `${xss(plan[lang])} && ${xss(
       plan[lang == "english" ? "english" : "eng"]
