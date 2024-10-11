@@ -177,12 +177,14 @@ export let createPlansLanguage = async (
   }
 
   let queryJson = {
-    input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate professional plans for the given topic. Each page should have plans with descriptions of 30 to 40 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
+    input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate professional plans for the given topic. Each page should have plans with descriptions of 10 to 20 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
     Pay attention to the language of presentation - ${language}.
     Do not mix other topics
     Plans for the given topic should be in good content.  Do not reply as if you are talking about the plans itself. (ex. "Include pictures here about...")
     Do not include any special characters (?, !, ., :, ) in the Title.
-    Do not include any additional information in your response and stick to the format`,
+    Do not include any additional information in your response and stick to the format
+    Please format the data correctly
+    `,
     output_format: "json",
     json_structure: {
       slides: {
@@ -251,7 +253,7 @@ export let createPlansLanguage = async (
   console.log(plans.length, "plans length-1");
   if (leth < pages) {
     let queryJsons = {
-      input_text: `Create a plans with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 30 to 40 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
+      input_text: `Create a plans with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 10 to 20 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
       Pay attention to the language of presentation - ${language}.
       Plans for the given topic should be in good content.  Do not reply as if you are talking about the plans itself. (ex. "Include pictures here about...")
       Do not include any special characters (?, !, ., :, ) in the plans.
@@ -393,11 +395,12 @@ export let createPlansLanguageReferat = async (
   console.log(plans.length, "plans length-1");
   if (leth < pages) {
     let queryJsons = {
-      input_text: `Create a plans with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 30 to 40 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
+      input_text: `Create a plans with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 10 to 20 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
       Pay attention to the language of presentation - ${language}.
       Plans for the given topic should be in good content.  Do not reply as if you are talking about the plans itself. (ex. "Include pictures here about...")
       Do not include any special characters (?, !, ., :, ) in the plans.
       Do not include any additional information in your response and stick to the format
+      Do not include any additional information in your response and stick to the format please
       `,
       output_format: "json",
       json_structure: {
