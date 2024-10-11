@@ -245,7 +245,32 @@ export let createPlansLanguage = async (
     });
     console.log(chatCompletion.choices[0].message.content);
     const content = chatCompletion.choices[0].message.content || "";
-    plans = JSON.parse(content).slides.plans;
+    try {
+      plans = JSON.parse(content).slides.plans;
+    } catch (error) {
+      const chatCompletion = await openai.chat.completions.create({
+        messages: [
+          // { role: "user", content: name },
+          {
+            role: "user",
+            content: JSON.stringify(queryJson),
+          },
+        ],
+        // model: "gpt-3.5-turbo-1106",
+        // model: "gpt-3.5-turbo-0125",
+        model: models[model],
+        // model:"gpt-4o-2024-08-06"
+        // model: "gpt-3.5-turbo-16k-0613",
+        // model: "gpt-4-turbo-preview",
+        max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
+        response_format: {
+          type: "json_object",
+        },
+      });
+      console.log(chatCompletion.choices[0].message.content);
+      const content = chatCompletion.choices[0].message.content || "";
+      plans = JSON.parse(content).slides.plans;
+    }
   }
 
   let leth = plans.length;
