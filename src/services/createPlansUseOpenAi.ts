@@ -274,8 +274,9 @@ export let createPlansLanguage = async (
   }
 
   let leth = plans?.length;
+  console.log(plans);
 
-  console.log(plans.length, "plans length-1");
+  console.log(plans?.length, "plans length-1");
   if (leth < pages) {
     let queryJsons = {
       input_text: `Create a plans with ${pages} pages for the theme '${name}'. Each page should have plans with descriptions of 10 to 20 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
