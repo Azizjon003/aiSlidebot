@@ -43,7 +43,7 @@ scene.on("message", async (ctx: any) => {
 
     console.log(ctx.message.text, "addUniversity");
 
-    ctx.reply("Universitet qo'shildi.Ism Familyangizni kiriting:");
+    ctx.reply("Ism Familyangizni kiriting:");
     ctx.scene.enter("addAuthor");
   } catch (error) {
     console.log(error, "xatolik");

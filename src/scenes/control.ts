@@ -127,7 +127,7 @@ scene.hears("Mustaqil ish", async (ctx: any) => {
     const user_id = ctx.from?.id;
     const user_name = ctx.from?.first_name || ctx.from?.username;
 
-    ctx.reply("Mavzuni to'liq, bexato va tushunarli xolatda yuboring:");
+    ctx.reply("Mavzuni nomini to'liq, bexato va tushunarli xolatda yuboring:");
     return await ctx.scene.enter("independentWork");
   } catch (error) {
     console.log(error, "xatolik");
@@ -370,6 +370,42 @@ scene.hears("Fikr bildirish", async (ctx: any) => {
 
     ctx.reply("Fikringizni yozing fikringiz biz uchun muhim:");
     return await ctx.scene.enter("feedback");
+  } catch (error) {
+    console.log(error, "xatolik");
+  }
+});
+
+scene.hears("Qo'llanma", async (ctx: any) => {
+  try {
+    const txt = `📖Botdan foydalanish qo'llanmasi:
+
+Taqdimotga oid (video - /vid):
+📌 Mavzu - Taqdimot mavzusi.
+👤 Muallif - Taqdimotda muallifining ismi-familiyasi.
+🧮 Sahifalar soni - Taqdimotda nechta sahifa bo'lishi kerakligi.
+🇺🇿 Til - Taqdimot qaysi tilda bo'lishi.
+
+Yangi Taqdimot - tugmasi bosilgandan keyin, quyidagi bosqichlardan ketma-ket o'tilib taqdimot yaratiladi:
+1.Sahifalar soni tanlanadi
+2.Til tanlanadi
+3.Mavzu kitiladi va tasdiqlash bosilganda slayd tayyorlash avtomatik bajariladi
+
+Mustaqil ish
+1. Ko'rsatilgan tartibda so'ralgan ma'lumotlarni kiriting.
+
+🕹Buyruqlarga oid:
+/my - ma'lumotlaringizni ko'rish uchun.
+/referal - do'stlarni taklif qilish orqali, balansingizni to'ldiring.
+/vid - taqdimot qilish uchun video qo'llanma.
+
+
+⁉️Qo'shimcha:
+Har bir referal a'zo uchun sizning balangizga 1000 so'm qo'shiladi
+
+
+🆕Bot yangilanishlari - @magi_slides`;
+
+    ctx.reply(txt);
   } catch (error) {
     console.log(error, "xatolik");
   }

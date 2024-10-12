@@ -5,7 +5,7 @@ export let subcribeFunk = async (ctx: any, next: any) => {
     const data = String(ctx?.callbackQuery?.data);
     const action = ctx.message?.text?.split(" ")[0];
 
-    const id = String(ctx.from.id);
+    const id = String(ctx?.from?.id || "kimdir");
     let invitedUser: any;
 
     if (action === "/start") {

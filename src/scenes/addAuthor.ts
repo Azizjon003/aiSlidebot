@@ -57,7 +57,9 @@ scene.on("message", async (ctx: any) => {
       },
     });
 
-    const textUser = `🧮 Mustaqil soni nechta bo'lsin?
+    const textUser = `🧮 Mustaqil ishlar soni nechta bo'lsin?
+
+
     To'lov qilganingizdan so'ng mustaqil ish soni 18 tagacha oshirishingiz mumkin bo'ladi
     `;
     const countArray = await inlineKeyboardNumbers(5, 12, user_id);
@@ -463,7 +465,7 @@ export const createPresentationAsync = async (
     const user_id = ctx.from?.id;
     ctx.telegram.sendMessage(
       user_id,
-      "Xatolik yuz berdi. Iltimos qayta urinib ko'ring /start buyrug'i bilan urunib ko'ring"
+      "Xatolik yuz berdi.Iltimos 5 daqiqadan so'ng urunib ko'ring hozir juda ko'p so'rov bor bizda \n /start buyrug'ini bosing "
     );
   }
 };

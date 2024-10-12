@@ -699,7 +699,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
     const user_id = ctx.from?.id;
     ctx.telegram.sendMessage(
       user_id,
-      "Xatolik yuz berdi. Iltimos qayta urinib ko'ring /start buyrug'i bilan urunib ko'ring"
+      "Xatolik yuz berdi.Iltimos 5 daqiqadan so'ng urunib ko'ring hozir juda ko'p so'rov bor bizda \n /start buyrug'ini bosing "
     );
   }
 };

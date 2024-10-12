@@ -7,7 +7,7 @@ const scene = new Scenes.BaseScene("start");
 export let keyboard = [
   ["Yangi Taqdimot", "Mustaqil ish"],
   ["Balans", "Do'stlarimni taklif qilish"],
-  ["AI modelni tanlash", "Fikr bildirish"],
+  ["Fikr bildirish", "Qo'llanma"],
   // ["Web sahifaga o'tish"],
 ];
 //"Web sahifaga o'tish"
@@ -66,16 +66,27 @@ scene.enter(async (ctx: any) => {
   }
 
   if (enable === "one" || enable === "four") {
+    let keyboardStart = keyboards(keyboard);
+
     ctx.telegram.sendMessage(
       user_id,
-      `Assalomu alaykum!\nYangi Taqdimot tugmasini bosib taqdimot yaratishni boshlashingiz mumkin!\nTakliflar
+      // `Assalomu alaykum!\nYangi Taqdimot tugmasini bosib taqdimot yaratishni boshlashingiz mumkin!\nTakliflar
 
-      👉 Bot ingliz tilida kiritilgan mavzularni yaxshi tushunadi.
-      👉 Bot sekinroq ishlaydi bunga sabab chatgpt-4 dan foydalanganligi
-      👉 Botga yangi taqdimot qo'shish uchun "Yangi Taqdimot" tugmasini bosing
-    
-      `,
-      keyboards(keyboard)
+      // 👉 Bot ingliz tilida kiritilgan mavzularni yaxshi tushunadi.
+      // 👉 Bot sekinroq ishlaydi bunga sabab chatgpt-4 dan foydalanganligi
+      // 👉 Botga yangi taqdimot qo'shish uchun "Yangi Taqdimot" tugmasini bosing
+
+      // `,
+      `Assalomu alaykum!
+
+<b>Yangi Taqdimot</b> - taqdimot tayorlash uchun.
+<b>Mustaqil ish</b>- referat tayorlash uchun.
+<b>Qo'llanma</b> - botdan qanday foydalanish haqida ma'lumot. Iltimos, avval shu bo'lim bilan tanishib chiqing.
+`,
+      {
+        parse_mode: "HTML",
+        ...keyboardStart,
+      }
     );
 
     console.log("start scene");

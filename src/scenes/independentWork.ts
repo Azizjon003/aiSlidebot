@@ -51,7 +51,9 @@ scene.on("message", async (ctx: any) => {
     console.log(ctx.message.text, "independentWork");
 
     // ctx.reply("Sizning mavzuyingiz qabul qilindi:");
-    ctx.reply("Universitetingizni kiriting (masalan: TATU)");
+    ctx.reply(
+      "Universitetingizni kiriting (masalan: Toshkent Axborot Texnologiyalar Universiteti)"
+    );
     return await ctx.scene.enter("addUniversity");
   } catch (error) {
     console.log(error, "xatolik");
