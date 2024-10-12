@@ -171,6 +171,7 @@ export let createPlansLanguage = async (
     "gpt-3": "gpt-4o-mini",
     "gpt-4": "gpt-4o-2024-08-06",
   };
+
   console.log(models["gpt-3"], pages);
   if (lang == "eng") {
     lang = "english";
@@ -209,7 +210,8 @@ export let createPlansLanguage = async (
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models[model],
+    model: models["gpt-4"],
+    temperature: 0.5,
     // model: "gpt-3.5-turbo-0125",
 
     max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
@@ -238,7 +240,7 @@ export let createPlansLanguage = async (
       ],
       // model: "gpt-3.5-turbo-1106",
       // model: "gpt-3.5-turbo-0125",
-      model: models[model],
+      model: models["gpt-4"],
       // model:"gpt-4o-2024-08-06"
       // model: "gpt-3.5-turbo-16k-0613",
       // model: "gpt-4-turbo-preview",
@@ -262,7 +264,7 @@ export let createPlansLanguage = async (
         ],
         // model: "gpt-3.5-turbo-1106",
         // model: "gpt-3.5-turbo-0125",
-        model: models[model],
+        model: models["gpt-4"],
         // model:"gpt-4o-2024-08-06"
         // model: "gpt-3.5-turbo-16k-0613",
         // model: "gpt-4-turbo-preview",
