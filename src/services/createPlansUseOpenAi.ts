@@ -176,6 +176,30 @@ export let createPlansLanguage = async (
   if (lang == "eng") {
     lang = "english";
   }
+  const systemPrompt = `You are a professional content planner specializing in creating structured layouts for ${name} theme. Your task is to generate concise, relevant plans for a ${pages}-page layout in both ${language} and English.
+
+Instructions:
+1. Create exactly ${pages} distinct plans, each with a ${language} and English version.
+2. Each plan should be 10-20 words long, no more and no less.
+3. Focus solely on the ${name} theme without mixing in other topics.
+4. Provide concrete, actionable plans, not meta-descriptions.
+5. Avoid special characters (?, !, ., :, ) in titles and content.
+6. Strictly adhere to the requested JSON format provided in the user message.
+
+Critical requirements:
+- You MUST follow the exact JSON structure provided. Do not add, remove, or modify any keys.
+- Each plan MUST have exactly two keys: "${lang}" and "eng".
+- Do not include any explanations, comments, or additional text outside the JSON structure.
+- Ensure all content is enclosed in proper JSON string format.
+- Double-check that your output is valid JSON before returning it.
+
+Error prevention:
+- If you're unsure about any aspect of the task, default to the most literal interpretation of these instructions.
+- If you can't generate the exact number of plans requested, generate as many as you can within the given structure.
+- In case of conflict between these instructions and the user message, prioritize these system instructions.
+
+Your output must be a valid JSON object with the structure provided in the user message. Ensure each plan is relevant, professional, and fits the theme. Any deviation from the specified format will be considered an error.
+ `;
 
   let queryJson = {
     input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate professional plans for the given topic. Each page should have plans with descriptions of 10 to 20 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
@@ -203,16 +227,15 @@ export let createPlansLanguage = async (
 
   const chatCompletion = await openai.chat.completions.create({
     messages: [
-      { role: "user", content: name },
+      { role: "system", content: systemPrompt },
       {
-        role: "system",
+        role: "user",
         content: JSON.stringify(queryJson),
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models["gpt-4"],
+    model: models["gpt-3"],
     temperature: 0.5,
-    // model: "gpt-3.5-turbo-0125",
 
     max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
     response_format: {
@@ -232,18 +255,14 @@ export let createPlansLanguage = async (
   } catch (error) {
     const chatCompletion = await openai.chat.completions.create({
       messages: [
-        // { role: "user", content: name },
+        { role: "system", content: systemPrompt },
         {
           role: "user",
           content: JSON.stringify(queryJson),
         },
       ],
-      // model: "gpt-3.5-turbo-1106",
-      // model: "gpt-3.5-turbo-0125",
-      model: models["gpt-4"],
-      // model:"gpt-4o-2024-08-06"
-      // model: "gpt-3.5-turbo-16k-0613",
-      // model: "gpt-4-turbo-preview",
+      model: models["gpt-3"],
+
       max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
       response_format: {
         type: "json_object",
@@ -256,18 +275,13 @@ export let createPlansLanguage = async (
     } catch (error) {
       const chatCompletion = await openai.chat.completions.create({
         messages: [
-          // { role: "user", content: name },
+          // { role: "system", content: systemPrompt },
           {
             role: "user",
             content: JSON.stringify(queryJson),
           },
         ],
-        // model: "gpt-3.5-turbo-1106",
-        // model: "gpt-3.5-turbo-0125",
         model: models["gpt-4"],
-        // model:"gpt-4o-2024-08-06"
-        // model: "gpt-3.5-turbo-16k-0613",
-        // model: "gpt-4-turbo-preview",
         max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
         response_format: {
           type: "json_object",
@@ -311,7 +325,7 @@ export let createPlansLanguage = async (
     };
     const chatCompletion = await openai.chat.completions.create({
       messages: [
-        // { role: "user", content: name },
+        { role: "user", content: systemPrompt },
         {
           role: "user",
           content: JSON.stringify(queryJsons),
@@ -791,48 +805,47 @@ Do not include any additional information outside of the specified format. Stick
 };
 
 const test = async () => {
-  // const plans = await createPlansLanguage(
-  //   "Qon tomir kasalliklari",
-  //   18,
-  //   "uz",
-  //   "uzbek",
-  //   18,
-  //   modelLang.gpt3
-  // );
-  const plans = [
-    "Qon tomir kasalligining asosiy sabablarini tushuntirish && Identifying the main causes of hemophilia",
-    "Qon tomir kasalliklarining turli turlari && Different types of hemophilia",
-    "Qon tomir kasalligining xossaliklari va belgilari && Symptoms and signs of hemophilia",
-    "Qon tomir kasalligining xossalik davri va dardlari && Disease duration and its treatments",
-    "Qon tomir kasalligini oldini olish usullari && Methods of preventing hemophilia",
-    "Qon tomir kasalligining ravishlari va mudofaalari && Therapies and treatments for hemophilia",
-    "Qon tomir kasalligini taniganida qanday qilib amal qilish kerak && What to do when diagnosed with hemophilia",
-    "Qon tomir kasalligini surish, urg'ochilari va nazariyasi && Heritage, risks, and genetics of hemophilia",
-    "Qon tomir kasalligi bilan yashash && Living with hemophilia",
-    "Qon tomir kasalliklari davriylikdagi o'zgarishlar && Changes in hemophilia dynamics",
-    "Qon tomir kasalligining shifokorligi va davolash usullari && Doctoring and treatment methods for hemophilia",
-    "Qon tomir kasalliklarining profilaktikasi && Prophylaxis for hemophilia",
-    "Qon tomir kasalligining o'zgarib turish texnologiyasi && Changing hemophilia technology",
-    "Qon tomir kasalligini chetlatish va aniqlash && Exclusion and detection of hemophilia",
-    "Qon tomir kasalliklari tajribalariga asoslangan darslar && Lessons from experiences of hemophilia",
-    "Qon tomir kasalliklari davlat dasturlari va ko'ngilocharliligidagi mustahkamlash && State programs and strengthening of support for hemophilia",
-    "Qon tomir kasalligida klinika va asbobiy bosqichlar && Clinical and instrumental stages in hemophilia",
-    "Qon tomir kasalligi yoki tomir kasalligini tushunish && Hemophilia or recognizing hemophilia",
-    "Qon tomir kasalligini o'qimaymiz && Don't underestimate hemophilia",
-  ];
+  const plans = await createPlansLanguage(
+    "Qon tomir kasalliklari",
+    18,
+    "uz",
+    "uzbek",
+    18,
+    modelLang.gpt3
+  );
+
+  // const plans = [
+  //   "Qon tomir kasalligining asosiy sabablarini tushuntirish && Identifying the main causes of hemophilia",
+  //   "Qon tomir kasalliklarining turli turlari && Different types of hemophilia",
+  //   "Qon tomir kasalligining xossaliklari va belgilari && Symptoms and signs of hemophilia",
+  //   "Qon tomir kasalligining xossalik davri va dardlari && Disease duration and its treatments",
+  //   "Qon tomir kasalligini oldini olish usullari && Methods of preventing hemophilia",
+  //   "Qon tomir kasalligining ravishlari va mudofaalari && Therapies and treatments for hemophilia",
+  //   "Qon tomir kasalligini taniganida qanday qilib amal qilish kerak && What to do when diagnosed with hemophilia",
+  //   "Qon tomir kasalligini surish, urg'ochilari va nazariyasi && Heritage, risks, and genetics of hemophilia",
+  //   "Qon tomir kasalligi bilan yashash && Living with hemophilia",
+  //   "Qon tomir kasalliklari davriylikdagi o'zgarishlar && Changes in hemophilia dynamics",
+  //   "Qon tomir kasalligining shifokorligi va davolash usullari && Doctoring and treatment methods for hemophilia",
+  //   "Qon tomir kasalliklarining profilaktikasi && Prophylaxis for hemophilia",
+  //   "Qon tomir kasalligining o'zgarib turish texnologiyasi && Changing hemophilia technology",
+  //   "Qon tomir kasalligini chetlatish va aniqlash && Exclusion and detection of hemophilia",
+  //   "Qon tomir kasalliklari tajribalariga asoslangan darslar && Lessons from experiences of hemophilia",
+  //   "Qon tomir kasalliklari davlat dasturlari va ko'ngilocharliligidagi mustahkamlash && State programs and strengthening of support for hemophilia",
+  //   "Qon tomir kasalligida klinika va asbobiy bosqichlar && Clinical and instrumental stages in hemophilia",
+  //   "Qon tomir kasalligi yoki tomir kasalligini tushunish && Hemophilia or recognizing hemophilia",
+  //   "Qon tomir kasalligini o'qimaymiz && Don't underestimate hemophilia",
+  // ];
 
   console.log(plans);
 
-  for (let i = 0; i < plans.length; i++) {
-    let plan = plans[i].split("&&")[1];
-    const plansDescription = await createPlansDescriptionLanguage(
-      plan,
-      "uz",
-      "uzbek",
-      modelLang.gpt3
-    );
-    console.log(plansDescription);
-  }
+  // for (let i = 0; i < plans.length; i++) {
+  //   let plan = plans[i].split("&&")[1];
+  //   const plansDescription = await createPlansDescriptionLanguage(
+  //     plan,
+  //     "uz",
+  //     "uzbek",
+  //     modelLang.gpt3
+  //   );
+  //   console.log(plansDescription);
+  // }
 };
-
-// test();
