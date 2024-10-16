@@ -613,7 +613,7 @@ Elaborate on the content and provide as much important information as possible. 
       },
     },
   };
-  console.log(models[model]);
+  console.log(models["gpt-4"]);
 
   const chatCompletion = await openai.chat.completions.create({
     messages: [
@@ -624,7 +624,7 @@ Elaborate on the content and provide as much important information as possible. 
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models[model],
+    model: models["gpt-3"],
     // model: "gpt-3.5-turbo-0125",
     max_tokens: 1200,
     response_format: {
