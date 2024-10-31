@@ -18,6 +18,7 @@ import {
   parseJsonToTags,
 } from "../services/parseReferat.service";
 import { contentToString } from "../utils/functions";
+import { languagesReferat } from "./slidesCount";
 
 scene.hears("/start", async (ctx: any) => {
   return await ctx.scene.enter("start");
@@ -179,18 +180,18 @@ scene.action(/\d+$/, async (ctx: any) => {
               callback_data: "reject",
             },
           ],
-          // [
-          //   {
-          //     text: "Mavzuni o'zgartirish",
-          //     callback_data: "change",
-          //   },
-          // ],
-          // [
-          //   {
-          //     text: "Slaydlar sonini o'zgartirish",
-          //     callback_data: "changeSlides",
-          //   },
-          // ],
+          [
+            {
+              text: "Mavzuni o'zgartirish",
+              callback_data: "change",
+            },
+          ],
+          [
+            {
+              text: "Tilini o'zgartirish",
+              callback_data: "changeLanguage",
+            },
+          ],
           // [
           //   {
           //     text: "Muallifni o'zgartirish",
@@ -275,6 +276,56 @@ scene.action("reject", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
 
+scene.action("change", async (ctx: any) => {
+  try {
+    const user_id = ctx.from?.id;
+
+    const user = await prisma.user.findFirst({
+      where: {
+        telegram_id: String(user_id),
+      },
+    });
+
+    if (!user) return ctx.reply("Foydalanuvchi topilmadi");
+
+    const chat = await prisma.chat.findFirst({
+      where: {
+        user_id: user?.id,
+      },
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+
+    if (!chat) return ctx.reply("Chat topilmadi");
+
+    await ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
+
+    ctx.reply("Yangi mavzuni kiriting: ");
+
+    return await ctx.scene.enter("changeThemeReferat");
+  } catch (error) {}
+});
+
+scene.action("changeLanguage", async (ctx: any) => {
+  try {
+    await ctx.deleteMessage(ctx.callbackQuery.message?.message_id);
+    const text = `Kerakli tilni tanlang`;
+    const keyboard = chunkArrayInline(languagesReferat, 2);
+
+    await ctx.reply(text, {
+      parse_mode: "HTML",
+      reply_markup: {
+        inline_keyboard: keyboard,
+      },
+    });
+
+    return await ctx.scene.enter("changeLanguageReferat");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const createPresentationAsync = async (
   chat: Chat,
   user: any,
@@ -352,7 +403,38 @@ export const createPresentationAsync = async (
       },
     });
 
-    let body = description;
+    // const xulosa = await createPlansDescriptionLanguageReferat(
+    //   String(chat.name),
+    //   chat.lang || "uz",
+    //   chat.language || "uzbek",
+    //   user?.model?.name
+    // );
+
+    // const xulosaPlan = {
+    //   id: "nimadir",
+    //   name:
+    //     chat.lang == "uz"
+    //       ? "Xulosa && Xulosa "
+    //       : chat.lang == "ru"
+    //       ? "Заключение && Заключение"
+    //       : "Conclusion && Conclusion",
+    //   description: [
+    //     {
+    //       id: "someId",
+    //       name: null,
+    //       content: xulosa.content,
+    //       plan_id: "nimadir",
+    //       chat_id: chat.id,
+    //       created_at: new Date(),
+    //       updated_at: new Date(),
+    //     },
+    //   ],
+    //   created_at: new Date(),
+    //   updated_at: new Date(),
+    //   chat_id: chat.id,
+    //   plan_id: "nimadir",
+    // };
+    let body: any = description;
 
     const title = {
       name: chat.name,
@@ -365,11 +447,22 @@ export const createPresentationAsync = async (
     // Tekshirdi:${chat.checkUser || "Anonymous"}.
     // Fan: ${chat.name || "Unknown"}.`;
     let rightContent = `
-    Bajardi: ${chat?.author || "Anonymous"}.
-    Fan: ${chat.name || "Unknown"}.`;
+    ${
+      chat.lang == "uz"
+        ? "Bajardi: "
+        : chat.lang == "ru"
+        ? "Сделал"
+        : "Performed"
+    } ${chat?.author || "Anonymous"}.
+    ${chat.lang == "uz" ? "Fan: " : chat.lang == "ru" ? "Наука" : "Science"} ${
+      chat.name || "Unknown"
+    }.`;
+
+    console.log(body[0]);
+    // body.push(xulosaPlan);
     const contentText = parseJsonToTags(
       {
-        plans: body,
+        plans: {},
       },
       rightContent,
       chat.scool || "O'quv yurti",
@@ -412,7 +505,8 @@ export const createPresentationAsync = async (
     const filePath = path.join(__dirname, `../../output2${id}.docx`);
 
     const createdFile = await handlePythonScriptReferat(
-      `${id}{{${contentText}`
+      `${id}{{${contentText}`,
+      chat.lang || "uz"
     );
 
     await sleep(500);

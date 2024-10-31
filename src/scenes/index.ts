@@ -6,6 +6,8 @@ import admin from "./admin";
 import balans from "./balans";
 import changeAuthor from "./changeAuthor";
 import changeChecked from "./changeChecked";
+import changeLanguageReferat from "./changeLanguageByReferat";
+import changeThemeReferat from "./changeThemeByReferat";
 import control from "./control";
 import createWalletRequest from "./createWalletRequest";
 import editSlides from "./editSlides";
@@ -30,6 +32,8 @@ const stage = new Scenes.Stage([
   addUniversity,
   addAuthor,
   feadback,
+  changeLanguageReferat,
+  changeThemeReferat,
 ]);
 
 export default stage;

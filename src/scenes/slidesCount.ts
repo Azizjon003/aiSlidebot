@@ -48,6 +48,20 @@ export const languages = [
     callback_data: "de",
   },
 ];
+export const languagesReferat = [
+  {
+    text: "🇺🇿 O'zbekcha",
+    callback_data: "uz",
+  },
+  {
+    text: "🇷🇺 Русский",
+    callback_data: "ru",
+  },
+  {
+    text: "🇺🇸 English",
+    callback_data: "eng",
+  },
+];
 const scene = new Scenes.BaseScene("slidesCount");
 
 scene.hears("/start", async (ctx: any) => {

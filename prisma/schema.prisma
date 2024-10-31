@@ -25,6 +25,18 @@ model User {
   model        gptModel? @relation(fields: [model_id], references: [id])
   walletRequest walletRequest[]
   webUser      webUser?
+  fileText     fileText[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+model fileText {
+  id      String  @id @default(uuid())
+  name    String?
+  content String
+  user_id String
+  number  Int?
+  contentJson Json[]
+  user    User @relation(fields: [user_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
@@ -144,4 +156,9 @@ model session {
   token    String?
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model postgress_sessions {
+  id      String  @id
+  session String
 }

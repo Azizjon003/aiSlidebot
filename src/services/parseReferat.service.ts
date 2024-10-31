@@ -41,14 +41,19 @@ export function parseJsonToTags(
   return tags.join("\n");
 }
 
-function runPythonScriptReferat(inputData: string) {
+function runPythonScriptReferat(inputData: string, lang: string) {
   return new Promise((resolve, reject) => {
     // Python skriptini boshlash
     console.log("=================");
     console.log(path.join(__dirname, "../ai_generator/createReferat.py"));
     console.log("=================");
     const pythonProcess = spawn("python3", [
-      path.join(__dirname, "../ai_generator/createReferat.py"),
+      path.join(
+        __dirname,
+        `../ai_generator/createReferat${
+          lang == "eng" ? "eng" : lang == "ru" ? "ru" : ""
+        }.py`
+      ),
     ]);
 
     let outputData = "";
@@ -87,9 +92,9 @@ function runPythonScriptReferat(inputData: string) {
   });
 }
 
-export async function handlePythonScriptReferat(input: any) {
+export async function handlePythonScriptReferat(input: any, lang: string) {
   try {
-    const result = await runPythonScriptReferat(input);
+    const result = await runPythonScriptReferat(input, lang);
     console.log("Python Script Output:", result);
   } catch (error) {
     console.error("Error running Python script:", error);

@@ -20,7 +20,7 @@ async def generate_docx(answer, time):
         # Add title and subtitle
         p1 = doc.add_paragraph()
         p1.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        run1 = p1.add_run("O‘zbekiston Respublikasi oliy ta’lim, Fan va innovatsiyalar vazirligi.")
+        run1 = p1.add_run("Министерство Высшего Образования, Науки И Инноваций Республики Узбекистан")
         run1.bold = True
         run1.font.size = Pt(24)
 
@@ -29,7 +29,7 @@ async def generate_docx(answer, time):
         # run2 = p2.add_run("Muhammad Al-Xorazmiy nomidagi Toshkent\nAxborot Texnologiyalari Universiteti")
         # run2.bold = True
         # run2.font.size = Pt(22)
-        university_name = "Muhammad Al-Xorazmiy nomidagi Toshkent\nAxborot Texnologiyalari Universiteti"
+        university_name = "Ташкентский университет информационных технологий имени Мухаммада аль-Хорезми"
         for item in tags_array:
             if item[0] == 'UNIVERSITY':
                 university_name = item[1]
@@ -46,7 +46,7 @@ async def generate_docx(answer, time):
             doc.add_paragraph()
 
         # Add "O'rnatilgan tizimlar fanidan"
-        theme_text = "O'rnatilgan tizimlar fanidan"
+        theme_text = "В науке о встроенных системах"
         for item in tags_array:
             if item[0] == 'THEME':
                 theme_text = item[1]
@@ -60,7 +60,7 @@ async def generate_docx(answer, time):
         doc.add_paragraph()
 
         # Add "Mustaqil ish"
-        p = doc.add_paragraph("Mustaqil ish")
+        p = doc.add_paragraph("Самостоятельная работа")
         p.alignment = WD_ALIGN_PARAGRAPH.CENTER
         p.runs[0].bold = True
         p.runs[0].font.size = Pt(20)
@@ -89,7 +89,7 @@ async def generate_docx(answer, time):
         doc.add_page_break()
 
         # Add "Reja" (Table of Contents)
-        mundarija = doc.add_paragraph("Reja")
+        mundarija = doc.add_paragraph("План.")
         mundarija.alignment = WD_ALIGN_PARAGRAPH.CENTER
         mundarija.runs[0].bold = True
         mundarija.runs[0].font.size = Pt(14)
@@ -128,7 +128,6 @@ async def generate_docx(answer, time):
                 case 'CONTENT':
                     p = doc.add_paragraph(item[1])
                     p.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
-                    
                     
                 # case 'RIGHTCONTENT':
                 #     # Add the RIGHTCONTENT section
