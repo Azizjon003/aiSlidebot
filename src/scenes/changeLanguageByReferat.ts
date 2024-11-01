@@ -84,7 +84,7 @@ scene.action(["eng", "ru", "uz"], async (ctx: any) => {
       Number(user?.wallet?.balance)
     ) {
       ctx.reply(
-        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq referat narxi 2000 so'm yoki 4000 so'm.Referat 18 tagacha sahifagadan iborat bo'lishi mumkin`
+        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm yoki 4000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin\nBalansingizni Balans tugmasi orqali to'ldirishingiz mumkin`
       );
       return await ctx.scene.enter("start");
     }

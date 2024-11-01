@@ -11,6 +11,7 @@ import { sleep } from "openai/core";
 import path from "path";
 import {
   createPlansDescriptionLanguageReferat,
+  createPlansDescriptionLanguageReferatXulosa,
   createPlansLanguageReferat,
 } from "../services/createPlansUseOpenAi";
 import {
@@ -150,7 +151,7 @@ scene.action(/\d+$/, async (ctx: any) => {
       Number(user?.wallet?.balance)
     ) {
       ctx.reply(
-        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq referat narxi 2000 so'm yoki 4000 so'm.Referat 18 tagacha sahifagadan iborat bo'lishi mumkin`
+        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm yoki 4000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin\nBalansingizni Balans tugmasi orqali to'ldirishingiz mumkin`
       );
       return await ctx.scene.enter("start");
     }
@@ -403,39 +404,40 @@ export const createPresentationAsync = async (
       },
     });
 
-    // const xulosa = await createPlansDescriptionLanguageReferat(
-    //   String(chat.name),
-    //   chat.lang || "uz",
-    //   chat.language || "uzbek",
-    //   user?.model?.name
-    // );
+    const xulosa = await createPlansDescriptionLanguageReferatXulosa(
+      String(chat.name),
+      chat.lang || "uz",
+      chat.language || "uzbek",
+      user?.model?.name
+    );
 
-    // const xulosaPlan = {
-    //   id: "nimadir",
-    //   name:
-    //     chat.lang == "uz"
-    //       ? "Xulosa && Xulosa "
-    //       : chat.lang == "ru"
-    //       ? "Заключение && Заключение"
-    //       : "Conclusion && Conclusion",
-    //   description: [
-    //     {
-    //       id: "someId",
-    //       name: null,
-    //       content: xulosa.content,
-    //       plan_id: "nimadir",
-    //       chat_id: chat.id,
-    //       created_at: new Date(),
-    //       updated_at: new Date(),
-    //     },
-    //   ],
-    //   created_at: new Date(),
-    //   updated_at: new Date(),
-    //   chat_id: chat.id,
-    //   plan_id: "nimadir",
-    // };
+    const xulosaPlan = {
+      id: "nimadir",
+      name:
+        chat.lang == "uz"
+          ? "Xulosa && Xulosa "
+          : chat.lang == "ru"
+          ? "Заключение && Заключение"
+          : "Conclusion && Conclusion",
+      description: [
+        {
+          id: "someId",
+          name: "Xulosa && Xulosa",
+          content: xulosa.content,
+          plan_id: "nimadir",
+          chat_id: chat.id,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      ],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      chat_id: chat.id,
+      plan_id: "nimadir",
+    };
     let body: any = description;
 
+    console.log(body[0], xulosaPlan, "xulosa");
     const title = {
       name: chat.name,
       author: user?.name,
@@ -451,18 +453,17 @@ export const createPresentationAsync = async (
       chat.lang == "uz"
         ? "Bajardi: "
         : chat.lang == "ru"
-        ? "Сделал"
-        : "Performed"
+        ? "Сделал: "
+        : "Performed: "
     } ${chat?.author || "Anonymous"}.
-    ${chat.lang == "uz" ? "Fan: " : chat.lang == "ru" ? "Наука" : "Science"} ${
-      chat.name || "Unknown"
-    }.`;
+    ${
+      chat.lang == "uz" ? "Fan: " : chat.lang == "ru" ? "Наука: " : "Science: "
+    } ${chat.name || "Unknown"}.`;
 
-    console.log(body[0]);
-    // body.push(xulosaPlan);
+    body.push(xulosaPlan);
     const contentText = parseJsonToTags(
       {
-        plans: {},
+        plans: body,
       },
       rightContent,
       chat.scool || "O'quv yurti",

@@ -9,6 +9,9 @@ const scene = new Scenes.BaseScene("control");
 scene.hears("/start", async (ctx: any) => {
   return await ctx.scene.enter("start");
 });
+scene.action("balans", async (ctx: any) => {
+  return await ctx.scene.enter("balans");
+});
 scene.hears("Yangi Taqdimot", async (ctx: any) => {
   try {
     const user_id = ctx.from?.id;
@@ -31,9 +34,21 @@ scene.hears("Yangi Taqdimot", async (ctx: any) => {
       Number(user?.wallet?.balance)
     ) {
       ctx.reply(
-        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm yoki 4000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin`
+        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm yoki 4000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin\nBalansingizni Balans tugmasi orqali to'ldirishingiz mumkin`,
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "Balansni to'ldirish",
+                  callback_data: `balance:${user?.id}`,
+                },
+              ],
+            ],
+          },
+        }
       );
-      return await ctx.scene.enter("start");
+      return await ctx.scene.enter("balans");
     }
 
     const countArray = await inlineKeyboardNumbers(5, 10, user_id);
@@ -126,6 +141,41 @@ scene.hears("Mustaqil ish", async (ctx: any) => {
   try {
     const user_id = ctx.from?.id;
     const user_name = ctx.from?.first_name || ctx.from?.username;
+    const user = await prisma.user.findFirst({
+      where: {
+        telegram_id: String(user_id),
+      },
+      include: {
+        model: true,
+        wallet: true,
+      },
+    });
+    const slidePrice = await prisma.plansSlides.findFirst({
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    if (
+      Number(user?.model?.name === "gpt-3" ? slidePrice?.price : 2000) >
+      Number(user?.wallet?.balance)
+    ) {
+      ctx.reply(
+        `Sizda yetarli mablag' mavjud emas. Balansingiz: ${user?.wallet?.balance} so'm\n Bir dona to'liq taqdimot narxi 2000 so'm yoki 4000 so'm.Taqdimot 18 tagacha sahifagadan iborat bo'lishi mumkin\nBalansingizni Balans tugmasi orqali to'ldirishingiz mumkin`,
+        {
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "Balansni to'ldirish",
+                  callback_data: `balance:${user?.id}`,
+                },
+              ],
+            ],
+          },
+        }
+      );
+      return await ctx.scene.enter("balans");
+    }
 
     ctx.reply("Mavzuni nomini to'liq, bexato va tushunarli xolatda yuboring:");
     return await ctx.scene.enter("independentWork");
