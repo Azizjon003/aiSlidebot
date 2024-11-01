@@ -31,15 +31,18 @@ scene.action(
       let txt = `Karta orqali to'lov qilmoqchi bo'lsangiz \n
     <b>Karta raqam</b>: <code>8600 3129 7257 8377</code>
     <b>Kimni nomida</b>: Aliqulov Azizjon
+
+     <b>Karta raqam</b>: <code>9860 6067 4202 8008</code>
+    <b>Kimni nomida</b>: Aliqulov Azizjon
     karta raqamlariga to'lov qilib chekni adminga yuboring
     Adminlarning kontaktlari: @magic_slide_admin @aliqulov_azizjon
     
-    Bitta taqdimot narxi 2000 so'm yoki 4000 so'm.Bunda siz 18 sahifali taqdimot tayyorlay olishingiz mumkin bo'ladi
+    Bitta taqdimot narxi 2000 so'm yoki 4000 so'm.Bunda siz 18 sahifali taqdimot yoki mustaqil ish tayyorlay olishingiz mumkin bo'ladi
 
 
     Iltimos to'lovni amalga oshirgan bo'lsangiz adminga murojaat qiling va to'lovni tasdiqlating.
     `;
-      const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:\nMinimal summa 2000 so'm mumkin`;
+      const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:\nMinimal summa 4000 so'm mumkin`;
 
       await ctx.reply(txt, {
         parse_mode: "HTML",
