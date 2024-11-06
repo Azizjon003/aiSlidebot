@@ -1,7 +1,7 @@
+import fs from "fs";
 import path from "path";
 import PptxGenJS from "pptxgenjs";
 import prisma from "../../prisma/prisma";
-
 export const createSlideEducationTemplate = async (data: any) => {
   const pres = new PptxGenJS();
   pres.theme = { bodyFontFace: "Playfair Display" };
@@ -426,9 +426,9 @@ export const createSlideEducationTemplate = async (data: any) => {
     fileName: paths,
   });
 };
-
 let test = async () => {
   console.log("test");
+
   const chat = await prisma.chat.findFirst({
     where: {
       id: "f776cbff-5a59-4b66-bede-64f84741d7b3",
@@ -460,9 +460,16 @@ let test = async () => {
     paths: filePath,
   };
 
+  fs.writeFileSync("testData.json", JSON.stringify(data, null, 2));
+
   // const slide = await createSlideWithAnimationDarkMode(data, "uz");
 
   const slide = await createSlideEducationTemplate(data);
 };
+const testFile = async () => {
+  const data = JSON.parse(fs.readFileSync("testData.json", "utf-8"));
 
-// test();
+  console.log(data);
+
+  const slide = await createSlideEducationTemplate(data);
+};

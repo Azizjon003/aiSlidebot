@@ -1,0 +1,405 @@
+{
+  "title": {
+    "name": "Mustaqil O‘zbekiston davlati va huquqi",
+    "author": "Azizjon Aliqulov"
+  },
+  "body": [
+    {
+      "id": "841e4286-d802-4e82-b0ef-c8f61782b794",
+      "name": "Mustaqil O‘zbekiston davlati va huquqi && Independent State of Uzbekistan and its Legal System",
+      "content": [
+        {
+          "title": "Mustaqil O‘zbekiston davlati",
+          "content": "Mustaqil O‘zbekiston Respublikasi 1991-yil 1-sentabrida mustaqil bo‘lib, O‘zbekiston davlati xalqaro tan erkakligini qabul qildi."
+        },
+        {
+          "title": "Davlat tuzum",
+          "content": "O‘zbekiston Konstitutsiyasi davlatning asosiy qonuni sifatida o‘rnatilgan, uni Farzandlar Qonuni deb ham ataydilar."
+        },
+        {
+          "title": "Hukuk tizimi",
+          "content": "O‘zbekistonda amaldagi huquq tizimi, qonunchilik prinsiplari asosida shakllangan va istiqbolli rivojlanib kelmoqdadir."
+        },
+        {
+          "title": "Huquqiy vazirliklar",
+          "content": "O‘zbekiston Respublikasida huquqiy vazirliklar tashkil etilgan, ular davlatning huquqiy siyosatini amalga oshirish bilan bog‘liq vazifalarni bajarishadi."
+        }
+      ],
+      "plan_id": "f6bb109a-6f99-4978-8dba-5bc3c40a8e92",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:20.609Z",
+      "updated_at": "2024-05-23T04:02:20.609Z",
+      "plan": {
+        "id": "f6bb109a-6f99-4978-8dba-5bc3c40a8e92",
+        "name": "Mustaqil O‘zbekiston davlati va huquqi && Independent State of Uzbekistan and its Legal System",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.509Z",
+        "updatedAt": "2024-05-23T04:02:15.509Z"
+      }
+    },
+    {
+      "id": "107803dd-3d33-4b28-918b-1beda43e066f",
+      "name": "Davlat tuzilishi va funktsiyalari && State Structure and Functions",
+      "content": [
+        {
+          "title": "Davlat tuzilishi",
+          "content": "Davlat tuzilishi - davlatning tuzilishi va boshqaruv shakli, tuzilish organlarining tuzilishi va faoliyati. Davlat tuzilish organlari: davlat rahbari, parlament, davlat hokimiyatining boshqaruv organlari."
+        },
+        {
+          "title": "Davlat boshqaruv organlari",
+          "content": "Davlat boshqaruv organlari - davlat va ob-havoling boshqaruv organlari, ijtimoiy-huquqiy qism organlari. Boshqaruv organlari: Prezident, Prezident to'xtatuvchilari, Vazirliklar, tashkilotlarning ixtisos organlari."
+        },
+        {
+          "title": "Davlatning funksiyalari",
+          "content": "Davlatning asosiy funktsiyalari - adolat, amniiyat va barqarorlik ta'minlash, iqtisodiy va ijtimoiy rivojlanishni ta'minlash, shuningdek, ilmiy va ma'naviy Erishuv ta'minlash."
+        },
+        {
+          "title": "Davlat organlari",
+          "content": "Davlat organlari: Fuqarolar va huquqiy shaxslar bilan muloqotda davlatning funktsiyalarini amalga oshirish. Davlat organlari o'z faoliyatini konstitutsiyaviy va qonunlarbilan belgilangan tartibda amalga oshiradi."
+        }
+      ],
+      "plan_id": "868ba0e3-61bd-406d-9a3e-2edf01a9c32e",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:26.362Z",
+      "updated_at": "2024-05-23T04:02:26.362Z",
+      "plan": {
+        "id": "868ba0e3-61bd-406d-9a3e-2edf01a9c32e",
+        "name": "Davlat tuzilishi va funktsiyalari && State Structure and Functions",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.546Z",
+        "updatedAt": "2024-05-23T04:02:15.546Z"
+      }
+    },
+    {
+      "id": "fd2ad141-e94b-4d5c-97f5-16b001deee3f",
+      "name": "Xalqaro hamkorlikda O‘zbekistonning o‘rni && Uzbekistan's Place in International Cooperation",
+      "content": [
+        {
+          "title": "O‘zbekistonning xalqaro tashkilotlar bilan hamkorlik sohasi",
+          "content": "O‘zbekiston BMT, O‘zbekiston Xalqaro Valyuta Fondi (Xalqaro Valyuta Fondi), Xalqaro Moliya Fondi (IMF) a’zolarihisoblanmokda."
+        },
+        {
+          "title": "O‘zbekistonning xalqaro xarajat strategiyasi",
+          "content": "O‘zbekiston xalqaro xarajatlarini kamaytirish bo‘yicha djadval tuzishni qo‘lga kiritadi va ishonchli moliyalash darajasi bilan tan olishini o‘ng aylantirmokda."
+        },
+        {
+          "title": "O‘zbekiston va xorijiy moliyaviy tashkilotlar",
+          "content": "O‘zbekiston Dunyobankiga kreditlarni qaytarish borasida aniq ruxsat hisoblab turadi, bu bilan birga, xorijiy investitsiyalarni jalb etish bo‘yicha zamonaviy qonuniy tizimi yaratilmoqda."
+        },
+        {
+          "title": "O‘zbekistonning diplomatiya sohasidagi hamkorliklar",
+          "content": "O‘zbekiston sodiq hamkorligi, bozor tomonidagi va diplomatiya sohasidagi ittifoqlari, regional va muntazam tartibga ega."
+        }
+      ],
+      "plan_id": "5a89cf62-229a-4827-b375-5225bbc9b28b",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:31.689Z",
+      "updated_at": "2024-05-23T04:02:31.689Z",
+      "plan": {
+        "id": "5a89cf62-229a-4827-b375-5225bbc9b28b",
+        "name": "Xalqaro hamkorlikda O‘zbekistonning o‘rni && Uzbekistan's Place in International Cooperation",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.581Z",
+        "updatedAt": "2024-05-23T04:02:15.581Z"
+      }
+    },
+    {
+      "id": "a4589e59-eb04-434a-9fcb-d0b6c8024bd2",
+      "name": "Huquqiy nazorat tizimini rivojlantirish && Developing the Legal Supervision System",
+      "content": [
+        {
+          "title": "Huquqiy nazorat tizimini modernizatsiya qilish",
+          "content": "Legal supervision tizimining yangilanishi, davlatning fuqarolarga taalluqli qonunlar va tartibotlarni amalga oshirishda ahamiyati."
+        },
+        {
+          "title": "Huquqiy nazoratni kuchaytirish usullari",
+          "content": "Huquqiy nazoratni kuchaytirishda informatika texnologiyalari va xalqaro tajribalar qo'llanilishi zarur."
+        },
+        {
+          "title": "Huquqiy nazorat tizimini rivojlantirishda davlatning roli",
+          "content": "Davlatning huquqiy nazorat tizimini mustahkamlashda o'z maqomini qanday o'zida hisobga olishi kerak?"
+        },
+        {
+          "title": "Texnik taraqqiyot va huquqiy nazorat munosabatlari",
+          "content": "Yangi texnologiyalarning huquqiy nazorat tizimiga ta'siri va kadrlarni tayyorlash muhim ahamiyatga ega."
+        }
+      ],
+      "plan_id": "6fab0f79-1dfa-475d-b60c-67a907444286",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:37.926Z",
+      "updated_at": "2024-05-23T04:02:37.926Z",
+      "plan": {
+        "id": "6fab0f79-1dfa-475d-b60c-67a907444286",
+        "name": "Huquqiy nazorat tizimini rivojlantirish && Developing the Legal Supervision System",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.617Z",
+        "updatedAt": "2024-05-23T04:02:15.617Z"
+      }
+    },
+    {
+      "id": "c7d89596-b09c-489d-b90c-4102e1a8581c",
+      "name": "Davlat boshqaruvi tizimining yangilanishi && Modernization of the State Governance System",
+      "content": [
+        {
+          "title": "Davlat boshqaruvi tizimining modernizatsiyasi",
+          "content": "Davlat boshqaruvi tizimining yangilanishi jamoatda ishtirokni kuchaytirish va davlat tizimini isloh qilish uchun tajribali kadrlarni rivojlantirishni talab qiladi."
+        },
+        {
+          "title": "Yangi innovatsiyalar va texnologiyalar",
+          "content": "Davlat organlarida yangi innovatsiyalar va texnologiyalar taniqliroq va samarador ishlashni ta'minlaydi."
+        },
+        {
+          "title": "Davlat interaktiv hizmatlari",
+          "content": "Hududiy hokimiyat organlari va tashkilotlar davlat interaktiv hizmatlari orqali fuqarolarga xizmat ko'rsatishda ommaviy tajriba va aniq vaqtni oshirish uchun qo'llaniladi."
+        },
+        {
+          "title": "Ishonch va islohotlarni kuchaytirish",
+          "content": "Davlat tashkilotlarida ishonch va islohotlarni kuchaytirish tizimlarini o'rnatish, xususan xalqaro digital xizmatlar va platformalardan foydalanish kengayadi."
+        }
+      ],
+      "plan_id": "c13fe484-e1ff-4823-b31a-aceb150e9f08",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:43.356Z",
+      "updated_at": "2024-05-23T04:02:43.356Z",
+      "plan": {
+        "id": "c13fe484-e1ff-4823-b31a-aceb150e9f08",
+        "name": "Davlat boshqaruvi tizimining yangilanishi && Modernization of the State Governance System",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.644Z",
+        "updatedAt": "2024-05-23T04:02:15.644Z"
+      }
+    },
+    {
+      "id": "a913a04c-6c75-4394-acd4-add86bd4d3d4",
+      "name": "Huquq tizimini mamlakatning rivojlanishi bo'yicha ta'minlash && Ensuring the Development of the Legal System in the Country",
+      "content": [
+        {
+          "title": "Huquq tizimini rivojlantirishning ahamiyati",
+          "content": "Yangi zakonlar va qonunlar qabul qilinishi, adolatsizliklarqa qarshi kurashish uchun zamonaviy huquq tizimini rivojlantirish zarur."
+        },
+        {
+          "title": "Yuksak sifatli huquq tizimi ta'minlashning sababi",
+          "content": "Sifatli huquq tizimi - davlatning barqarorlik va demokratik rivojlanishiga qo'llish mumkin."
+        },
+        {
+          "title": "Huquqni muhofaza qilishning ahamiyati",
+          "content": "Demokratik mamlakatlarda huquqni muhofaza qilish o'z mavqesini ko'tarib borayapti va tashqi investitsiyalarni jalb etishga yordam beradi."
+        },
+        {
+          "title": "Huquq rivojlantirishning natijasi",
+          "content": "Huquq tizimini rivojlantirish natijasida inson adolatlari muhofaza qilinishi, mustaqil sud-ixtisoslashgan davlat noyob tuzilmasi bo'lishi mumkin."
+        }
+      ],
+      "plan_id": "3c75f8d7-9917-42f9-af5e-672da070609a",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:47.967Z",
+      "updated_at": "2024-05-23T04:02:47.967Z",
+      "plan": {
+        "id": "3c75f8d7-9917-42f9-af5e-672da070609a",
+        "name": "Huquq tizimini mamlakatning rivojlanishi bo'yicha ta'minlash && Ensuring the Development of the Legal System in the Country",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.669Z",
+        "updatedAt": "2024-05-23T04:02:15.669Z"
+      }
+    },
+    {
+      "id": "422a79ed-e984-4c86-9b01-8762542d2a6e",
+      "name": "Davlatning hayotni saqlash politikasi && State Policy for Preserving Life",
+      "content": [
+        {
+          "title": "Hayotni saqlashning ahamiyati",
+          "content": "Davlatning hayotni saqlash uchun qo'yllab kelgan politikasi jamoa uchun juda zarurdir."
+        },
+        {
+          "title": "Davlat tomonidan hayotni saqlashning asosiy maqsadi",
+          "content": "Davlatning hayotni saqlash politikasi tashqi xavfiy omillarni aylanishidan himoya qilish uchun qo'llab-kelgan strategiyadir."
+        },
+        {
+          "title": "Hayotni saqlashni etkazib turuvchi dasturlar",
+          "content": "Davlatning hayotni saqlash dasturlari sog'liqni saqlash, interessizlarini shakllantirish va insaniy xavfiyati tashkil etish uchun muhimdir."
+        },
+        {
+          "title": "Hayotni saqlash politikasining samaradorligi",
+          "content": "Davlatning hayotni saqlash politikasi jamiyatlarga va bireylarga qo'lda yordam berish orqali o'z mazkurini samarali ravishda amalga oshirishga yordam beradi."
+        }
+      ],
+      "plan_id": "6f1d8ebd-2540-4c1c-bc08-4bf6a4d6e61e",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:52.830Z",
+      "updated_at": "2024-05-23T04:02:52.830Z",
+      "plan": {
+        "id": "6f1d8ebd-2540-4c1c-bc08-4bf6a4d6e61e",
+        "name": "Davlatning hayotni saqlash politikasi && State Policy for Preserving Life",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.695Z",
+        "updatedAt": "2024-05-23T04:02:15.695Z"
+      }
+    },
+    {
+      "id": "45221206-25ee-4e97-a78c-316e8e98504c",
+      "name": "Adolat tizimini mustahkamlash && Strengthening the Justice System",
+      "content": [
+        {
+          "title": "Adolat tizimini mustahkamlash haqida umumiy ma'lumot",
+          "content": "Adolat tizimini mustahkamlash joriy davlat siyosati bo‘lib muhim belg‘ilardan biridir."
+        },
+        {
+          "title": "Adolat tizimini rivojlantirishning ahamiyati",
+          "content": "Adolat tizimini mustahkamlashni yaratish, insoniyat tarixida mustahkam huquqiy bazani qo‘llay oladi."
+        },
+        {
+          "title": "Adolat organlarining faoliyatini kengaytirish strategiyalari",
+          "content": "Adolat organlarining ish faoliyati ko‘rsatilgandan so‘ng, ularning mustahkamlik darajasini oshiruvchilarining idoralariga etibor qaratish kerak."
+        },
+        {
+          "title": "Adolat tizimini o‘z ichiga olgan muammolarga yechimlar",
+          "content": "Adolat tizimini mustahkamlash birinchi navbatda kadrlarni malakasini oshirish, lavozimlariga ishonchli hodimlarni tanlash bilan boshlanadi."
+        }
+      ],
+      "plan_id": "8ab4c9af-839d-4e19-8f0a-efb29a88e01e",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:02:57.013Z",
+      "updated_at": "2024-05-23T04:02:57.013Z",
+      "plan": {
+        "id": "8ab4c9af-839d-4e19-8f0a-efb29a88e01e",
+        "name": "Adolat tizimini mustahkamlash && Strengthening the Justice System",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.716Z",
+        "updatedAt": "2024-05-23T04:02:15.716Z"
+      }
+    },
+    {
+      "id": "d551998f-41c0-4693-8d8f-59711c9b159d",
+      "name": "Qonun bilan ta’minlanmagan sohalarda isloxotlarning yechishini ta'minlash && Ensuring the Repression of Crimes in Areas without Law",
+      "content": [
+        {
+          "title": "Ixtiyoriy ehtimolliklar",
+          "content": "Yuridik va jinoiy ta’minot qadamini o’tkazish. \nOperativ ma’lumot almashish tizimi tuzilishi. \nJinoiy isloxotlarni oldini oluvchi qadam orqali ta’minlash. \nProfilaktik ishlar tashkil etish."
+        },
+        {
+          "title": "Xizmatlarni o'zaro ko'rsatish",
+          "content": "Oddiy fuqarolarga va xususiy kompaniyalarga xizmat ko'rsatish. \nHujjatlar va xabarnoma tizimini tuzilishi. \nJinoiy faoliyatlar profilaktikasi. \nJinoiy isloxotlarni yechish uchun ko'rsatmalar tashkil etish."
+        },
+        {
+          "title": "Davlat qo'llab-quvvatlash",
+          "content": "Jinoiy isloxotlarni oldini oluvchi kurashishlar tashkil etish. \nOperativ xodimlar qo'llab-quvvatlash. \nTashqi xavfsizlik tuzilishi. \nXavfsizlik sohasini modernizatsiya qilish."
+        },
+        {
+          "title": "Murojaat va ma'lumot almashish",
+          "content": "Fuqarolar bilan doimiy aloqada bo'lish. \nJinoiy haqoratlar ma'lumotlar bazasini yaratish. \nFuqarolarga xizmatlar kengaytirishi. \nMa’lumot almashuvini muvofiqlashtirish"
+        }
+      ],
+      "plan_id": "00d3a9b2-d400-4b5a-ad7d-bd465d6ad6ea",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:03:02.197Z",
+      "updated_at": "2024-05-23T04:03:02.197Z",
+      "plan": {
+        "id": "00d3a9b2-d400-4b5a-ad7d-bd465d6ad6ea",
+        "name": "Qonun bilan ta’minlanmagan sohalarda isloxotlarning yechishini ta'minlash && Ensuring the Repression of Crimes in Areas without Law",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.744Z",
+        "updatedAt": "2024-05-23T04:02:15.744Z"
+      }
+    },
+    {
+      "id": "75d4694c-fb9d-4567-be7f-0fa1a8f9b1cb",
+      "name": "Mamlakat xavfsizligini ta'minlash sohasida kadrlarni tayyorlash && Training Personnel in Ensuring the Country's Security",
+      "content": [
+        {
+          "title": "Xavfsizlik sohasida kadrlarni tayyorlashning ahamiyati",
+          "content": "Mamlakat xavfsizligini ta'minlashda kadrlarni tayyorlash, davlatning mustaqilati, milliyatining qadriyatlarini muhofaza qilishda katta ahamiyatga ega."
+        },
+        {
+          "title": "Kadrlarni tayyorlash jarayonining bosqichlari",
+          "content": "Kadrlarni tayyorlash jarayonida tizimli va tartibli ishlash, yuqori malakali mutaxassislar o'qitilishi, amaliy mashg'ulotlar o'tkazilishi zarur."
+        },
+        {
+          "title": "Xavfsizlikning ta'minlashda bilim va ko'nikmalar",
+          "content": "Xavfsizlikning ta'minlashida sohasida kadrlar bo'yicha eng zamonaviy bilim va ko'nikmalar bilan ta'minlash zarur."
+        },
+        {
+          "title": "Dastlabki vazifalar va kuch boricha kadrlar talablarini nazorat qilish",
+          "content": "Mamlakat xavfsizligini ta'minlash sohasida kadrlarni tayyorlashda, dastlabki vazifalar va kuch boricha kadrlar talablari bo'yicha nazoratni muhofaza qilish muhimdir."
+        }
+      ],
+      "plan_id": "bd8586e4-bb47-42b0-9410-c23a6216d348",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:03:07.191Z",
+      "updated_at": "2024-05-23T04:03:07.191Z",
+      "plan": {
+        "id": "bd8586e4-bb47-42b0-9410-c23a6216d348",
+        "name": "Mamlakat xavfsizligini ta'minlash sohasida kadrlarni tayyorlash && Training Personnel in Ensuring the Country's Security",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.766Z",
+        "updatedAt": "2024-05-23T04:02:15.766Z"
+      }
+    },
+    {
+      "id": "12aa51dc-959f-47a4-a760-c49aab805cea",
+      "name": "Huquqiy ta’minotni ta’minlash && Ensuring Legal Security",
+      "content": [
+        {
+          "title": "Huquqiy ta’minotni ta’minlashning ahamiyati",
+          "content": "The importance of ensuring legal security lies in protecting individual rights and promoting justice in society."
+        },
+        {
+          "title": "Huquqiy ta’minotni ta’minlash usullari",
+          "content": "Methods of ensuring legal security include enforcing laws, creating effective judicial systems, and promoting legal awareness."
+        },
+        {
+          "title": "Huquqiy ta’minotni ta’minlashning maqsadi",
+          "content": "The main goal of ensuring legal security is to uphold the rule of law, prevent abuse of power, and establish a fair and just society."
+        },
+        {
+          "title": "Huquqiy ta’minotni ta’minlash va uning o'zgarishi",
+          "content": "Ensuring legal security evolves with societal changes, adapting laws to address new challenges and protect citizens' rights."
+        }
+      ],
+      "plan_id": "460a1620-e4d5-444f-bb05-d14c8bc597fb",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:03:10.227Z",
+      "updated_at": "2024-05-23T04:03:10.227Z",
+      "plan": {
+        "id": "460a1620-e4d5-444f-bb05-d14c8bc597fb",
+        "name": "Huquqiy ta’minotni ta’minlash && Ensuring Legal Security",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.788Z",
+        "updatedAt": "2024-05-23T04:02:15.788Z"
+      }
+    },
+    {
+      "id": "ef85d466-4fe9-4c01-af3b-1fcbb77e6905",
+      "name": "Mamlakat tili - o'zbek tili saqlash && State Language - Preserving the Uzbek Language",
+      "content": [
+        {
+          "title": "O'zbek tili tarixi",
+          "content": "O'zbek tili, Turkiy til oilasiga mansub til. O'zbekistonning davlat tili bo'lib, 32 mln kishi tilni so'radi."
+        },
+        {
+          "title": "O'zbek tili grammatikasi",
+          "content": "O'zbek tilida ikkilik tizim, uchlik tizim bo'lib, qo'shimcha to'lqin talab etilmaydi."
+        },
+        {
+          "title": "O'zbek tilini saqlashning ahamiyati",
+          "content": "O'zbek tili, milliy tilimizni qo'llab-quvvatlash, tariximizni saqlash va o'zbek xalqining identifikatsiyasini mustahkamlashda muhim ahamiyatga ega."
+        },
+        {
+          "title": "O'zbek tili o'rganish",
+          "content": "O'zbek tili, o'zbekistonlik bolalarning oilada o'z milliy tili sifatida qiyofasini yuqori qadrlash va o'zona o’zining tili va madaniyatini o’rganishda katta mavqelarga ega."
+        }
+      ],
+      "plan_id": "9398a406-21d4-4828-b737-344b4891ec45",
+      "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+      "created_at": "2024-05-23T04:03:15.226Z",
+      "updated_at": "2024-05-23T04:03:15.226Z",
+      "plan": {
+        "id": "9398a406-21d4-4828-b737-344b4891ec45",
+        "name": "Mamlakat tili - o'zbek tili saqlash && State Language - Preserving the Uzbek Language",
+        "chat_id": "f776cbff-5a59-4b66-bede-64f84741d7b3",
+        "createdAt": "2024-05-23T04:02:15.815Z",
+        "updatedAt": "2024-05-23T04:02:15.815Z"
+      }
+    }
+  ],
+  "paths": "/home/noname/Desktop/myProjects/aiSlidebot/output2.pptx"
+}
