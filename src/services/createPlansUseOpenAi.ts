@@ -185,6 +185,7 @@ Instructions:
 4. Provide concrete, actionable plans, not meta-descriptions.
 5. Avoid special characters (?, !, ., :, ) in titles and content.
 6. Strictly adhere to the requested JSON format provided in the user message.
+7.In the text of the plans, it should not be in the form of a task. It should be in the form of a sentence
 
 Critical requirements:
 - You MUST follow the exact JSON structure provided. Do not add, remove, or modify any keys.
@@ -202,14 +203,15 @@ Your output must be a valid JSON object with the structure provided in the user 
  `;
 
   let queryJson = {
-    input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate professional plans for the given topic. Each page should have plans with descriptions of 10 to 20 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
-    Pay attention to the language of presentation - ${language}.
-    Do not mix other topics
-    Plans for the given topic should be in good content.  Do not reply as if you are talking about the plans itself. (ex. "Include pictures here about...")
-    Do not include any special characters (?, !, ., :, ) in the Title.
-    Do not include any additional information in your response and stick to the format
-    Please format the data correctly
-    `,
+    // input_text: `Create a layout with ${pages} pages for the theme '${name}'.Make appropriate professional plans for the given topic. Each page should have plans with descriptions of 10 to 20 words in both ${language} and English. The plans should be structured in a way that each contains a version in ${language} and a version in English. Ensure that the data is formatted correctly and that the plans contain only textual information.
+    // Pay attention to the language of presentation - ${language}.
+    // Do not mix other topics
+    // Plans for the given topic should be in good content.  Do not reply as if you are talking about the plans itself. (ex. "Include pictures here about...")
+    // Do not include any special characters (?, !, ., :, ) in the Title.
+    // Do not include any additional information in your response and stick to the format
+    // Please format the data correctly
+    // `,
+    input_text: systemPrompt,
     output_format: "json",
     json_structure: {
       slides: {
@@ -234,7 +236,7 @@ Your output must be a valid JSON object with the structure provided in the user 
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models["gpt-4"],
+    model: models["gpt-3"],
     temperature: 0.5,
 
     max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,

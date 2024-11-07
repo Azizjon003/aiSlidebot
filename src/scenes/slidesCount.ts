@@ -615,9 +615,11 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       "Explore",
       "Academic",
       "Organic",
-      // "Luminous",
+      "Luminous",
       "Floral",
-      // "Snowflake",
+      "3D Float",
+      "East Asia",
+      "Snowflake",
     ];
 
     await ctx.telegram.sendMessage(
