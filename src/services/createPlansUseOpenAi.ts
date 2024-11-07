@@ -283,7 +283,7 @@ Your output must be a valid JSON object with the structure provided in the user 
             content: JSON.stringify(queryJson),
           },
         ],
-        model: models["gpt-4"],
+        model: models["gpt-3"],
         max_tokens: pagesCount < 6 ? 1200 : pagesCount < 12 ? 1600 : 1800,
         response_format: {
           type: "json_object",
@@ -627,7 +627,7 @@ Elaborate on the content and provide as much important information as possible. 
       },
     ],
     // model: "gpt-4-turbo-preview",
-    model: models["gpt-4"],
+    model: models["gpt-3"],
     // model: "gpt-3.5-turbo-0125",
     max_tokens: 1200,
     response_format: {
@@ -650,7 +650,7 @@ Elaborate on the content and provide as much important information as possible. 
           },
         ],
         // model: "gpt-3.5-turbo-0125",
-        model: models["gpt-4"],
+        model: models["gpt-3"],
         // model: "gpt-4-turbo-preview",
         max_tokens: 1500,
         response_format: {
@@ -669,7 +669,7 @@ Elaborate on the content and provide as much important information as possible. 
           },
         ],
         // model: "gpt-3.5-turbo-0125",
-        model: models["gpt-4"],
+        model: models["gpt-3"],
         // model: "gpt-4-turbo-preview",
         max_tokens: 2000,
         response_format: {
