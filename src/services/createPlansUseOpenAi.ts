@@ -817,7 +817,7 @@ Do not include any additional information outside of the specified format. Stick
     }
   }
 
-  // console.log(description);
+  // console.log(description); lal la
 
   return {
     name: "Qon tomir kasalliklari ",
