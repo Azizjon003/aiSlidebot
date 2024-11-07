@@ -473,3 +473,5 @@ const testFile = async () => {
 
   const slide = await createSlideEducationTemplate(data);
 };
+
+testFile();
