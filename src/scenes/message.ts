@@ -9,7 +9,11 @@ scene.hears("/start", async (ctx: any) => {
 });
 
 scene.on("message", async (ctx: any) => {
-  const users = await prisma.user.findMany();
+  const users = await prisma.user.findMany({
+    orderBy: {
+      created_at: "desc",
+    },
+  });
 
   messageFunction(users, ctx);
   ctx.reply(
