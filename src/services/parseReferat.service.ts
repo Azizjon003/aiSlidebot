@@ -1,5 +1,6 @@
 import { spawn } from "child_process";
 import path from "path";
+import prisma from "../../prisma/prisma";
 
 export function parseJsonToTags(
   jsonData: any,
@@ -100,3 +101,34 @@ export async function handlePythonScriptReferat(input: any, lang: string) {
     console.error("Error running Python script:", error);
   }
 }
+
+const test = async () => {
+  const description = await prisma.plan.findMany({
+    where: {
+      chat_id: "a40ee10d-db05-4edf-958d-0cebb1d257f2",
+    },
+    include: {
+      description: true,
+    },
+  });
+
+  let rightContent = `Bajardi: Anonymous
+  Fan:Unknown`;
+
+  const contentText = parseJsonToTags(
+    {
+      plans: description,
+    },
+    rightContent,
+    "O'quv yurti",
+    "Unknown"
+  );
+
+  const id = "165386";
+  const filePath = path.join(__dirname, `../../output2${id}.docx`);
+
+  const createdFile = await handlePythonScriptReferat(
+    `${id}{{${contentText}`,
+    "uz"
+  );
+};

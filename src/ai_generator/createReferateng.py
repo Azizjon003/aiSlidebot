@@ -66,14 +66,16 @@ async def generate_docx(answer, time):
         p.runs[0].font.size = Pt(20)
 
         # Gather subtitles for the table of contents
-        subtitles = []
+        subtitless = []
         right_content = ""
         for item in tags_array:
             if item[0] == 'SUBTITLE':
-                subtitles.append(item[1])
+                subtitless.append(item[1])
             if item[0] == 'RIGHTCONTENT':
                 right_content = item[1]  # Store the right content
 
+        subtitles = [subtitless[0],subtitless[1],subtitless[2],subtitless[subtitless.__len__()-1]]
+ 
         # Add "Toshkent 2024"
         if right_content:
             p = doc.add_paragraph()
