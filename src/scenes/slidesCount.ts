@@ -513,6 +513,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       }
     );
 
+    await fs.unlinkSync(filePath);
+
     const slidePrice = await prisma.plansSlides.findFirst({
       orderBy: {
         created_at: "desc",
@@ -543,6 +545,7 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
       __dirname,
       `../../${user?.telegram_id}output.pptx`
     );
+
     const darkModeData = {
       title,
       body,
@@ -568,6 +571,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
         parse_mode: "HTML",
       }
     );
+
+    fs.unlinkSync(filePaths);
     const filePathNew = path.join(
       __dirname,
       `../../${user?.telegram_id}output-education.pptx`
@@ -597,6 +602,8 @@ const createPresentationAsync = async (chat: any, user: any, ctx: any) => {
         parse_mode: "HTML",
       }
     );
+
+    await fs.unlinkSync(filePathNew);
 
     const chatData = await prisma.chat.findFirst({
       where: {
