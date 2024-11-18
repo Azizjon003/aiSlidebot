@@ -186,6 +186,8 @@ Instructions:
 5. Avoid special characters (?, !, ., :, ) in titles and content.
 6. Strictly adhere to the requested JSON format provided in the user message.
 7.In the text of the plans, it should not be in the form of a task. It should be in the form of a sentence
+8.Pay attention to the accuracy of the information. Do not use false information 
+9.Make the information more educational
 
 Critical requirements:
 - You MUST follow the exact JSON structure provided. Do not add, remove, or modify any keys.
@@ -579,6 +581,10 @@ export let createPlansDescriptionLanguage = async (
 Return the result strictly as a JSON object following the given **json_structure**, without any deviations.
 
 **Requirements:**
+1.In the text of the plans, it should not be in the form of a task. It should be in the form of a sentence
+2.Pay attention to the accuracy of the information. Do not use false information 
+3.Make the information more educational
+4.Pay very close attention to ensure the data aligns precisely with the plan
 
 - **Title**: Include the topic name for the slide section in **${language}**.
 - **Content**:
