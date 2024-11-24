@@ -214,7 +214,8 @@ async def generate_ppt(answer, template, time):
         slide = root.slides.add_slide(layout)
         slide.shapes.title.text = "Reja:"
         slide.shapes.title.text_frame.paragraphs[0].font.size = Pt(25)
-        plans_content = "\n".join([f"{plan}" for i, plan in enumerate(plans)])
+        limited_plans = plans[:3]
+        plans_content = "\n".join([f"{plan}" for i, plan in enumerate(limited_plans )])
         slide.placeholders[1].text = plans_content
         content_shape = slide.placeholders[1]
         content_text_frame = content_shape.text_frame
