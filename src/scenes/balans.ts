@@ -34,13 +34,17 @@ scene.action(
 
      <b>Karta raqam</b>: <code>9860 6067 4202 8008</code>
     <b>Kimni nomida</b>: Aliqulov Azizjon
+
+    <b>Karta raqam</b>: <code>5614 6868 0954 7279</code>
+    <b>Kimni nomida</b>: Aliqulov Azizjon   
+
     karta raqamlariga to'lov qilib chekni adminga yuboring
     Adminlarning kontaktlari: @magic_slide_admin @aliqulov_azizjon
     
     Bitta taqdimot narxi 2000 so'm yoki 4000 so'm.Bunda siz 18 sahifali taqdimot yoki mustaqil ish tayyorlay olishingiz mumkin bo'ladi
 
 
-    Iltimos to'lovni amalga oshirgan bo'lsangiz adminga murojaat qiling va to'lovni tasdiqlating.
+    Iltimos to'lovni amalga oshirgan bo'lsangiz adminga murojaat qiling va to'lovni tasdiqlating.\nTo'lov qilishda muammo bo'lsa adminlarimizga bog'lanishingiz mumkin
     `;
       const text = `Balansingiz: ${wallet.balance}.\nBalansni to'ldirish uchun summani kiriting:\nMinimal summa 4000 so'm mumkin`;
 
