@@ -82,6 +82,8 @@ scene.enter(async (ctx: any) => {
 <b>Yangi Taqdimot</b> - taqdimot tayorlash uchun.
 <b>Mustaqil ish</b>- referat tayorlash uchun.
 <b>Qo'llanma</b> - botdan qanday foydalanish haqida ma'lumot. Iltimos, avval shu bo'lim bilan tanishib chiqing.
+
+Yangi loyihamiz @quizmarket_bot bir necha soniyalarda test tuzishingiz mumkin.
 `,
       {
         parse_mode: "HTML",
